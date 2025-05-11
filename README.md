@@ -1,30 +1,46 @@
 # Vinterfjard.com
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+A modern developer portfolio and GitHub profile clone built with Next.js and Tailwind CSS.
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/pixxles-projects/v0-github-profile-clone)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/kkbapHSdGxC)
 
 ## Overview
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+Vinterfjard.com is a clean, responsive developer portfolio website featuring:
+
+- Customizable profile information
+- Project showcase
+- Activity timeline
+- Contribution graph visualization
+- Work experience timeline
+- Education section
+- Skills, languages, and certifications display
+- Analytics dashboard
+- Dark/light theme support
 
 ## Deployment
 
-Your project is live at:
+This project is deployed on Vercel:
 
 **[https://vercel.com/pixxles-projects/v0-github-profile-clone](https://vercel.com/pixxles-projects/v0-github-profile-clone)**
 
-## Build your app
+## Local Development
 
-Continue building your app on:
+1. Clone this repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-**[https://v0.dev/chat/projects/kkbapHSdGxC](https://v0.dev/chat/projects/kkbapHSdGxC)**
+## Technologies
 
-## How It Works
-
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Shadcn UI Components
+- Chart.js for data visualization
