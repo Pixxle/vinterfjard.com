@@ -1,10 +1,19 @@
 "use client";
 
+import { Suspense } from "react";
 import { usePostHogPageView } from "@/hooks/use-posthog";
 
-export function Analytics() {
+// Separate component that uses the hook
+function AnalyticsInner() {
   // This will automatically track page views
   usePostHogPageView();
+  return null;
+}
 
-  return null; // This component doesn't render anything
+export function Analytics() {
+  return (
+    <Suspense fallback={null}>
+      <AnalyticsInner />
+    </Suspense>
+  );
 }
