@@ -126,14 +126,19 @@ export default function ContributionGraph({
 
   return (
     <div className="rounded-md border border-gray-700 bg-[#0d1117] p-4">
-      <div className="flex text-xs text-gray-400 mb-2 justify-between">
-        {months.map((month, i) => (
-          <div key={i}>{month}</div>
-        ))}
+      <div className="flex text-xs text-gray-400 mb-2 overflow-x-hidden relative">
+        <div
+          className="flex justify-between absolute right-0"
+          style={{ minWidth: "100%" }}
+        >
+          {months.map((month, i) => (
+            <div key={i}>{month}</div>
+          ))}
+        </div>
       </div>
 
-      <div className="flex">
-        <div className="flex flex-col justify-between text-xs text-gray-400 mr-2 h-[104px]">
+      <div className="flex overflow-x-hidden">
+        <div className="flex flex-col justify-between text-xs text-gray-400 mr-2 h-[120px] shrink-0">
           {days.map((day, i) => (
             <div key={i} className="h-3 flex items-center">
               {displayDays.includes(day) ? day : ""}
@@ -141,8 +146,11 @@ export default function ContributionGraph({
           ))}
         </div>
 
-        <div className="flex-1">
-          <div className="grid grid-rows-7 grid-flow-col gap-1">
+        <div className="flex-1 overflow-x-hidden relative">
+          <div
+            className="grid grid-rows-7 grid-flow-col gap-1 absolute right-0"
+            style={{ minWidth: "100%" }}
+          >
             {Array.from({ length: 7 * 52 }).map((_, i) => {
               // Calculate the corresponding day from the contributionData
               // This is a simplified approach - in a real implementation, you'd map actual dates
