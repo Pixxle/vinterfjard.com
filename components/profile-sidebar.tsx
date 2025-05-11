@@ -32,7 +32,7 @@ export default function ProfileSidebar({ profile }: ProfileSidebarProps) {
 
       <div className="mb-4">
         <h1 className="text-2xl font-bold">{profile?.name || "Dennis Vinterfjärd"}</h1>
-        <p className="text-gray-400">@{profile?.login || "Pixxle"}</p>
+        <p className="text-gray-400">{profile?.login || "Pixxle"}</p>
       </div>
 
       <div className="mb-4">
