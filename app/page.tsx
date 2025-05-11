@@ -15,16 +15,19 @@ function NavigationTabs() {
   return (
     <div className="border-b border-gray-700 mb-6">
       <nav className="flex overflow-x-auto">
-        <a href="#" className="px-4 py-2 border-b-2 border-[#f78166] font-medium">
+        <a href="#overview" className="px-4 py-2 border-b-2 border-[#f78166] font-medium">
           Overview
         </a>
-        <a href="#" className="px-4 py-2 text-gray-400 hover:text-gray-200">
-          Experience <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">14</span>
+        <a href="#experience" className="px-4 py-2 text-gray-400 hover:text-gray-200">
+          Experience <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">7</span>
         </a>
-        <a href="#" className="px-4 py-2 text-gray-400 hover:text-gray-200">
+        <a href="#contributions" className="px-4 py-2 text-gray-400 hover:text-gray-200">
+          Contributions
+        </a>
+        <a href="#projects" className="px-4 py-2 text-gray-400 hover:text-gray-200">
           Projects <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">9</span>
         </a>
-        <a href="#" className="px-4 py-2 text-gray-400 hover:text-gray-200">
+        <a href="#skills" className="px-4 py-2 text-gray-400 hover:text-gray-200">
           Skills <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">23</span>
         </a>
       </nav>
@@ -117,13 +120,23 @@ export default async function Home() {
           {/* Main content */}
           <div className="flex-1">
             <NavigationTabs />
-            <ReadmeSection />
-            <WorkExperienceSection />
-            <ContributionsSection contributions={contributions} />
+            <div id="overview">
+              <ReadmeSection />
+            </div>
+            <div id="experience">
+              <WorkExperienceSection />
+            </div>
+            <div id="contributions">
+                <ContributionsSection contributions={contributions} />
+            </div>
             <ActivitySection />
             <EducationSection />
-            <ProjectsSection />
-            <LanguagesCertificationsAwards />
+            <div id="projects">
+              <ProjectsSection />
+            </div>
+            <div id="skills">
+              <LanguagesCertificationsAwards />
+            </div>
           </div>
         </div>
       </div>
