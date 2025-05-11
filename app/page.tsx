@@ -7,7 +7,7 @@ import ProjectsSection from "@/components/projects-section"
 import LanguagesCertificationsAwards from "@/components/languages-certifications-awards"
 import ReadmeSection from "@/components/readme-section"
 import WorkExperienceSection from "@/components/work-experience-section"
-import { getUserProfile, getUserContributions } from "@/lib/github"
+import { getUserProfile, getUserContributions, getUserActivity } from "@/lib/github"
 import { GITHUB_USERNAME } from "@/lib/env"
 
 // Navigation tab component
@@ -67,11 +67,25 @@ function ContributionsSection({
 }
 
 // Activity section component
-function ActivitySection() {
+async function ActivitySection() {
+  let activityData = null
+
+  try {
+    activityData = await getUserActivity(GITHUB_USERNAME)
+  } catch (error) {
+    console.error("Error fetching GitHub activity data:", error)
+  }
+
   return (
     <div className="mb-8">
-      <h3 className="text-base font-medium mb-4">Professional Activity</h3>
-      <ActivityTimeline />
+      <h3 className="text-base font-medium mb-4">Contribution activity</h3>
+      {activityData ? (
+        <ActivityTimeline activityData={activityData} />
+      ) : (
+        <div className="rounded-md border border-gray-700 bg-[#0d1117] p-4 text-center text-gray-400 py-12">
+          Loading activity data...
+        </div>
+      )}
     </div>
   )
 }

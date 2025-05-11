@@ -32,15 +32,11 @@ export default function ProfileSidebar({ profile }: ProfileSidebarProps) {
 
       <div className="mb-4">
         <h1 className="text-2xl font-bold">{profile?.name || "Dennis Vinterfjärd"}</h1>
-        <p className="text-gray-400">Head of Engineering</p>
+        <p className="text-gray-400">@{profile?.login || "Pixxle"}</p>
       </div>
 
       <div className="mb-4">
-        <a
-          href="https://github.com/pixxle"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://github.com/pixxle" target="_blank" rel="noopener noreferrer">
           <Button
             variant="outline"
             className="w-full bg-[#21262d] border-gray-600 hover:bg-[#30363d] hover:border-gray-400"

@@ -126,3 +126,126 @@ export async function getUserContributions(username: string) {
 
   return data.user.contributionsCollection.contributionCalendar
 }
+
+// Add this new function to fetch user activity data
+
+/**
+ * Get user's recent activity (commits, PRs, issues)
+ */
+export async function getUserActivity(username: string) {
+  const query = `
+    query GetUserActivity($username: String!) {
+      user(login: $username) {
+        contributionsCollection {
+          commitContributionsByRepository(maxRepositories: 10) {
+            repository {
+              name
+              nameWithOwner
+              url
+            }
+            contributions(first: 10) {
+              totalCount
+              nodes {
+                occurredAt
+                commitCount
+              }
+            }
+          }
+          pullRequestContributions(first: 10) {
+            totalCount
+            nodes {
+              pullRequest {
+                title
+                url
+                state
+                createdAt
+                repository {
+                  nameWithOwner
+                  url
+                }
+                additions
+                deletions
+                comments {
+                  totalCount
+                }
+              }
+            }
+          }
+          issueContributions(first: 10) {
+            totalCount
+            nodes {
+              issue {
+                title
+                url
+                state
+                createdAt
+                repository {
+                  nameWithOwner
+                  url
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  `
+
+  const data = await executeGitHubGraphQL<{
+    user: {
+      contributionsCollection: {
+        commitContributionsByRepository: Array<{
+          repository: {
+            name: string
+            nameWithOwner: string
+            url: string
+          }
+          contributions: {
+            totalCount: number
+            nodes: Array<{
+              occurredAt: string
+              commitCount: number
+            }>
+          }
+        }>
+        pullRequestContributions: {
+          totalCount: number
+          nodes: Array<{
+            pullRequest: {
+              title: string
+              url: string
+              state: string
+              createdAt: string
+              repository: {
+                nameWithOwner: string
+                url: string
+              }
+              additions: number
+              deletions: number
+              comments: {
+                totalCount: number
+              }
+            }
+          }>
+        }
+        issueContributions: {
+          totalCount: number
+          nodes: Array<{
+            issue: {
+              title: string
+              url: string
+              state: string
+              createdAt: string
+              repository: {
+                nameWithOwner: string
+                url: string
+              }
+            }
+          }>
+        }
+      }
+    }
+  }>(query, { username })
+
+  return data.user.contributionsCollection
+}
