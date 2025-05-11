@@ -7,6 +7,7 @@ import ProjectsSection from "@/components/projects-section";
 import LanguagesCertificationsAwards from "@/components/languages-certifications-awards";
 import ReadmeSection from "@/components/readme-section";
 import WorkExperienceSection from "@/components/work-experience-section";
+import MockDataDetector from "@/components/mock-data-detector";
 import {
   getUserProfile,
   getUserContributions,
@@ -142,32 +143,34 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-[#0d1117] text-white">
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Left sidebar with profile info */}
-          <ProfileSidebar profile={profile} />
+        <MockDataDetector profile={profile}>
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Left sidebar with profile info */}
+            <ProfileSidebar profile={profile} />
 
-          {/* Main content */}
-          <div className="flex-1">
-            <NavigationTabs contributions={totalContributions} />
-            <div id="overview">
-              <ReadmeSection />
-            </div>
-            <div id="experience">
-              <WorkExperienceSection />
-            </div>
-            <div id="contributions">
-              <ContributionsSection contributions={contributions} />
-            </div>
-            <ActivitySection />
-            <EducationSection />
-            <div id="projects">
-              <ProjectsSection />
-            </div>
-            <div id="skills">
-              <LanguagesCertificationsAwards />
+            {/* Main content */}
+            <div className="flex-1">
+              <NavigationTabs contributions={totalContributions} />
+              <div id="overview">
+                <ReadmeSection />
+              </div>
+              <div id="experience">
+                <WorkExperienceSection />
+              </div>
+              <div id="contributions">
+                <ContributionsSection contributions={contributions} />
+              </div>
+              <ActivitySection />
+              <EducationSection />
+              <div id="projects">
+                <ProjectsSection />
+              </div>
+              <div id="skills">
+                <LanguagesCertificationsAwards />
+              </div>
             </div>
           </div>
-        </div>
+        </MockDataDetector>
       </div>
     </div>
   );

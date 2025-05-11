@@ -1,6 +1,12 @@
 "use server";
 
-import { GITHUB_ACCESS_TOKEN } from "@/lib/env";
+// Import directly from process.env as we are in a server component
+const GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN;
+import {
+  mockUserProfile,
+  mockContributionCalendar,
+  mockUserActivity,
+} from "./mock-github-data";
 
 const GITHUB_API_URL = "https://api.github.com/graphql";
 
@@ -12,14 +18,20 @@ export async function executeGitHubGraphQL<T>(
   variables: Record<string, any> = {}
 ): Promise<T> {
   if (!GITHUB_ACCESS_TOKEN) {
-    throw new Error("GitHub access token is not configured");
+    console.warn(
+      "GitHub access token is not configured. Using mock data or limited API access."
+    );
+    // You can either throw an error or return mock data here
+    // For now, we'll proceed with the request (which might fail due to API rate limits)
   }
 
   const response = await fetch(GITHUB_API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
+      ...(GITHUB_ACCESS_TOKEN && {
+        Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
+      }),
     },
     body: JSON.stringify({
       query,
@@ -29,13 +41,34 @@ export async function executeGitHubGraphQL<T>(
 
   if (!response.ok) {
     const errorText = await response.text();
+    console.error(`GitHub API error: ${response.status} ${errorText}`);
+
+    // If we get a 401 Unauthorized or 403 Forbidden, likely due to missing or invalid token
+    if (response.status === 401 || response.status === 403) {
+      console.warn(
+        "GitHub API authorization failed. Please check your GITHUB_ACCESS_TOKEN in .env.local"
+      );
+      // Return a minimal mock object instead of throwing
+      return {} as T;
+    }
+
+    // For other errors like rate limits (429), we might want to handle differently
+    if (response.status === 429) {
+      console.warn(
+        "GitHub API rate limit exceeded. Using minimal functionality."
+      );
+      return {} as T;
+    }
+
     throw new Error(`GitHub API error: ${response.status} ${errorText}`);
   }
 
   const data = await response.json();
 
   if (data.errors) {
-    throw new Error(`GraphQL Error: ${JSON.stringify(data.errors)}`);
+    console.error(`GraphQL Error: ${JSON.stringify(data.errors)}`);
+    // Return empty data rather than throwing
+    return {} as T;
   }
 
   return data.data as T;
@@ -45,6 +78,12 @@ export async function executeGitHubGraphQL<T>(
  * Get user profile data including followers and following counts
  */
 export async function getUserProfile(username: string) {
+  // If no GitHub token is available, return mock data
+  if (!GITHUB_ACCESS_TOKEN) {
+    console.log("Using mock GitHub profile data (no token available)");
+    return mockUserProfile;
+  }
+
   const query = `
     query GetUserProfile($username: String!) {
       user(login: $username) {
@@ -86,6 +125,12 @@ export async function getUserProfile(username: string) {
  * Get user contribution data for the contribution graph
  */
 export async function getUserContributions(username: string) {
+  // If no GitHub token is available, return mock data
+  if (!GITHUB_ACCESS_TOKEN) {
+    console.log("Using mock GitHub contribution data (no token available)");
+    return mockContributionCalendar;
+  }
+
   // Get the date from 1 year ago
   const fromDate = new Date();
   fromDate.setFullYear(fromDate.getFullYear() - 1);
@@ -136,6 +181,12 @@ export async function getUserContributions(username: string) {
  * Get user's recent activity (commits, PRs, issues)
  */
 export async function getUserActivity(username: string) {
+  // If no GitHub token is available, return mock data
+  if (!GITHUB_ACCESS_TOKEN) {
+    console.log("Using mock GitHub activity data (no token available)");
+    return mockUserActivity;
+  }
+
   const query = `
     query GetUserActivity($username: String!) {
       user(login: $username) {
