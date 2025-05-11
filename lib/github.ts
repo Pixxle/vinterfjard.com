@@ -15,7 +15,7 @@ const GITHUB_API_URL = "https://api.github.com/graphql";
  */
 export async function executeGitHubGraphQL<T>(
   query: string,
-  variables: Record<string, any> = {}
+  variables: Record<string, unknown> = {}
 ): Promise<T> {
   if (!GITHUB_ACCESS_TOKEN) {
     console.warn(

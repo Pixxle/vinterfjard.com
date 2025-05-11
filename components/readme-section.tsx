@@ -11,8 +11,8 @@ export default function ReadmeSection() {
       </h2>
 
       <p className="text-xl mb-6">
-        I'm <span className="font-bold">Dennis Vinterfjärd</span>, a Head of
-        Engineering currently at MedHelp Care in Stockholm.
+        I&apos;m <span className="font-bold">Dennis Vinterfjärd</span>, a Head
+        of Engineering currently at MedHelp Care in Stockholm.
       </p>
 
       <div className="flex flex-wrap gap-2 mb-6">

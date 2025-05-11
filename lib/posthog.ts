@@ -14,7 +14,7 @@ if (typeof window !== "undefined" && posthogApiKey) {
   posthog.init(posthogApiKey, {
     api_host: posthogHost,
     capture_pageview: false, // We'll manually capture pageviews
-    loaded: (ph) => {
+    loaded: () => {
       if (process.env.NODE_ENV === "development") {
         // Log events in development
         console.log("[PostHog] Initialized");

@@ -8,7 +8,10 @@ export default function MockDataDetector({
   profile,
 }: {
   children: React.ReactNode;
-  profile: any;
+  profile: {
+    login: string;
+    [key: string]: unknown;
+  };
 }) {
   const [isMockData, setIsMockData] = useState(false);
 

@@ -5,8 +5,69 @@ import {
   Calendar,
 } from "lucide-react";
 
+// Define types for GitHub data
+interface GitHubRepository {
+  url: string;
+  nameWithOwner: string;
+}
+
+interface CommitContributions {
+  totalCount: number;
+}
+
+interface CommitContributionsByRepository {
+  repository: GitHubRepository;
+  contributions: CommitContributions;
+}
+
+interface Comment {
+  totalCount: number;
+}
+
+interface PullRequest {
+  url: string;
+  title: string;
+  createdAt: string;
+  state: string;
+  additions: number;
+  deletions: number;
+  comments: Comment;
+  repository: GitHubRepository;
+}
+
+interface PullRequestContribution {
+  pullRequest: PullRequest;
+}
+
+interface PullRequestContributions {
+  totalCount: number;
+  nodes: PullRequestContribution[];
+}
+
+interface Issue {
+  url: string;
+  title: string;
+  state: string;
+  repository: GitHubRepository;
+}
+
+interface IssueContribution {
+  issue: Issue;
+}
+
+interface IssueContributions {
+  totalCount: number;
+  nodes: IssueContribution[];
+}
+
+interface GitHubActivityData {
+  commitContributionsByRepository: CommitContributionsByRepository[];
+  pullRequestContributions: PullRequestContributions;
+  issueContributions: IssueContributions;
+}
+
 interface ActivityTimelineProps {
-  activityData?: any;
+  activityData?: GitHubActivityData;
 }
 
 export default function ActivityTimeline({
@@ -204,7 +265,8 @@ export default function ActivityTimeline({
               <h4 className="text-sm font-medium">
                 Created{" "}
                 {commitContributionsByRepository.reduce(
-                  (acc, repo) => acc + repo.contributions.totalCount,
+                  (acc: number, repo: CommitContributionsByRepository) =>
+                    acc + repo.contributions.totalCount,
                   0
                 )}{" "}
                 commits in {commitContributionsByRepository.length}{" "}
@@ -217,35 +279,37 @@ export default function ActivityTimeline({
                 <span>Recent</span>
               </div>
             </div>
-            {commitContributionsByRepository.map((repo, index) => (
-              <div
-                key={index}
-                className="mt-2 p-3 border border-gray-700 rounded-md bg-[#161b22]"
-              >
-                <div className="flex items-center text-sm">
-                  <a
-                    href={repo.repository.url}
-                    className="text-blue-400 hover:underline"
-                  >
-                    {repo.repository.nameWithOwner}
-                  </a>
-                  <span className="ml-auto text-gray-400 text-xs">
-                    {repo.contributions.totalCount} commits
-                  </span>
+            {commitContributionsByRepository.map(
+              (repo: CommitContributionsByRepository, index: number) => (
+                <div
+                  key={index}
+                  className="mt-2 p-3 border border-gray-700 rounded-md bg-[#161b22]"
+                >
+                  <div className="flex items-center text-sm">
+                    <a
+                      href={repo.repository.url}
+                      className="text-blue-400 hover:underline"
+                    >
+                      {repo.repository.nameWithOwner}
+                    </a>
+                    <span className="ml-auto text-gray-400 text-xs">
+                      {repo.contributions.totalCount} commits
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-700 h-2 rounded-full mt-2 overflow-hidden">
+                    <div
+                      className="bg-green-500 h-full"
+                      style={{
+                        width: `${Math.min(
+                          100,
+                          (repo.contributions.totalCount / 10) * 100
+                        )}%`,
+                      }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="w-full bg-gray-700 h-2 rounded-full mt-2 overflow-hidden">
-                  <div
-                    className="bg-green-500 h-full"
-                    style={{
-                      width: `${Math.min(
-                        100,
-                        (repo.contributions.totalCount / 10) * 100
-                      )}%`,
-                    }}
-                  ></div>
-                </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
       )}
@@ -368,7 +432,7 @@ export default function ActivityTimeline({
                   </div>
                   {pullRequestContributions.nodes
                     .slice(1, 3)
-                    .map((pr, index) => (
+                    .map((pr: PullRequestContribution, index: number) => (
                       <div
                         key={index}
                         className="mt-2 p-3 border border-gray-700 rounded-md bg-[#161b22]"
@@ -431,41 +495,43 @@ export default function ActivityTimeline({
                   <span>Recent</span>
                 </div>
               </div>
-              {issueContributions.nodes.slice(0, 2).map((issue, index) => (
-                <div
-                  key={index}
-                  className="mt-2 p-3 border border-gray-700 rounded-md bg-[#161b22]"
-                >
-                  <div className="flex items-center text-sm">
-                    <a
-                      href={issue.issue.repository.url}
-                      className="text-blue-400 hover:underline"
-                    >
-                      {issue.issue.repository.nameWithOwner}
-                    </a>
-                    <div className="ml-auto flex items-center text-xs bg-red-900 text-red-300 px-2 py-0.5 rounded-full">
-                      <span>{issue.issue.state.toLowerCase()}</span>
-                    </div>
-                  </div>
-                  <div className="mt-2 text-sm">
-                    <div className="flex items-center">
-                      <GitIssueOpened
-                        className={`w-4 h-4 mr-2 ${
-                          issue.issue.state === "CLOSED"
-                            ? "text-red-500"
-                            : "text-green-500"
-                        }`}
-                      />
+              {issueContributions.nodes
+                .slice(0, 2)
+                .map((issue: IssueContribution, index: number) => (
+                  <div
+                    key={index}
+                    className="mt-2 p-3 border border-gray-700 rounded-md bg-[#161b22]"
+                  >
+                    <div className="flex items-center text-sm">
                       <a
-                        href={issue.issue.url}
+                        href={issue.issue.repository.url}
                         className="text-blue-400 hover:underline"
                       >
-                        {issue.issue.title}
+                        {issue.issue.repository.nameWithOwner}
                       </a>
+                      <div className="ml-auto flex items-center text-xs bg-red-900 text-red-300 px-2 py-0.5 rounded-full">
+                        <span>{issue.issue.state.toLowerCase()}</span>
+                      </div>
+                    </div>
+                    <div className="mt-2 text-sm">
+                      <div className="flex items-center">
+                        <GitIssueOpened
+                          className={`w-4 h-4 mr-2 ${
+                            issue.issue.state === "CLOSED"
+                              ? "text-red-500"
+                              : "text-green-500"
+                          }`}
+                        />
+                        <a
+                          href={issue.issue.url}
+                          className="text-blue-400 hover:underline"
+                        >
+                          {issue.issue.title}
+                        </a>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         )}

@@ -59,13 +59,27 @@ function NavigationTabs({ contributions }: { contributions: number | string }) {
 }
 
 // Contributions section component
-function ContributionsSection({ contributions }: { contributions: any }) {
+interface ContributionsData {
+  totalContributions: number;
+  weeks: Array<{
+    contributionDays: Array<{
+      date: string;
+      contributionCount: number;
+      contributionLevel: string;
+    }>;
+  }>;
+}
+
+function ContributionsSection({
+  contributions,
+}: {
+  contributions: ContributionsData;
+}) {
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-base font-medium">
-          {contributions?.totalContributions || 0} contributions in the last
-          year
+          {contributions.totalContributions} contributions in the last year
         </h3>
         <div className="flex items-center text-sm text-gray-400">
           <Calendar className="w-4 h-4 mr-1" />
@@ -116,6 +130,12 @@ async function ActivitySection() {
   );
 }
 
+// Default fallback contributions
+const defaultContributions: ContributionsData = {
+  totalContributions: 0,
+  weeks: [],
+};
+
 // Main page component
 export default async function Home() {
   // Fetch GitHub data
@@ -140,10 +160,16 @@ export default async function Home() {
       ? contributions.totalContributions
       : "?";
 
+  // Create a safe default profile if none is available
+  const safeProfile = profile || { login: "default-user", name: "GitHub User" };
+
+  // Create a safe version of contributions data if none is available
+  const safeContributions = contributions || defaultContributions;
+
   return (
     <div className="min-h-screen bg-[#0d1117] text-white">
       <div className="max-w-6xl mx-auto px-4 py-6">
-        <MockDataDetector profile={profile}>
+        <MockDataDetector profile={safeProfile}>
           <div className="flex flex-col md:flex-row gap-8">
             {/* Left sidebar with profile info */}
             <ProfileSidebar profile={profile} />
@@ -158,7 +184,7 @@ export default async function Home() {
                 <WorkExperienceSection />
               </div>
               <div id="contributions">
-                <ContributionsSection contributions={contributions} />
+                <ContributionsSection contributions={safeContributions} />
               </div>
               <ActivitySection />
               <EducationSection />

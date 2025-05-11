@@ -8,7 +8,6 @@ interface WorkHistoryCardProps {
   status: "Current" | "Past";
   description?: string;
   companyColor?: string;
-  detailedDescription?: string;
   onClick?: () => void;
 }
 
@@ -20,7 +19,6 @@ export default function WorkHistoryCard({
   status,
   description,
   companyColor = "#3178c6", // Default blue color similar to TypeScript
-  detailedDescription,
   onClick,
 }: WorkHistoryCardProps) {
   return (

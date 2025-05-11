@@ -96,9 +96,9 @@ export default function LanguagesCertificationsAwards() {
             Award Motivation
           </h3>
           <p className="mb-4 italic border-l-4 border-blue-800 pl-4 py-2 bg-gray-800/30">
-            "With great dedication and energy, he entered and immersed himself
-            in our environment and challenges, taking a proactive role in
-            improving the platform with new functionality as well as ensuring
+            &ldquo;With great dedication and energy, he entered and immersed
+            himself in our environment and challenges, taking a proactive role
+            in improving the platform with new functionality as well as ensuring
             performance in current services. With a methodical approach and a
             commitment to doing things the right way and promoting the
             development of long-term effective solutions, he has significantly
@@ -106,7 +106,7 @@ export default function LanguagesCertificationsAwards() {
             our processes, introducing a culture of continuous improvement and
             innovation. Additionally, through responsiveness and open
             communication, he has aligned all colleagues in the same direction
-            and created a sense of belonging by leading by example"
+            and created a sense of belonging by leading by example&rdquo;
           </p>
         </div>
       </Modal>
@@ -122,15 +122,16 @@ export default function LanguagesCertificationsAwards() {
             Nomination Motivation
           </h3>
           <p className="mb-4 italic border-l-4 border-blue-800 pl-4 py-2 bg-gray-800/30">
-            "Dennis' deep technical skills at the forefront of the technology
-            evolution never cease to impress. With a drive and a mentality that
-            show that nothing is impossible, Dennis is constantly working to
-            drive efficiencies, by e.g. replacing manual work with automation
-            but never without clear benefits for our customers or efficiency.
-            Dennis has a flexible mindset and constantly strives to find the
-            best solutions, making him a true digital role model. Dennis will
-            quickly break apart, analyze and present a solution to any complex
-            situation in front of him, no matter what comes his way."
+            &ldquo;Dennis&apos; deep technical skills at the forefront of the
+            technology evolution never cease to impress. With a drive and a
+            mentality that show that nothing is impossible, Dennis is constantly
+            working to drive efficiencies, by e.g. replacing manual work with
+            automation but never without clear benefits for our customers or
+            efficiency. Dennis has a flexible mindset and constantly strives to
+            find the best solutions, making him a true digital role model.
+            Dennis will quickly break apart, analyze and present a solution to
+            any complex situation in front of him, no matter what comes his
+            way.&rdquo;
           </p>
         </div>
       </Modal>
