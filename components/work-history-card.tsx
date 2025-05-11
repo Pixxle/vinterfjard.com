@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
 interface WorkHistoryCardProps {
-  title: string
-  company: string
-  startDate: string
-  endDate: string
-  status: "Current" | "Past"
-  description?: string
-  companyColor?: string
-  detailedDescription?: string
-  onClick?: () => void
+  title: string;
+  company: string;
+  startDate: string;
+  endDate: string;
+  status: "Current" | "Past";
+  description?: string;
+  companyColor?: string;
+  detailedDescription?: string;
+  onClick?: () => void;
 }
 
 export default function WorkHistoryCard({
@@ -35,17 +35,26 @@ export default function WorkHistoryCard({
           </a>
         </h3>
         <span
-          className={`text-xs px-2 py-0.5 rounded-full ${status === "Current" ? "bg-green-900 text-green-300" : "bg-gray-700 text-gray-300"}`}
+          className={`text-xs px-2 py-0.5 rounded-full ${
+            status === "Current"
+              ? "bg-green-900 text-green-300"
+              : "bg-gray-700 text-gray-300"
+          }`}
         >
           {status}
         </span>
       </div>
 
-      {description && <div className="text-sm text-gray-300 mt-2 mb-4">{description}</div>}
+      {description && (
+        <div className="text-sm text-gray-300 mt-2 mb-4">{description}</div>
+      )}
 
       <div className="flex justify-between items-end mt-3">
         <div className="flex items-center gap-2 text-sm">
-          <span className="w-3 h-3 rounded-full" style={{ backgroundColor: companyColor }}></span>
+          <span
+            className="w-3 h-3 rounded-full"
+            style={{ backgroundColor: companyColor }}
+          ></span>
           <span className="text-gray-300">{company}</span>
         </div>
 
@@ -54,5 +63,5 @@ export default function WorkHistoryCard({
         </div>
       </div>
     </div>
-  )
+  );
 }

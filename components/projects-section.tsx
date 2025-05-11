@@ -1,10 +1,10 @@
-import { FolderGit2 } from "lucide-react"
+import { FolderGit2 } from "lucide-react";
 
 interface ProjectCardProps {
-  title: string
-  date: string
-  location: string
-  description: string
+  title: string;
+  date: string;
+  location: string;
+  description: string;
 }
 
 function ProjectCard({ title, date, location, description }: ProjectCardProps) {
@@ -16,7 +16,7 @@ function ProjectCard({ title, date, location, description }: ProjectCardProps) {
       </div>
       <p className="mt-3 text-gray-300">{description}</p>
     </div>
-  )
+  );
 }
 
 export default function ProjectsSection() {
@@ -43,5 +43,5 @@ export default function ProjectsSection() {
         />
       </div>
     </div>
-  )
+  );
 }

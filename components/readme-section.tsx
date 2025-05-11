@@ -1,5 +1,5 @@
-import { Terminal } from "lucide-react"
-import Image from "next/image"
+import { Terminal } from "lucide-react";
+import Image from "next/image";
 
 export default function ReadmeSection() {
   return (
@@ -11,8 +11,8 @@ export default function ReadmeSection() {
       </h2>
 
       <p className="text-xl mb-6">
-        I'm <span className="font-bold">Dennis Vinterfjärd</span>, a Head of Engineering currently at MedHelp Care in
-        Stockholm.
+        I'm <span className="font-bold">Dennis Vinterfjärd</span>, a Head of
+        Engineering currently at MedHelp Care in Stockholm.
       </p>
 
       <div className="flex flex-wrap gap-2 mb-6">
@@ -25,24 +25,48 @@ export default function ReadmeSection() {
         </div>
 
         <div className="flex items-center px-3 py-1 bg-teal-900/30 text-teal-300 rounded-md text-sm">
-          <Image src="/images/go-logo.png" alt="Go Logo" width={16} height={16} className="mr-2" />
+          <Image
+            src="/images/go-logo.png"
+            alt="Go Logo"
+            width={16}
+            height={16}
+            className="mr-2"
+          />
           Go
         </div>
 
         <div className="flex items-center px-3 py-1 bg-orange-900/30 text-orange-300 rounded-md text-sm">
           <div className="bg-white rounded-full p-0.5 mr-2">
-            <Image src="/images/rust-logo.png" alt="Rust Logo" width={14} height={14} className="block" />
+            <Image
+              src="/images/rust-logo.png"
+              alt="Rust Logo"
+              width={14}
+              height={14}
+              className="block"
+            />
           </div>
           Rust
         </div>
 
         <div className="flex items-center px-3 py-1 bg-purple-900/30 text-purple-300 rounded-md text-sm">
-          <Image src="/images/csharp-logo-simple.png" alt="C# Logo" width={20} height={20} className="mr-2" />
+          <Image
+            src="/images/csharp-logo-simple.png"
+            alt="C# Logo"
+            width={20}
+            height={20}
+            className="mr-2"
+          />
           C#
         </div>
 
         <div className="flex items-center px-3 py-1 bg-blue-900/30 text-yellow-300 rounded-md text-sm">
-          <Image src="/images/python-logo.png" alt="Python Logo" width={16} height={16} className="mr-2" />
+          <Image
+            src="/images/python-logo.png"
+            alt="Python Logo"
+            width={16}
+            height={16}
+            className="mr-2"
+          />
           Python
         </div>
 
@@ -52,10 +76,11 @@ export default function ReadmeSection() {
       </div>
 
       <blockquote className="border-l-4 border-gray-700 pl-4 py-1 text-gray-300 italic">
-        With a background as a Senior Engineer at Klarna and System Owner at Tele2, I have a strong foundation in
-        leading development processes, driving continuous improvements in tech stacks and methodologies, and fostering
-        team growth and knowledge sharing.
+        With a background as a Senior Engineer at Klarna and System Owner at
+        Tele2, I have a strong foundation in leading development processes,
+        driving continuous improvements in tech stacks and methodologies, and
+        fostering team growth and knowledge sharing.
       </blockquote>
     </div>
-  )
+  );
 }

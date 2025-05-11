@@ -1,108 +1,128 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-type ContributionLevel = 0 | 1 | 2 | 3 | 4
+type ContributionLevel = 0 | 1 | 2 | 3 | 4;
 type ContributionDay = {
-  date: string
-  count: number
-  level: ContributionLevel
-}
+  date: string;
+  count: number;
+  level: ContributionLevel;
+};
 
 interface ContributionGraphProps {
   contributions: {
-    totalContributions: number
+    totalContributions: number;
     weeks: Array<{
       contributionDays: Array<{
-        date: string
-        contributionCount: number
-        contributionLevel: string
-      }>
-    }>
-  }
+        date: string;
+        contributionCount: number;
+        contributionLevel: string;
+      }>;
+    }>;
+  };
 }
 
-export default function ContributionGraph({ contributions }: ContributionGraphProps) {
-  const [contributionData, setContributionData] = useState<ContributionDay[]>([])
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-  const displayDays = ["Mon", "Wed", "Fri"] // Only display these days
+export default function ContributionGraph({
+  contributions,
+}: ContributionGraphProps) {
+  const [contributionData, setContributionData] = useState<ContributionDay[]>(
+    []
+  );
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const displayDays = ["Mon", "Wed", "Fri"]; // Only display these days
 
   useEffect(() => {
     // Transform the GitHub contribution data into our format
-    const transformedData: ContributionDay[] = []
+    const transformedData: ContributionDay[] = [];
 
     if (contributions?.weeks) {
       // Sort weeks to ensure oldest first (left to right)
       const sortedWeeks = [...contributions.weeks].sort((a, b) => {
-        return new Date(a.contributionDays[0].date).getTime() - new Date(b.contributionDays[0].date).getTime()
-      })
+        return (
+          new Date(a.contributionDays[0].date).getTime() -
+          new Date(b.contributionDays[0].date).getTime()
+        );
+      });
 
       sortedWeeks.forEach((week) => {
         // Sort days within each week to ensure correct day order (Sunday to Saturday)
         const sortedDays = [...week.contributionDays].sort((a, b) => {
-          const dateA = new Date(a.date)
-          const dateB = new Date(b.date)
-          return dateA.getDay() - dateB.getDay()
-        })
+          const dateA = new Date(a.date);
+          const dateB = new Date(b.date);
+          return dateA.getDay() - dateB.getDay();
+        });
 
         sortedDays.forEach((day) => {
           // Convert GitHub's contribution level to our numeric format
-          let level: ContributionLevel = 0
+          let level: ContributionLevel = 0;
           switch (day.contributionLevel) {
             case "NONE":
-              level = 0
-              break
+              level = 0;
+              break;
             case "FIRST_QUARTILE":
-              level = 1
-              break
+              level = 1;
+              break;
             case "SECOND_QUARTILE":
-              level = 2
-              break
+              level = 2;
+              break;
             case "THIRD_QUARTILE":
-              level = 3
-              break
+              level = 3;
+              break;
             case "FOURTH_QUARTILE":
-              level = 4
-              break
+              level = 4;
+              break;
           }
 
           transformedData.push({
             date: day.date,
             count: day.contributionCount,
             level,
-          })
-        })
-      })
+          });
+        });
+      });
     }
 
-    setContributionData(transformedData)
-  }, [contributions])
+    setContributionData(transformedData);
+  }, [contributions]);
 
   const getColorForLevel = (level: ContributionLevel) => {
     switch (level) {
       case 0:
-        return "bg-[#161b22]"
+        return "bg-[#161b22]";
       case 1:
-        return "bg-[#0e4429]"
+        return "bg-[#0e4429]";
       case 2:
-        return "bg-[#006d32]"
+        return "bg-[#006d32]";
       case 3:
-        return "bg-[#26a641]"
+        return "bg-[#26a641]";
       case 4:
-        return "bg-[#39d353]"
+        return "bg-[#39d353]";
     }
-  }
+  };
 
   // Format date for tooltip
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
-    })
-  }
+    });
+  };
 
   return (
     <div className="rounded-md border border-gray-700 bg-[#0d1117] p-4">
@@ -126,15 +146,25 @@ export default function ContributionGraph({ contributions }: ContributionGraphPr
             {Array.from({ length: 7 * 52 }).map((_, i) => {
               // Calculate the corresponding day from the contributionData
               // This is a simplified approach - in a real implementation, you'd map actual dates
-              const day = contributionData[i] || { date: "", count: 0, level: 0 as ContributionLevel }
+              const day = contributionData[i] || {
+                date: "",
+                count: 0,
+                level: 0 as ContributionLevel,
+              };
 
               return (
                 <div
                   key={i}
-                  className={`w-3 h-3 rounded-sm ${getColorForLevel(day.level)}`}
-                  title={day.date ? `${day.count} contributions on ${formatDate(day.date)}` : "No contributions"}
+                  className={`w-3 h-3 rounded-sm ${getColorForLevel(
+                    day.level
+                  )}`}
+                  title={
+                    day.date
+                      ? `${day.count} contributions on ${formatDate(day.date)}`
+                      : "No contributions"
+                  }
                 />
-              )
+              );
             })}
           </div>
         </div>
@@ -150,5 +180,5 @@ export default function ContributionGraph({ contributions }: ContributionGraphPr
         <span className="ml-2">More</span>
       </div>
     </div>
-  )
+  );
 }

@@ -1,83 +1,104 @@
-import { Calendar } from "lucide-react"
-import ContributionGraph from "@/components/contribution-graph"
-import ActivityTimeline from "@/components/activity-timeline"
-import ProfileSidebar from "@/components/profile-sidebar"
-import EducationSection from "@/components/education-section"
-import ProjectsSection from "@/components/projects-section"
-import LanguagesCertificationsAwards from "@/components/languages-certifications-awards"
-import ReadmeSection from "@/components/readme-section"
-import WorkExperienceSection from "@/components/work-experience-section"
-import { getUserProfile, getUserContributions, getUserActivity } from "@/lib/github"
-import { GITHUB_USERNAME } from "@/lib/env"
+import { Calendar } from "lucide-react";
+import ContributionGraph from "@/components/contribution-graph";
+import ActivityTimeline from "@/components/activity-timeline";
+import ProfileSidebar from "@/components/profile-sidebar";
+import EducationSection from "@/components/education-section";
+import ProjectsSection from "@/components/projects-section";
+import LanguagesCertificationsAwards from "@/components/languages-certifications-awards";
+import ReadmeSection from "@/components/readme-section";
+import WorkExperienceSection from "@/components/work-experience-section";
+import {
+  getUserProfile,
+  getUserContributions,
+  getUserActivity,
+} from "@/lib/github";
+import { GITHUB_USERNAME } from "@/lib/env";
 
 // Navigation tab component
-function NavigationTabs({
-  contributions,
-}: {
-  contributions: any
-}) {
+function NavigationTabs({ contributions }: { contributions: number | string }) {
   return (
     <div className="border-b border-gray-700 mb-6">
       <nav className="flex overflow-x-auto">
-        <a href="#overview" className="px-4 py-2 border-b-2 border-[#f78166] font-medium">
+        <a
+          href="#overview"
+          className="px-4 py-2 border-b-2 border-[#f78166] font-medium"
+        >
           Overview
         </a>
-        <a href="#experience" className="px-4 py-2 text-gray-400 hover:text-gray-200">
-          Experience <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">7</span>
+        <a
+          href="#experience"
+          className="px-4 py-2 text-gray-400 hover:text-gray-200"
+        >
+          Experience{" "}
+          <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
+            7
+          </span>
         </a>
-        <a href="#contributions" className="px-4 py-2 text-gray-400 hover:text-gray-200">
-          Contributions <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">{contributions?.totalContributions || "?"}</span>
+        <a
+          href="#contributions"
+          className="px-4 py-2 text-gray-400 hover:text-gray-200"
+        >
+          Contributions{" "}
+          <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
+            {contributions}
+          </span>
         </a>
-        <a href="#projects" className="px-4 py-2 text-gray-400 hover:text-gray-200">
-          Projects <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">2</span>
+        <a
+          href="#projects"
+          className="px-4 py-2 text-gray-400 hover:text-gray-200"
+        >
+          Projects{" "}
+          <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
+            2
+          </span>
         </a>
       </nav>
     </div>
-  )
+  );
 }
 
 // Contributions section component
-function ContributionsSection({
-  contributions,
-}: {
-  contributions: any
-}) {
+function ContributionsSection({ contributions }: { contributions: any }) {
   return (
     <div className="mb-8">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-base font-medium">
-          {contributions?.totalContributions || 0} contributions in the last year
+          {contributions?.totalContributions || 0} contributions in the last
+          year
         </h3>
         <div className="flex items-center text-sm text-gray-400">
           <Calendar className="w-4 h-4 mr-1" />
           <span>
             {(() => {
-              const now = new Date()
-              const lastYear = new Date()
-              lastYear.setFullYear(now.getFullYear() - 1)
+              const now = new Date();
+              const lastYear = new Date();
+              lastYear.setFullYear(now.getFullYear() - 1);
 
               const formatDate = (date: Date) => {
-                return date.toLocaleDateString("en-US", { month: "short", year: "numeric" })
-              }
+                return date.toLocaleDateString("en-US", {
+                  month: "short",
+                  year: "numeric",
+                });
+              };
 
-              return `${formatDate(lastYear)} - ${formatDate(now)}`
+              return `${formatDate(lastYear)} - ${formatDate(now)}`;
             })()}
           </span>
         </div>
       </div>
       <ContributionGraph contributions={contributions} />
     </div>
-  )
+  );
 }
 
 // Activity section component
 async function ActivitySection() {
-  let activityData = null
+  let activityData = null;
 
   try {
-    activityData = await getUserActivity(GITHUB_USERNAME)
+    activityData = await getUserActivity(GITHUB_USERNAME);
   } catch (error) {
-    console.error("Error fetching GitHub activity data:", error)
+    console.error("Error fetching GitHub activity data:", error);
   }
 
   return (
@@ -91,25 +112,32 @@ async function ActivitySection() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 // Main page component
 export default async function Home() {
   // Fetch GitHub data
-  let profile
-  let contributions
+  let profile;
+  let contributions;
 
   try {
     // Fetch user profile and contributions in parallel
-    ;[profile, contributions] = await Promise.all([
+    [profile, contributions] = await Promise.all([
       getUserProfile(GITHUB_USERNAME),
       getUserContributions(GITHUB_USERNAME),
-    ])
+    ]);
   } catch (error) {
-    console.error("Error fetching GitHub data:", error)
+    console.error("Error fetching GitHub data:", error);
     // Continue with default data if there's an error
   }
+
+  const totalContributions =
+    contributions &&
+    typeof contributions === "object" &&
+    "totalContributions" in contributions
+      ? contributions.totalContributions
+      : "?";
 
   return (
     <div className="min-h-screen bg-[#0d1117] text-white">
@@ -120,7 +148,7 @@ export default async function Home() {
 
           {/* Main content */}
           <div className="flex-1">
-            <NavigationTabs contributions={contributions}/>
+            <NavigationTabs contributions={totalContributions} />
             <div id="overview">
               <ReadmeSection />
             </div>
@@ -128,7 +156,7 @@ export default async function Home() {
               <WorkExperienceSection />
             </div>
             <div id="contributions">
-                <ContributionsSection contributions={contributions} />
+              <ContributionsSection contributions={contributions} />
             </div>
             <ActivitySection />
             <EducationSection />
@@ -142,5 +170,5 @@ export default async function Home() {
         </div>
       </div>
     </div>
-  )
+  );
 }

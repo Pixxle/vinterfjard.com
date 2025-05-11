@@ -1,4 +1,4 @@
-import { BookOpen } from "lucide-react"
+import { BookOpen } from "lucide-react";
 
 export default function EducationSection() {
   return (
@@ -15,11 +15,11 @@ export default function EducationSection() {
           </div>
           <div>
             <h3 className="text-lg font-medium">Computer science</h3>
-              Mälardalen University
+            Mälardalen University
             <div className="text-gray-400 text-sm mt-1">01/2010 - 01/2014</div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,22 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import WorkHistoryCard from "./work-history-card"
-import { Modal } from "./ui/modal"
+import { useState } from "react";
+import WorkHistoryCard from "./work-history-card";
+import { Modal } from "./ui/modal";
 
 interface WorkExperience {
-  id: string
-  title: string
-  company: string
-  startDate: string
-  endDate: string
-  status: "Current" | "Past"
-  companyColor?: string
-  detailedDescription: string
+  id: string;
+  title: string;
+  company: string;
+  startDate: string;
+  endDate: string;
+  status: "Current" | "Past";
+  companyColor?: string;
+  detailedDescription: string;
 }
 
 export default function WorkExperienceSection() {
-  const [selectedExperience, setSelectedExperience] = useState<WorkExperience | null>(null)
+  const [selectedExperience, setSelectedExperience] =
+    useState<WorkExperience | null>(null);
 
   const workExperiences: WorkExperience[] = [
     {
@@ -96,7 +97,7 @@ export default function WorkExperienceSection() {
       detailedDescription:
         "In this role, I managed and monitored Tele2's Data Network. My duties involved managing network alarms, handling problem tickets for private and enterprise customer networks, and addressing internal network issues. I gained experience with a variety of switching and routing equipment from Cisco, Huawei, and Juniper.",
     },
-  ]
+  ];
 
   return (
     <div className="mb-8">
@@ -130,7 +131,9 @@ export default function WorkExperienceSection() {
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: selectedExperience.companyColor }}
               ></span>
-              <span className="text-gray-300">{selectedExperience.company}</span>
+              <span className="text-gray-300">
+                {selectedExperience.company}
+              </span>
               <span className="text-gray-400 ml-auto">
                 {selectedExperience.startDate} - {selectedExperience.endDate}
               </span>
@@ -139,5 +142,5 @@ export default function WorkExperienceSection() {
         </Modal>
       )}
     </div>
-  )
+  );
 }
