@@ -1,4 +1,5 @@
-import Link from "next/link"
+import { Terminal } from "lucide-react"
+import Image from "next/image"
 
 export default function ReadmeSection() {
   return (
@@ -15,23 +16,38 @@ export default function ReadmeSection() {
       </p>
 
       <div className="flex flex-wrap gap-2 mb-6">
-        <Link
-          href="https://vinterfjard.com"
-          className="flex items-center px-3 py-1 bg-purple-900/50 text-purple-300 rounded-md text-sm hover:bg-purple-800/50 transition-colors"
-        >
-          <span className="mr-2">🌐</span> vinterfjard.com
-        </Link>
-
         <div className="flex items-center px-3 py-1 bg-yellow-900/30 text-yellow-300 rounded-md text-sm">
-          <span className="mr-2">JS</span> JavaScript
+          <span className="mr-2 text-lg">𝙅𝙎</span> JavaScript
         </div>
 
         <div className="flex items-center px-3 py-1 bg-blue-900/30 text-blue-300 rounded-md text-sm">
-          <span className="mr-2">TS</span> TypeScript
+          <span className="mr-2 text-lg">𝙏𝙎</span> TypeScript
         </div>
 
-        <div className="flex items-center px-3 py-1 bg-gray-800 text-gray-300 rounded-md text-sm hover:bg-gray-700 transition-colors">
-          <span className="mr-2">𝕏</span> Follow @dennisvinterfjard
+        <div className="flex items-center px-3 py-1 bg-teal-900/30 text-teal-300 rounded-md text-sm">
+          <Image src="/images/go-logo.png" alt="Go Logo" width={16} height={16} className="mr-2" />
+          Go
+        </div>
+
+        <div className="flex items-center px-3 py-1 bg-orange-900/30 text-orange-300 rounded-md text-sm">
+          <div className="bg-white rounded-full p-0.5 mr-2">
+            <Image src="/images/rust-logo.png" alt="Rust Logo" width={14} height={14} className="block" />
+          </div>
+          Rust
+        </div>
+
+        <div className="flex items-center px-3 py-1 bg-purple-900/30 text-purple-300 rounded-md text-sm">
+          <Image src="/images/csharp-logo-simple.png" alt="C# Logo" width={20} height={20} className="mr-2" />
+          C#
+        </div>
+
+        <div className="flex items-center px-3 py-1 bg-blue-900/30 text-yellow-300 rounded-md text-sm">
+          <Image src="/images/python-logo.png" alt="Python Logo" width={16} height={16} className="mr-2" />
+          Python
+        </div>
+
+        <div className="flex items-center px-3 py-1 bg-green-900/30 text-green-300 rounded-md text-sm">
+          <Terminal className="w-4 h-4 mr-2" /> Bash
         </div>
       </div>
 
