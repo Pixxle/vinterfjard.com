@@ -37,13 +37,13 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0"
       }`}
       onClick={onClose}
     >
       <div
-        className={`bg-[#0d1117] border border-gray-700 rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-auto transition-all duration-300 ${
+        className={`bg-[#0d1117] border border-gray-700 rounded-lg shadow-lg w-full mx-4 my-auto max-w-2xl max-h-[90vh] overflow-auto transition-all duration-300 ${
           isOpen ? "scale-100" : "scale-95"
         }`}
         onClick={(e) => e.stopPropagation()}

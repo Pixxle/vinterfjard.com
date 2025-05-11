@@ -68,7 +68,7 @@ export default function ProfileSidebar({ profile }: ProfileSidebarProps) {
         </div>
         <div className="flex items-center gap-2 mb-1">
           <Link className="w-4 h-4 text-gray-500" />
-          <a href={profile?.websiteUrl || "https://vinterfjard.com"} className="text-blue-400 hover:underline">
+          <a href={"https://vinterfjard.com"} className="text-blue-400 hover:underline">
             {profile?.websiteUrl?.replace(/^https?:\/\//, "") || "vinterfjard.com"}
           </a>
         </div>

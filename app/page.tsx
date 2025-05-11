@@ -29,10 +29,7 @@ function NavigationTabs({
           Contributions <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">{contributions?.totalContributions || "?"}</span>
         </a>
         <a href="#projects" className="px-4 py-2 text-gray-400 hover:text-gray-200">
-          Projects <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">9</span>
-        </a>
-        <a href="#skills" className="px-4 py-2 text-gray-400 hover:text-gray-200">
-          Skills <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">23</span>
+          Projects <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">2</span>
         </a>
       </nav>
     </div>
