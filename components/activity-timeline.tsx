@@ -74,6 +74,7 @@ export default function ActivityTimeline({
   activityData,
 }: ActivityTimelineProps) {
   // If no data is provided, use the static example data
+  if (!activityData) console.warn("No activity data provided");
   if (!activityData) {
     return (
       <div className="space-y-6">
