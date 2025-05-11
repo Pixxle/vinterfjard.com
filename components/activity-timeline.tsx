@@ -74,6 +74,13 @@ interface ActivityItem {
   data: any;
 }
 
+// New type for grouped activity items
+interface GroupedActivityItem {
+  type: "commit" | "pullRequest" | "issue";
+  date: string;
+  items: ActivityItem[];
+}
+
 interface ActivityTimelineProps {
   activityData?: GitHubActivityData;
 }
@@ -140,23 +147,55 @@ export default function ActivityTimeline({
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
-  console.log("All Activities:", allActivities);
+  // Group consecutive activities of the same type
+  const groupedActivities: GroupedActivityItem[] = [];
+
+  allActivities.forEach((activity) => {
+    const lastGroup = groupedActivities[groupedActivities.length - 1];
+
+    if (lastGroup && lastGroup.type === activity.type) {
+      // Add to existing group
+      lastGroup.items.push(activity);
+    } else {
+      // Create new group
+      groupedActivities.push({
+        type: activity.type,
+        date: activity.date,
+        items: [activity],
+      });
+    }
+  });
+
+  // Calculate total counts for grouped items
+  const getTotalCommits = (items: ActivityItem[]) => {
+    return items.reduce((total, item) => {
+      const repo = item.data as CommitContributionsByRepository;
+      return total + repo.contributions.totalCount;
+    }, 0);
+  };
+
+  // Helper to format plural text
+  const formatPlural = (count: number, singular: string, plural: string) => {
+    return count === 1 ? singular : plural;
+  };
 
   return (
     <div className="space-y-6">
-      {allActivities.length === 0 ? (
+      {groupedActivities.length === 0 ? (
         <div className="p-4 text-center text-gray-400">
           No recent GitHub activity found.
         </div>
       ) : (
-        allActivities.map((activity, index) => {
-          const isLastItem = index === allActivities.length - 1;
+        groupedActivities.map((group, index) => {
+          const isLastItem = index === groupedActivities.length - 1;
 
-          switch (activity.type) {
+          switch (group.type) {
             case "commit":
-              const repo = activity.data as CommitContributionsByRepository;
+              const commitCount = getTotalCommits(group.items);
+              const repoCount = group.items.length;
+
               return (
-                <div key={`commit-${index}`} className="flex">
+                <div key={`commit-group-${index}`} className="flex">
                   <div className="mr-3 flex flex-col items-center">
                     <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
                       <GitCommit className="w-4 h-4 text-gray-400" />
@@ -168,45 +207,63 @@ export default function ActivityTimeline({
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <h4 className="text-sm font-medium">
-                        Created {repo.contributions.totalCount} commits
+                        Created {commitCount}{" "}
+                        {formatPlural(commitCount, "commit", "commits")} in{" "}
+                        {repoCount}{" "}
+                        {formatPlural(repoCount, "repository", "repositories")}
                       </h4>
                       <div className="flex items-center text-xs text-gray-400">
                         <Calendar className="w-3 h-3 mr-1" />
                         <span>Recent</span>
                       </div>
                     </div>
-                    <div className="mt-2 p-3 border border-gray-700 rounded-md bg-[#161b22]">
-                      <div className="flex items-center text-sm">
-                        <a
-                          href={repo.repository.url}
-                          className="text-blue-400 hover:underline"
-                        >
-                          {repo.repository.nameWithOwner}
-                        </a>
-                        <span className="ml-auto text-gray-400 text-xs">
-                          {repo.contributions.totalCount} commits
-                        </span>
-                      </div>
-                      <div className="w-full bg-gray-700 h-2 rounded-full mt-2 overflow-hidden">
-                        <div
-                          className="bg-green-500 h-full"
-                          style={{
-                            width: `${Math.min(
-                              100,
-                              (repo.contributions.totalCount / 10) * 100
-                            )}%`,
-                          }}
-                        ></div>
-                      </div>
+                    <div className="mt-2 space-y-2">
+                      {group.items.map((activity, activityIndex) => {
+                        const repo =
+                          activity.data as CommitContributionsByRepository;
+                        return (
+                          <div
+                            key={`commit-${activityIndex}`}
+                            className="p-3 border border-gray-700 rounded-md bg-[#161b22]"
+                          >
+                            <div className="flex items-center text-sm">
+                              <a
+                                href={repo.repository.url}
+                                className="text-blue-400 hover:underline"
+                              >
+                                {repo.repository.nameWithOwner}
+                              </a>
+                              <span className="ml-auto text-gray-400 text-xs">
+                                {repo.contributions.totalCount}{" "}
+                                {formatPlural(
+                                  repo.contributions.totalCount,
+                                  "commit",
+                                  "commits"
+                                )}
+                              </span>
+                            </div>
+                            <div className="w-full bg-gray-700 h-2 rounded-full mt-2 overflow-hidden">
+                              <div
+                                className="bg-green-500 h-full"
+                                style={{
+                                  width: `${Math.min(
+                                    100,
+                                    (repo.contributions.totalCount / 10) * 100
+                                  )}%`,
+                                }}
+                              ></div>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
               );
 
             case "pullRequest":
-              const pr = activity.data.pullRequest;
               return (
-                <div key={`pr-${index}`} className="flex">
+                <div key={`pr-group-${index}`} className="flex">
                   <div className="mr-3 flex flex-col items-center">
                     <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
                       <GitPullRequest className="w-4 h-4 text-gray-400" />
@@ -218,59 +275,100 @@ export default function ActivityTimeline({
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <h4 className="text-sm font-medium">
-                        Created a pull request in {pr.repository.nameWithOwner}
-                        {pr.comments.totalCount > 0 &&
-                          ` that received ${pr.comments.totalCount} comments`}
+                        Created {group.items.length}{" "}
+                        {formatPlural(
+                          group.items.length,
+                          "pull request",
+                          "pull requests"
+                        )}{" "}
+                        across{" "}
+                        {
+                          new Set(
+                            group.items.map(
+                              (item) =>
+                                item.data.pullRequest.repository.nameWithOwner
+                            )
+                          ).size
+                        }{" "}
+                        {formatPlural(
+                          new Set(
+                            group.items.map(
+                              (item) =>
+                                item.data.pullRequest.repository.nameWithOwner
+                            )
+                          ).size,
+                          "repository",
+                          "repositories"
+                        )}
                       </h4>
                       <div className="flex items-center text-xs text-gray-400">
                         <Calendar className="w-3 h-3 mr-1" />
-                        <span>{formatDate(pr.createdAt)}</span>
+                        <span>{formatDate(group.date)}</span>
                       </div>
                     </div>
-                    <div className="mt-2 p-3 border border-gray-700 rounded-md bg-[#161b22]">
-                      <div className="flex items-center text-sm">
-                        <GitPullRequest
-                          className={`w-4 h-4 mr-2 ${
-                            pr.state === "MERGED"
-                              ? "text-purple-500"
-                              : pr.state === "OPEN"
-                              ? "text-green-500"
-                              : "text-red-500"
-                          }`}
-                        />
-                        <a
-                          href={pr.url}
-                          className="text-blue-400 hover:underline"
-                        >
-                          {pr.title}
-                        </a>
-                      </div>
-                      {pr.additions + pr.deletions > 0 && (
-                        <div className="mt-2 flex items-center text-xs">
-                          <div className="flex items-center text-gray-400">
-                            <span className="text-red-500">
-                              -{pr.deletions}
-                            </span>
-                            <span className="mx-1">+{pr.additions}</span>
-                            <span className="ml-2">lines changed</span>
-                            {pr.comments.totalCount > 0 && (
-                              <>
-                                <span className="mx-2">•</span>
-                                <span>{pr.comments.totalCount} comments</span>
-                              </>
+                    <div className="mt-2 space-y-2">
+                      {group.items.map((activity, activityIndex) => {
+                        const pr = activity.data.pullRequest;
+                        return (
+                          <div
+                            key={`pr-${activityIndex}`}
+                            className="p-3 border border-gray-700 rounded-md bg-[#161b22]"
+                          >
+                            <div className="flex items-center text-sm">
+                              <GitPullRequest
+                                className={`w-4 h-4 mr-2 ${
+                                  pr.state === "MERGED"
+                                    ? "text-purple-500"
+                                    : pr.state === "OPEN"
+                                    ? "text-green-500"
+                                    : "text-red-500"
+                                }`}
+                              />
+                              <a
+                                href={pr.url}
+                                className="text-blue-400 hover:underline"
+                              >
+                                {pr.title}
+                              </a>
+                              <span className="ml-2 text-xs text-gray-500">
+                                {pr.repository.nameWithOwner}
+                              </span>
+                            </div>
+                            {pr.additions + pr.deletions > 0 && (
+                              <div className="mt-2 flex items-center text-xs">
+                                <div className="flex items-center text-gray-400">
+                                  <span className="text-red-500">
+                                    -{pr.deletions}
+                                  </span>
+                                  <span className="mx-1">+{pr.additions}</span>
+                                  <span className="ml-2">lines changed</span>
+                                  {pr.comments.totalCount > 0 && (
+                                    <>
+                                      <span className="mx-2">•</span>
+                                      <span>
+                                        {pr.comments.totalCount}{" "}
+                                        {formatPlural(
+                                          pr.comments.totalCount,
+                                          "comment",
+                                          "comments"
+                                        )}
+                                      </span>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
                             )}
                           </div>
-                        </div>
-                      )}
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
               );
 
             case "issue":
-              const issue = activity.data.issue;
               return (
-                <div key={`issue-${index}`} className="flex">
+                <div key={`issue-group-${index}`} className="flex">
                   <div className="mr-3 flex flex-col items-center">
                     <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center">
                       <GitIssueOpened className="w-4 h-4 text-gray-400" />
@@ -282,43 +380,67 @@ export default function ActivityTimeline({
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <h4 className="text-sm font-medium">
-                        Opened an issue in {issue.repository.nameWithOwner}
+                        Opened {group.items.length}{" "}
+                        {formatPlural(group.items.length, "issue", "issues")}{" "}
+                        across{" "}
+                        {
+                          new Set(
+                            group.items.map(
+                              (item) => item.data.issue.repository.nameWithOwner
+                            )
+                          ).size
+                        }{" "}
+                        {formatPlural(
+                          new Set(
+                            group.items.map(
+                              (item) => item.data.issue.repository.nameWithOwner
+                            )
+                          ).size,
+                          "repository",
+                          "repositories"
+                        )}
                       </h4>
                       <div className="flex items-center text-xs text-gray-400">
                         <Calendar className="w-3 h-3 mr-1" />
-                        <span>
-                          {issue.createdAt
-                            ? formatDate(issue.createdAt)
-                            : "Recent"}
-                        </span>
+                        <span>{formatDate(group.date)}</span>
                       </div>
                     </div>
-                    <div className="mt-2 p-3 border border-gray-700 rounded-md bg-[#161b22]">
-                      <div className="flex items-center text-sm">
-                        <span className="text-blue-400 hover:underline">
-                          {issue.repository.nameWithOwner}
-                        </span>
-                        <div className="ml-auto flex items-center text-xs bg-red-900 text-red-300 px-2 py-0.5 rounded-full">
-                          <span>{issue.state.toLowerCase()}</span>
-                        </div>
-                      </div>
-                      <div className="mt-2 text-sm">
-                        <div className="flex items-center">
-                          <GitIssueOpened
-                            className={`w-4 h-4 mr-2 ${
-                              issue.state === "CLOSED"
-                                ? "text-red-500"
-                                : "text-green-500"
-                            }`}
-                          />
-                          <a
-                            href={issue.url}
-                            className="text-blue-400 hover:underline"
+                    <div className="mt-2 space-y-2">
+                      {group.items.map((activity, activityIndex) => {
+                        const issue = activity.data.issue;
+                        return (
+                          <div
+                            key={`issue-${activityIndex}`}
+                            className="p-3 border border-gray-700 rounded-md bg-[#161b22]"
                           >
-                            {issue.title}
-                          </a>
-                        </div>
-                      </div>
+                            <div className="flex items-center text-sm">
+                              <span className="text-blue-400 hover:underline">
+                                {issue.repository.nameWithOwner}
+                              </span>
+                              <div className="ml-auto flex items-center text-xs bg-red-900 text-red-300 px-2 py-0.5 rounded-full">
+                                <span>{issue.state.toLowerCase()}</span>
+                              </div>
+                            </div>
+                            <div className="mt-2 text-sm">
+                              <div className="flex items-center">
+                                <GitIssueOpened
+                                  className={`w-4 h-4 mr-2 ${
+                                    issue.state === "CLOSED"
+                                      ? "text-red-500"
+                                      : "text-green-500"
+                                  }`}
+                                />
+                                <a
+                                  href={issue.url}
+                                  className="text-blue-400 hover:underline"
+                                >
+                                  {issue.title}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
