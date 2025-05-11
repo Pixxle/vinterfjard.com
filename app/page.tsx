@@ -11,7 +11,11 @@ import { getUserProfile, getUserContributions, getUserActivity } from "@/lib/git
 import { GITHUB_USERNAME } from "@/lib/env"
 
 // Navigation tab component
-function NavigationTabs() {
+function NavigationTabs({
+  contributions,
+}: {
+  contributions: any
+}) {
   return (
     <div className="border-b border-gray-700 mb-6">
       <nav className="flex overflow-x-auto">
@@ -22,7 +26,7 @@ function NavigationTabs() {
           Experience <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">7</span>
         </a>
         <a href="#contributions" className="px-4 py-2 text-gray-400 hover:text-gray-200">
-          Contributions
+          Contributions <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">{contributions?.totalContributions || "?"}</span>
         </a>
         <a href="#projects" className="px-4 py-2 text-gray-400 hover:text-gray-200">
           Projects <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">9</span>
@@ -119,7 +123,7 @@ export default async function Home() {
 
           {/* Main content */}
           <div className="flex-1">
-            <NavigationTabs />
+            <NavigationTabs contributions={contributions}/>
             <div id="overview">
               <ReadmeSection />
             </div>
