@@ -15,9 +15,7 @@ export default function EducationSection() {
           </div>
           <div>
             <h3 className="text-lg font-medium">Computer science</h3>
-            <a href="#" className="text-blue-400 hover:underline">
               Mälardalen University
-            </a>
             <div className="text-gray-400 text-sm mt-1">01/2010 - 01/2014</div>
           </div>
         </div>
