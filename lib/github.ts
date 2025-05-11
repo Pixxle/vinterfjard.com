@@ -188,62 +188,62 @@ export async function getUserActivity(username: string) {
   }
 
   const query = `
-    query GetUserActivity($username: String!) {
-      user(login: $username) {
-        contributionsCollection {
-          commitContributionsByRepository(maxRepositories: 10) {
-            repository {
-              name
-              nameWithOwner
-              url
+      query GetUserActivity($username: String!) {
+        user(login: $username) {
+          contributionsCollection {
+            commitContributionsByRepository(maxRepositories: 10) {
+              repository {
+                name
+                nameWithOwner
+                url
+              }
+              contributions(first: 10, orderBy: {field: OCCURRED_AT, direction: DESC}) {
+                totalCount
+                nodes {
+                  occurredAt
+                  commitCount
+                }
+              }
             }
-            contributions(first: 10) {
+            pullRequestContributions(first: 10, orderBy: {direction: DESC}) {
               totalCount
               nodes {
-                occurredAt
-                commitCount
-              }
-            }
-          }
-          pullRequestContributions(first: 10) {
-            totalCount
-            nodes {
-              pullRequest {
-                title
-                url
-                state
-                createdAt
-                repository {
-                  nameWithOwner
+                pullRequest {
+                  title
                   url
-                }
-                additions
-                deletions
-                comments {
-                  totalCount
+                  state
+                  createdAt
+                  repository {
+                    nameWithOwner
+                    url
+                  }
+                  additions
+                  deletions
+                  comments {
+                    totalCount
+                  }
                 }
               }
             }
-          }
-          issueContributions(first: 10) {
-            totalCount
-            nodes {
-              issue {
-                title
-                url
-                state
-                createdAt
-                repository {
-                  nameWithOwner
+            issueContributions(first: 10, orderBy: {direction: DESC}) {
+              totalCount
+              nodes {
+                issue {
+                  title
                   url
+                  state
+                  createdAt
+                  repository {
+                    nameWithOwner
+                    url
+                  }
                 }
               }
             }
           }
         }
       }
-    }
-  `;
+    `;
 
   const data = await executeGitHubGraphQL<{
     user: {
