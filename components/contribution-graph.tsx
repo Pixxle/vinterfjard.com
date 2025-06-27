@@ -46,27 +46,31 @@ export default function ContributionGraph({
   const displayDays = ["Mon", "Wed", "Fri"]; // Only display these days
 
   useEffect(() => {
-    // Transform the GitHub contribution data into our format
-    const transformedData: ContributionDay[] = [];
-
+    // Calculate the exact date range: from 1 year ago to today
+    const today = new Date();
+    const oneYearAgo = new Date(today);
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
+    oneYearAgo.setDate(oneYearAgo.getDate() + 1); // Start from day after 1 year ago
+    
+    // Find the Sunday of the week containing oneYearAgo (to start the grid properly)
+    const startDate = new Date(oneYearAgo);
+    const dayOfWeek = startDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
+    startDate.setDate(startDate.getDate() - dayOfWeek);
+    
+    // Find the Saturday of the week containing today (to end the grid properly)
+    const endDate = new Date(today);
+    const endDayOfWeek = endDate.getDay();
+    const daysUntilSaturday = 6 - endDayOfWeek; // Saturday = 6
+    endDate.setDate(endDate.getDate() + daysUntilSaturday);
+    
+    // Calculate total days and create a complete day map
+    const totalDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const dayMap = new Map<string, ContributionDay>();
+    
+    // Process GitHub contribution data
     if (contributions?.weeks) {
-      // Sort weeks to ensure oldest first (left to right)
-      const sortedWeeks = [...contributions.weeks].sort((a, b) => {
-        return (
-          new Date(a.contributionDays[0].date).getTime() -
-          new Date(b.contributionDays[0].date).getTime()
-        );
-      });
-
-      sortedWeeks.forEach((week) => {
-        // Sort days within each week to ensure correct day order (Sunday to Saturday)
-        const sortedDays = [...week.contributionDays].sort((a, b) => {
-          const dateA = new Date(a.date);
-          const dateB = new Date(b.date);
-          return dateA.getDay() - dateB.getDay();
-        });
-
-        sortedDays.forEach((day) => {
+      contributions.weeks.forEach((week) => {
+        week.contributionDays.forEach((day) => {
           // Convert GitHub's contribution level to our numeric format
           let level: ContributionLevel = 0;
           switch (day.contributionLevel) {
@@ -87,13 +91,35 @@ export default function ContributionGraph({
               break;
           }
 
-          transformedData.push({
+          dayMap.set(day.date, {
             date: day.date,
             count: day.contributionCount,
             level,
           });
         });
       });
+    }
+    
+    // Create the complete grid data with proper alignment
+    const transformedData: ContributionDay[] = [];
+    const currentDate = new Date(startDate);
+    
+    for (let i = 0; i < totalDays; i++) {
+      const dateString = currentDate.toISOString().split('T')[0];
+      const existingData = dayMap.get(dateString);
+      
+      if (existingData) {
+        transformedData.push(existingData);
+      } else {
+        // For dates without data (including future dates), create empty entries
+        transformedData.push({
+          date: dateString,
+          count: 0,
+          level: 0,
+        });
+      }
+      
+      currentDate.setDate(currentDate.getDate() + 1);
     }
 
     setContributionData(transformedData);
@@ -151,24 +177,24 @@ export default function ContributionGraph({
             className="grid grid-rows-7 grid-flow-col gap-1 absolute right-0"
             style={{ minWidth: "100%" }}
           >
-            {Array.from({ length: 7 * 52 }).map((_, i) => {
-              // Calculate the corresponding day from the contributionData
-              // This is a simplified approach - in a real implementation, you'd map actual dates
-              const day = contributionData[i] || {
-                date: "",
-                count: 0,
-                level: 0 as ContributionLevel,
-              };
+            {contributionData.map((day, i) => {
+              // Check if this date is in the future
+              const dayDate = new Date(day.date);
+              const today = new Date();
+              today.setHours(23, 59, 59, 999); // Set to end of today for comparison
+              const isFuture = dayDate > today;
 
               return (
                 <div
                   key={i}
                   className={`w-3 h-3 rounded-sm ${getColorForLevel(
                     day.level
-                  )}`}
+                  )} ${isFuture ? 'opacity-0' : ''}`}
                   title={
-                    day.date
+                    !isFuture && day.date
                       ? `${day.count} contributions on ${formatDate(day.date)}`
+                      : isFuture
+                      ? `Future date: ${formatDate(day.date)}`
                       : "No contributions"
                   }
                 />
