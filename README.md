@@ -1,46 +1,26 @@
-# Vinterfjard.com
+# Hi there, I'm Dennis Vinterfjärd 👋
 
-A modern developer portfolio and GitHub profile clone built with Next.js and Tailwind CSS.
+I'm currently the Head of Engineering at Medhelp Care, based in Stockholm. I'm passionate about building great engineering cultures, driving technical excellence, and sharing knowledge along the way.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/pixxles-projects/v0-github-profile-clone)
+## 🛠️ Technologies I Work With
 
-## Overview
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Go](https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
+![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)
 
-Vinterfjard.com is a clean, responsive developer portfolio website featuring:
+## 🚀 Let's Connect
 
-- Customizable profile information
-- Project showcase
-- Activity timeline
-- Contribution graph visualization
-- Work experience timeline
-- Education section
-- Skills, languages, and certifications display
-- Analytics dashboard
-- Dark/light theme support
+If you're working on something interesting, want to collaborate, or just want to talk tech—feel free to reach out!
 
-## Deployment
+- **📧 Email:** [dennis@vinterfjard.com](mailto:dennis@vinterfjard.com)
+- **💼 LinkedIn:** [linkedin.com/in/dennis-vinterfjärd](https://linkedin.com/in/dennis-vinterfjärd/)
+- **🌐 Website:** [vinterfjard.com](https://www.vinterfjard.com/)
+- **📝 Blog Posts:** [vinterfjard.com/gists](https://www.vinterfjard.com/gists)
 
-This project is deployed on Vercel:
+---
 
-**[https://vercel.com/pixxles-projects/v0-github-profile-clone](https://vercel.com/pixxles-projects/v0-github-profile-clone)**
-
-## Local Development
-
-1. Clone this repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Run the development server:
-   ```bash
-   npm run dev
-   ```
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Technologies
-
-- Next.js
-- TypeScript
-- Tailwind CSS
-- Shadcn UI Components
-- Chart.js for data visualization
+*This repository contains the source code for my personal website at [vinterfjard.com](https://vinterfjard.com), built with Next.js, TypeScript, and Tailwind CSS.*
