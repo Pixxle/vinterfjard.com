@@ -13,7 +13,7 @@ export default async function GistsPage() {
 
   if (gists.length === 0) {
     return (
-      <SharedLayout showNavigation={false}>
+      <SharedLayout showNavigation={true}>
         <div className="mb-8">
           <h1 className="text-2xl font-bold mb-4">Gists</h1>
           <div className="rounded-md border border-gray-700 bg-[#0d1117] p-8 text-center text-gray-400">
@@ -30,7 +30,7 @@ export default async function GistsPage() {
   }
 
   return (
-    <SharedLayout showNavigation={false}>
+    <SharedLayout showNavigation={true}>
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-6">Gists</h1>
         <div className="space-y-6">
@@ -117,9 +117,10 @@ export default async function GistsPage() {
                     // Code styling - handle both inline and block
                     code: ({ className, children, ...props }: CodeProps) => {
                       // Detect if it's a code block vs inline code
-                      const isCodeBlock = /language-(\w+)/.test(className || '') || 
-                                          String(children).includes('\n');
-                      
+                      const isCodeBlock =
+                        /language-(\w+)/.test(className || "") ||
+                        String(children).includes("\n");
+
                       if (!isCodeBlock) {
                         // Inline code
                         return (
@@ -131,7 +132,7 @@ export default async function GistsPage() {
                           </code>
                         );
                       }
-                      
+
                       // Block code
                       return (
                         <div className="bg-gray-900 p-3 rounded overflow-x-auto my-2 text-sm">

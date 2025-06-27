@@ -5,6 +5,7 @@ import {
   getUserProfile,
   getUserContributions,
 } from "@/lib/github";
+import { getAllGists } from "@/lib/gists";
 import { GITHUB_USERNAME } from "@/lib/env";
 
 interface SharedLayoutProps {
@@ -38,6 +39,9 @@ export default async function SharedLayout({
       ? contributions.totalContributions
       : "?";
 
+  // Get gist count
+  const gistCount = getAllGists().length;
+
   // Create a safe default profile if none is available
   const safeProfile = profile || { login: "default-user", name: "GitHub User" };
 
@@ -50,7 +54,7 @@ export default async function SharedLayout({
         {/* Main content */}
         <div className="flex-1">
           {showNavigation && (
-            <NavigationTabs contributions={totalContributions} />
+            <NavigationTabs contributions={totalContributions} gistCount={gistCount} />
           )}
           {children}
         </div>

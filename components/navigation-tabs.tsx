@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { Menu } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   DropdownMenu,
@@ -13,6 +14,7 @@ import {
 
 interface NavigationTabsProps {
   contributions: number | string;
+  gistCount: number;
 }
 
 interface NavItem {
@@ -22,16 +24,21 @@ interface NavItem {
   active?: boolean;
 }
 
-export default function NavigationTabs({ contributions }: NavigationTabsProps) {
+export default function NavigationTabs({ contributions, gistCount }: NavigationTabsProps) {
   const isMobile = useIsMobile();
   const dropdownRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
+
+  // Determine which tab should be active based on current pathname
+  const isGistsPage = pathname.startsWith('/gists');
+  const isHomePage = pathname === '/';
 
   const navItems: NavItem[] = [
-    { href: "#overview", label: "Overview", active: true },
+    { href: "#overview", label: "Overview", active: isHomePage },
     { href: "#experience", label: "Experience", count: 7 },
     { href: "#contributions", label: "Contributions", count: contributions },
     { href: "#projects", label: "Projects", count: 2 },
-    { href: "/gists", label: "Gists" },
+    { href: "/gists", label: "Gists", count: gistCount, active: isGistsPage },
   ];
 
   const handleNavClick = (href: string) => {
