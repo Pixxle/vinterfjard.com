@@ -6,7 +6,7 @@ export interface GistMatter {
   title: string;
   date: string;
   tags?: string[];
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface Gist {
