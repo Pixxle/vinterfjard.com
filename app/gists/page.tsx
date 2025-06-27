@@ -159,6 +159,16 @@ export default async function GistsPage() {
                         {children}
                       </a>
                     ),
+                    // Images with responsive styling
+                    img: ({ src, alt, title }) => (
+                      <img
+                        src={src}
+                        alt={alt}
+                        title={title}
+                        className="max-w-full h-auto rounded-lg shadow-lg border border-gray-700 my-2"
+                        loading="lazy"
+                      />
+                    ),
                     // Paragraphs with proper wrapping
                     p: ({ children }) => (
                       <p className="mb-2 text-gray-300 leading-relaxed break-words">

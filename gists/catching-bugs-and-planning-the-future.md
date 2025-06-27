@@ -16,10 +16,7 @@ As part of our yearly security obligations, we undergo external penetration test
 
 But then Gemini caught something that every developer could easily miss.
 
-```
-The RandomNumberGenerator.GetInt32(fromInclusive, toExclusive) method uses an exclusive upper bound. To generate random integers from 0 to 9 (inclusive), the toExclusive parameter must be 10.
-Currently, GetInt32(0, 9) will only generate integers from 0 to 8, meaning the digit '9' will never appear in the OTP. This should be changed to GetInt32(0, 10)
-```
+![Gemini AI catching the RandomNumberGenerator bug](images/gemini-catch.png)
 
 A simple mistake, but a serious one. By excluding the digit 9, the OTP entropy was reduced by 46%. That is not a small issue. That is a real-world, security-impacting bug — and Gemini caught it before production.
 
