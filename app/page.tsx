@@ -1,16 +1,13 @@
 import { Calendar } from "lucide-react";
 import ContributionGraph from "@/components/contribution-graph";
 import ActivityTimeline from "@/components/activity-timeline";
-import ProfileSidebar from "@/components/profile-sidebar";
 import EducationSection from "@/components/education-section";
 import ProjectsSection from "@/components/projects-section";
 import LanguagesCertificationsAwards from "@/components/languages-certifications-awards";
 import ReadmeSection from "@/components/readme-section";
 import WorkExperienceSection from "@/components/work-experience-section";
-import MockDataDetector from "@/components/mock-data-detector";
-import NavigationTabs from "@/components/navigation-tabs";
+import SharedLayout from "@/components/shared-layout";
 import {
-  getUserProfile,
   getUserContributions,
   getUserActivity,
 } from "@/lib/github";
@@ -96,66 +93,37 @@ const defaultContributions: ContributionsData = {
 
 // Main page component
 export default async function Home() {
-  // Fetch GitHub data
-  let profile;
+  // Fetch GitHub data for contributions
   let contributions;
 
   try {
-    // Fetch user profile and contributions in parallel
-    [profile, contributions] = await Promise.all([
-      getUserProfile(GITHUB_USERNAME),
-      getUserContributions(GITHUB_USERNAME),
-    ]);
+    contributions = await getUserContributions(GITHUB_USERNAME);
   } catch (error) {
-    console.error("Error fetching GitHub data:", error);
-    // Continue with default data if there's an error
+    console.error("Error fetching GitHub contributions data:", error);
   }
-
-  const totalContributions =
-    contributions &&
-    typeof contributions === "object" &&
-    "totalContributions" in contributions
-      ? contributions.totalContributions
-      : "?";
-
-  // Create a safe default profile if none is available
-  const safeProfile = profile || { login: "default-user", name: "GitHub User" };
 
   // Create a safe version of contributions data if none is available
   const safeContributions = contributions || defaultContributions;
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-white">
-      <div className="max-w-6xl mx-auto px-4 py-6">
-        <MockDataDetector profile={safeProfile}>
-          <div className="flex flex-col md:flex-row gap-8">
-            {/* Left sidebar with profile info */}
-            <ProfileSidebar profile={profile} />
-
-            {/* Main content */}
-            <div className="flex-1">
-              <NavigationTabs contributions={totalContributions} />
-              <div id="overview">
-                <ReadmeSection />
-              </div>
-              <div id="experience">
-                <WorkExperienceSection />
-              </div>
-              <div id="contributions">
-                <ContributionsSection contributions={safeContributions} />
-              </div>
-              <ActivitySection />
-              <EducationSection />
-              <div id="projects">
-                <ProjectsSection />
-              </div>
-              <div id="skills">
-                <LanguagesCertificationsAwards />
-              </div>
-            </div>
-          </div>
-        </MockDataDetector>
+    <SharedLayout>
+      <div id="overview">
+        <ReadmeSection />
       </div>
-    </div>
+      <div id="experience">
+        <WorkExperienceSection />
+      </div>
+      <div id="contributions">
+        <ContributionsSection contributions={safeContributions} />
+      </div>
+      <ActivitySection />
+      <EducationSection />
+      <div id="projects">
+        <ProjectsSection />
+      </div>
+      <div id="skills">
+        <LanguagesCertificationsAwards />
+      </div>
+    </SharedLayout>
   );
 }

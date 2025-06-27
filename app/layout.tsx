@@ -17,7 +17,7 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -28,7 +28,11 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <PostHogProviderClient>
             <Analytics />
-            {children}
+            <div className="min-h-screen bg-[#0d1117] text-white">
+              <div className="max-w-6xl mx-auto px-4 py-6">
+                {children}
+              </div>
+            </div>
           </PostHogProviderClient>
         </ThemeProvider>
       </body>
