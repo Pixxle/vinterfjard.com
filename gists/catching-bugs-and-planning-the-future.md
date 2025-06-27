@@ -12,13 +12,13 @@ The initial feedback from the team was overwhelmingly positive. Our frontend dev
 
 This is when things got interesting.
 
-As part of our yearly security obligations, we undergo external penetration testing. One of the findings this year pointed out that our OneTimePassword generator used the default `Random` class in C#, which is not cryptographically secure. The fix was simple — switch to a secure random generator.
+As part of our yearly security obligations, we undergo external penetration testing. One of the findings this year pointed out that our OneTimePassword generator used the default `Random` class in C#, which is not cryptographically secure. The fix was simple, switch to a secure random generator.
 
 But then Gemini caught something that every developer could easily miss.
 
 ![Gemini AI catching the RandomNumberGenerator bug](images/gemini-catch.png)
 
-A simple mistake, but a serious one. By excluding the digit 9, the OTP entropy was reduced by 46%. That is not a small issue. That is a real-world, security-impacting bug — and Gemini caught it before production.
+A simple mistake, but a serious one. By excluding the digit 9, the OTP entropy was reduced by 46%. That is not a small issue. That is a real-world, security-impacting bug, and Gemini caught it before production.
 
 ## Reflecting on AI and the Future
 
@@ -34,12 +34,12 @@ Consolidating our code into a single repository offers multiple benefits:
 
 * **Shared models**: A service that publishes a message and a service that consumes it can rely on the exact same model. No more mismatched contracts.
 * **End-to-end traceability**: With shared telemetry and event structures, we can follow a request across services and see exactly what happens, from API call to database write.
-* **Improved developer experience**: It's rare that we work on a single isolated service. More often than not, we need to coordinate changes across multiple services. Running those locally in tandem can be painful. With a mono-repo, we can create a robust `docker-compose` setup where any developer can spin up the full system locally — services, dependencies, databases, everything — and get a fully functioning environment within minutes.
+* **Improved developer experience**: It's rare that we work on a single isolated service. More often than not, we need to coordinate changes across multiple services. Running those locally in tandem can be painful. With a mono-repo, we can create a robust `docker-compose` setup where any developer can spin up the full system locally. Services, dependencies, databases, everything, and get a fully functioning environment within minutes.
 * **AI agent visibility**: With a monorepo, our agents can reason about the entire system in one go, rather than operating in silos. This opens up entirely new possibilities: holistic code reviews, better understanding of service interactions, and more accurate automated refactoring suggestions. Instead of acting like a plugin for a single service, AI agents can start acting like true system architects. The more context they have, the smarter and more helpful they become.
 
 ## Looking Ahead
 
-Security, performance, developer experience — all of it matters. And as AI continues to evolve at a breakneck pace, it is becoming clearer that the best way to stay ahead is not just to adopt these tools, but to shape your architecture around them.
+Security, performance, developer experience, all of it matters. And as AI continues to evolve at a breakneck pace, it is becoming clearer that the best way to stay ahead is not just to adopt these tools, but to shape your architecture around them.
 
 We're building systems that are not only easier for humans to work with, but also for AI to understand, reason about, and improve.
 
