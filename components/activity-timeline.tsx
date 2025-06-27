@@ -243,13 +243,19 @@ export default function ActivityTimeline({
                       {Array.from(uniqueRepos).map((repoName) => {
                         const repoCommits = group.items.filter((item) => {
                           const commitData = item.data as CommitActivityData;
-                          return commitData.repository.nameWithOwner === repoName;
+                          return (
+                            commitData.repository.nameWithOwner === repoName
+                          );
                         });
-                        const repoData = repoCommits[0].data as CommitActivityData;
-                        const totalRepoCommits = repoCommits.reduce((sum, item) => {
-                          const commitData = item.data as CommitActivityData;
-                          return sum + commitData.commitNode.commitCount;
-                        }, 0);
+                        const repoData = repoCommits[0]
+                          .data as CommitActivityData;
+                        const totalRepoCommits = repoCommits.reduce(
+                          (sum, item) => {
+                            const commitData = item.data as CommitActivityData;
+                            return sum + commitData.commitNode.commitCount;
+                          },
+                          0
+                        );
 
                         return (
                           <div
@@ -265,14 +271,21 @@ export default function ActivityTimeline({
                               </a>
                               <span className="ml-auto text-gray-400 text-xs">
                                 {totalRepoCommits}{" "}
-                                {formatPlural(totalRepoCommits, "commit", "commits")}
+                                {formatPlural(
+                                  totalRepoCommits,
+                                  "commit",
+                                  "commits"
+                                )}
                               </span>
                             </div>
                             <div className="w-full bg-gray-700 h-2 rounded-full mt-2 overflow-hidden">
                               <div
                                 className="bg-green-500 h-full"
                                 style={{
-                                  width: `${Math.min(100, (totalRepoCommits / 10) * 100)}%`,
+                                  width: `${Math.min(
+                                    100,
+                                    (totalRepoCommits / 10) * 100
+                                  )}%`,
                                 }}
                               ></div>
                             </div>
@@ -309,7 +322,8 @@ export default function ActivityTimeline({
                           new Set(
                             group.items.map(
                               (item) =>
-                                (item.data as PullRequestContribution).pullRequest.repository.nameWithOwner
+                                (item.data as PullRequestContribution)
+                                  .pullRequest.repository.nameWithOwner
                             )
                           ).size
                         }{" "}
@@ -317,7 +331,8 @@ export default function ActivityTimeline({
                           new Set(
                             group.items.map(
                               (item) =>
-                                (item.data as PullRequestContribution).pullRequest.repository.nameWithOwner
+                                (item.data as PullRequestContribution)
+                                  .pullRequest.repository.nameWithOwner
                             )
                           ).size,
                           "repository",
@@ -331,7 +346,8 @@ export default function ActivityTimeline({
                     </div>
                     <div className="mt-2 space-y-2">
                       {group.items.map((activity, activityIndex) => {
-                        const pr = (activity.data as PullRequestContribution).pullRequest;
+                        const pr = (activity.data as PullRequestContribution)
+                          .pullRequest;
                         return (
                           <div
                             key={`pr-${activityIndex}`}
@@ -409,14 +425,18 @@ export default function ActivityTimeline({
                         {
                           new Set(
                             group.items.map(
-                              (item) => (item.data as IssueContribution).issue.repository.nameWithOwner
+                              (item) =>
+                                (item.data as IssueContribution).issue
+                                  .repository.nameWithOwner
                             )
                           ).size
                         }{" "}
                         {formatPlural(
                           new Set(
                             group.items.map(
-                              (item) => (item.data as IssueContribution).issue.repository.nameWithOwner
+                              (item) =>
+                                (item.data as IssueContribution).issue
+                                  .repository.nameWithOwner
                             )
                           ).size,
                           "repository",
@@ -430,7 +450,8 @@ export default function ActivityTimeline({
                     </div>
                     <div className="mt-2 space-y-2">
                       {group.items.map((activity, activityIndex) => {
-                        const issue = (activity.data as IssueContribution).issue;
+                        const issue = (activity.data as IssueContribution)
+                          .issue;
                         return (
                           <div
                             key={`issue-${activityIndex}`}
