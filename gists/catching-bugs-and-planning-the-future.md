@@ -16,7 +16,7 @@ As part of our yearly security obligations, we undergo external penetration test
 
 But then Gemini caught something that every developer could easily miss.
 
-![Gemini AI catching the RandomNumberGenerator bug](images/gemini-catch.png)
+![Gemini AI catching the RandomNumberGenerator bug](/gists/images/gemini-catch.png)
 
 A simple mistake, but a serious one. By excluding the digit 9, the OTP entropy was reduced by 46%. That is not a small issue. That is a real-world, security-impacting bug, and Gemini caught it before production.
 

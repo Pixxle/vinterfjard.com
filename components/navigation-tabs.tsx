@@ -33,11 +33,16 @@ export default function NavigationTabs({ contributions, gistCount }: NavigationT
   const isGistsPage = pathname.startsWith('/gists');
   const isHomePage = pathname === '/';
 
+  // Helper function to create proper href for hash links
+  const getHref = (hash: string) => {
+    return isHomePage ? hash : `/${hash}`;
+  };
+
   const navItems: NavItem[] = [
-    { href: "#overview", label: "Overview", active: isHomePage },
-    { href: "#experience", label: "Experience", count: 7 },
-    { href: "#contributions", label: "Contributions", count: contributions },
-    { href: "#projects", label: "Projects", count: 2 },
+    { href: getHref("#overview"), label: "Overview", active: isHomePage },
+    { href: getHref("#experience"), label: "Experience", count: 7 },
+    { href: getHref("#contributions"), label: "Contributions", count: contributions },
+    { href: getHref("#projects"), label: "Projects", count: 2 },
     { href: "/gists", label: "Gists", count: gistCount, active: isGistsPage },
   ];
 
