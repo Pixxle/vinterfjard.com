@@ -12,7 +12,7 @@ export default function ReadmeSection() {
       </h1>
 
       <p className="mb-6">
-        I&apos;m currently Head of Engineering at Medhelp Care, based in
+        I&apos;m currently the Head of Engineering at Medhelp Care, based in
         Stockholm. I&apos;m passionate about building great engineering
         cultures, driving technical excellence, and sharing knowledge along the
         way.
