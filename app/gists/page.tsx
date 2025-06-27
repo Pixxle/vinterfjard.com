@@ -71,22 +71,34 @@ export default async function GistsPage() {
                   components={{
                     // All headers rendered as bold text
                     h1: ({ children }) => (
-                      <p className="font-bold text-gray-200 mb-2">{children}</p>
+                      <h3 className="font-bold text-gray-200 mb-2">
+                        {children}
+                      </h3>
                     ),
                     h2: ({ children }) => (
-                      <p className="font-bold text-gray-200 mb-2">{children}</p>
+                      <h3 className="font-bold text-gray-200 mb-2">
+                        {children}
+                      </h3>
                     ),
                     h3: ({ children }) => (
-                      <p className="font-bold text-gray-200 mb-2">{children}</p>
+                      <h1 className="font-bold text-gray-200 mb-2">
+                        {children}
+                      </h1>
                     ),
                     h4: ({ children }) => (
-                      <p className="font-bold text-gray-200 mb-2">{children}</p>
+                      <h4 className="font-bold text-gray-200 mb-2">
+                        {children}
+                      </h4>
                     ),
                     h5: ({ children }) => (
-                      <p className="font-bold text-gray-200 mb-2">{children}</p>
+                      <h5 className="font-bold text-gray-200 mb-2">
+                        {children}
+                      </h5>
                     ),
                     h6: ({ children }) => (
-                      <p className="font-bold text-gray-200 mb-2">{children}</p>
+                      <h6 className="font-bold text-gray-200 mb-2">
+                        {children}
+                      </h6>
                     ),
                     // Text formatting
                     strong: ({ children }) => (
@@ -154,4 +166,3 @@ export default async function GistsPage() {
     </SharedLayout>
   );
 }
-
