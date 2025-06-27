@@ -17,70 +17,123 @@ export async function executeGitHubGraphQL<T>(
   query: string,
   variables: Record<string, unknown> = {}
 ): Promise<T> {
+  const requestId = Math.random().toString(36).substring(2, 8);
+  const operationName = query.match(/query\s+(\w+)/)?.[1] || "UnknownOperation";
+
+  console.log(`[GitHub API ${requestId}] Starting ${operationName} request`, {
+    variables,
+    hasToken: !!GITHUB_ACCESS_TOKEN,
+    url: GITHUB_API_URL,
+  });
+
   if (!GITHUB_ACCESS_TOKEN) {
     console.warn(
-      "GitHub access token is not configured. Using mock data or limited API access."
+      `[GitHub API ${requestId}] GitHub access token is not configured. Using mock data or limited API access.`
     );
     // You can either throw an error or return mock data here
     // For now, we'll proceed with the request (which might fail due to API rate limits)
   }
 
-  const response = await fetch(GITHUB_API_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(GITHUB_ACCESS_TOKEN && {
-        Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
+  const startTime = Date.now();
+
+  try {
+    const response = await fetch(GITHUB_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(GITHUB_ACCESS_TOKEN && {
+          Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
+        }),
+      },
+      body: JSON.stringify({
+        query,
+        variables,
       }),
-    },
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-  });
+    });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error(`GitHub API error: ${response.status} ${errorText}`);
+    const duration = Date.now() - startTime;
+    console.log(
+      `[GitHub API ${requestId}] Request completed in ${duration}ms`,
+      {
+        status: response.status,
+        statusText: response.statusText,
+        headers: {
+          "x-ratelimit-limit": response.headers.get("x-ratelimit-limit"),
+          "x-ratelimit-remaining": response.headers.get(
+            "x-ratelimit-remaining"
+          ),
+          "x-ratelimit-reset": response.headers.get("x-ratelimit-reset"),
+          "x-ratelimit-used": response.headers.get("x-ratelimit-used"),
+        },
+      }
+    );
 
-    // If we get a 401 Unauthorized or 403 Forbidden, likely due to missing or invalid token
-    if (response.status === 401 || response.status === 403) {
-      console.warn(
-        "GitHub API authorization failed. Please check your GITHUB_ACCESS_TOKEN in .env.local"
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(
+        `[GitHub API ${requestId}] HTTP Error: ${response.status} ${response.statusText}`,
+        {
+          errorText,
+          duration,
+        }
       );
-      // Return a minimal mock object instead of throwing
+
+      // If we get a 401 Unauthorized or 403 Forbidden, likely due to missing or invalid token
+      if (response.status === 401 || response.status === 403) {
+        console.warn(
+          `[GitHub API ${requestId}] GitHub API authorization failed. Please check your GITHUB_ACCESS_TOKEN in .env.local`
+        );
+        // Return a minimal mock object instead of throwing
+        return {} as T;
+      }
+
+      // For other errors like rate limits (429), we might want to handle differently
+      if (response.status === 429) {
+        console.warn(
+          `[GitHub API ${requestId}] GitHub API rate limit exceeded. Using minimal functionality.`
+        );
+        return {} as T;
+      }
+
+      throw new Error(`GitHub API error: ${response.status} ${errorText}`);
+    }
+
+    const data = await response.json();
+    console.log(`[GitHub API ${requestId}] Response parsed successfully`, {
+      hasData: !!data.data,
+      hasErrors: !!data.errors,
+      dataKeys: data.data ? Object.keys(data.data) : [],
+    });
+
+    if (data.errors) {
+      console.error(`[GitHub API ${requestId}] GraphQL Errors:`, data.errors);
+      // Return empty data rather than throwing
       return {} as T;
     }
 
-    // For other errors like rate limits (429), we might want to handle differently
-    if (response.status === 429) {
-      console.warn(
-        "GitHub API rate limit exceeded. Using minimal functionality."
-      );
-      return {} as T;
-    }
-
-    throw new Error(`GitHub API error: ${response.status} ${errorText}`);
+    console.log(`[GitHub API ${requestId}] Request successful`);
+    return data.data as T;
+  } catch (error) {
+    const duration = Date.now() - startTime;
+    console.error(
+      `[GitHub API ${requestId}] Request failed after ${duration}ms:`,
+      error
+    );
+    throw error;
   }
-
-  const data = await response.json();
-
-  if (data.errors) {
-    console.error(`GraphQL Error: ${JSON.stringify(data.errors)}`);
-    // Return empty data rather than throwing
-    return {} as T;
-  }
-
-  return data.data as T;
 }
 
 /**
  * Get user profile data including followers and following counts
  */
 export async function getUserProfile(username: string) {
+  console.log(`[getUserProfile] Fetching profile for user: ${username}`);
+
   // If no GitHub token is available, return mock data
   if (!GITHUB_ACCESS_TOKEN) {
-    console.log("Using mock GitHub profile data (no token available)");
+    console.log(
+      `[getUserProfile] Using mock GitHub profile data (no token available)`
+    );
     return mockUserProfile;
   }
 
@@ -118,6 +171,13 @@ export async function getUserProfile(username: string) {
     };
   }>(query, { username });
 
+  console.log(`[getUserProfile] Profile data retrieved for ${username}`, {
+    hasUser: !!data.user,
+    name: data.user?.name,
+    followers: data.user?.followers?.totalCount,
+    following: data.user?.following?.totalCount,
+  });
+
   return data.user;
 }
 
@@ -125,9 +185,15 @@ export async function getUserProfile(username: string) {
  * Get user contribution data for the contribution graph
  */
 export async function getUserContributions(username: string) {
+  console.log(
+    `[getUserContributions] Fetching contributions for user: ${username}`
+  );
+
   // If no GitHub token is available, return mock data
   if (!GITHUB_ACCESS_TOKEN) {
-    console.log("Using mock GitHub contribution data (no token available)");
+    console.log(
+      `[getUserContributions] Using mock GitHub contribution data (no token available)`
+    );
     return mockContributionCalendar;
   }
 
@@ -135,6 +201,10 @@ export async function getUserContributions(username: string) {
   const fromDate = new Date();
   fromDate.setFullYear(fromDate.getFullYear() - 1);
   const fromDateString = fromDate.toISOString(); // Use the full ISO string with time component
+
+  console.log(
+    `[getUserContributions] Fetching contributions from ${fromDateString}`
+  );
 
   const query = `
     query GetUserContributions($username: String!, $from: DateTime!) {
@@ -172,7 +242,18 @@ export async function getUserContributions(username: string) {
     };
   }>(query, { username, from: fromDateString });
 
-  return data.user.contributionsCollection.contributionCalendar;
+  const contributionData =
+    data.user.contributionsCollection.contributionCalendar;
+  console.log(
+    `[getUserContributions] Contribution data retrieved for ${username}`,
+    {
+      totalContributions: contributionData?.totalContributions,
+      weeksCount: contributionData?.weeks?.length,
+      dateRange: `${fromDateString} to ${new Date().toISOString()}`,
+    }
+  );
+
+  return contributionData;
 }
 
 // Add this new function to fetch user activity data
@@ -181,9 +262,13 @@ export async function getUserContributions(username: string) {
  * Get user's recent activity (commits, PRs, issues)
  */
 export async function getUserActivity(username: string) {
+  console.log(`[getUserActivity] Fetching activity for user: ${username}`);
+
   // If no GitHub token is available, return mock data
   if (!GITHUB_ACCESS_TOKEN) {
-    console.log("Using mock GitHub activity data (no token available)");
+    console.log(
+      `[getUserActivity] Using mock GitHub activity data (no token available)`
+    );
     return mockUserActivity;
   }
 
@@ -301,5 +386,14 @@ export async function getUserActivity(username: string) {
     };
   }>(query, { username });
 
-  return data.user.contributionsCollection;
+  const activityData = data.user.contributionsCollection;
+  console.log(`[getUserActivity] Activity data retrieved for ${username}`, {
+    commitRepos: activityData?.commitContributionsByRepository?.length,
+    totalPRs: activityData?.pullRequestContributions?.totalCount,
+    totalIssues: activityData?.issueContributions?.totalCount,
+    recentPRs: activityData?.pullRequestContributions?.nodes?.length,
+    recentIssues: activityData?.issueContributions?.nodes?.length,
+  });
+
+  return activityData;
 }
