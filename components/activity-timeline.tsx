@@ -11,8 +11,14 @@ interface GitHubRepository {
   nameWithOwner: string;
 }
 
+interface CommitNode {
+  occurredAt: string;
+  commitCount: number;
+}
+
 interface CommitContributions {
   totalCount: number;
+  nodes: CommitNode[];
 }
 
 interface CommitContributionsByRepository {
@@ -71,7 +77,11 @@ interface GitHubActivityData {
 interface ActivityItem {
   type: "commit" | "pullRequest" | "issue";
   date: string;
-  data: any;
+  data: CommitActivityData | PullRequestContribution | IssueContribution;
+}
+
+interface CommitActivityData extends CommitContributionsByRepository {
+  commitNode: CommitNode;
 }
 
 // New type for grouped activity items
@@ -115,12 +125,17 @@ export default function ActivityTimeline({
   // Combine all activities into a single array with type and date
   const allActivities: ActivityItem[] = [];
 
-  // Add commits (using current date since the API doesn't provide specific dates for commits)
+  // Add commits (flatten individual commit nodes from each repository)
   commitContributionsByRepository.forEach((repo) => {
-    allActivities.push({
-      type: "commit",
-      date: new Date().toISOString(), // Using current date as a fallback
-      data: repo,
+    repo.contributions.nodes.forEach((commitNode) => {
+      allActivities.push({
+        type: "commit",
+        date: commitNode.occurredAt,
+        data: {
+          ...repo,
+          commitNode, // Include the specific commit node data
+        },
+      });
     });
   });
 
@@ -166,11 +181,11 @@ export default function ActivityTimeline({
     }
   });
 
-  // Calculate total counts for grouped items
+  // Calculate total commits for grouped items (sum up individual commitCount from nodes)
   const getTotalCommits = (items: ActivityItem[]) => {
     return items.reduce((total, item) => {
-      const repo = item.data as CommitContributionsByRepository;
-      return total + repo.contributions.totalCount;
+      const commitData = item.data as CommitActivityData;
+      return total + commitData.commitNode.commitCount;
     }, 0);
   };
 
@@ -192,7 +207,13 @@ export default function ActivityTimeline({
           switch (group.type) {
             case "commit":
               const commitCount = getTotalCommits(group.items);
-              const repoCount = group.items.length;
+              const uniqueRepos = new Set(
+                group.items.map((item) => {
+                  const commitData = item.data as CommitActivityData;
+                  return commitData.repository.nameWithOwner;
+                })
+              );
+              const repoCount = uniqueRepos.size;
 
               return (
                 <div key={`commit-group-${index}`} className="flex">
@@ -214,42 +235,44 @@ export default function ActivityTimeline({
                       </h4>
                       <div className="flex items-center text-xs text-gray-400">
                         <Calendar className="w-3 h-3 mr-1" />
-                        <span>Recent</span>
+                        <span>{formatDate(group.date)}</span>
                       </div>
                     </div>
                     <div className="mt-2 space-y-2">
-                      {group.items.map((activity, activityIndex) => {
-                        const repo =
-                          activity.data as CommitContributionsByRepository;
+                      {/* Group commits by repository for display */}
+                      {Array.from(uniqueRepos).map((repoName) => {
+                        const repoCommits = group.items.filter((item) => {
+                          const commitData = item.data as CommitActivityData;
+                          return commitData.repository.nameWithOwner === repoName;
+                        });
+                        const repoData = repoCommits[0].data as CommitActivityData;
+                        const totalRepoCommits = repoCommits.reduce((sum, item) => {
+                          const commitData = item.data as CommitActivityData;
+                          return sum + commitData.commitNode.commitCount;
+                        }, 0);
+
                         return (
                           <div
-                            key={`commit-${activityIndex}`}
+                            key={`commit-repo-${repoName}`}
                             className="p-3 border border-gray-700 rounded-md bg-[#161b22]"
                           >
                             <div className="flex items-center text-sm">
                               <a
-                                href={repo.repository.url}
+                                href={repoData.repository.url}
                                 className="text-blue-400 hover:underline"
                               >
-                                {repo.repository.nameWithOwner}
+                                {repoData.repository.nameWithOwner}
                               </a>
                               <span className="ml-auto text-gray-400 text-xs">
-                                {repo.contributions.totalCount}{" "}
-                                {formatPlural(
-                                  repo.contributions.totalCount,
-                                  "commit",
-                                  "commits"
-                                )}
+                                {totalRepoCommits}{" "}
+                                {formatPlural(totalRepoCommits, "commit", "commits")}
                               </span>
                             </div>
                             <div className="w-full bg-gray-700 h-2 rounded-full mt-2 overflow-hidden">
                               <div
                                 className="bg-green-500 h-full"
                                 style={{
-                                  width: `${Math.min(
-                                    100,
-                                    (repo.contributions.totalCount / 10) * 100
-                                  )}%`,
+                                  width: `${Math.min(100, (totalRepoCommits / 10) * 100)}%`,
                                 }}
                               ></div>
                             </div>
@@ -286,7 +309,7 @@ export default function ActivityTimeline({
                           new Set(
                             group.items.map(
                               (item) =>
-                                item.data.pullRequest.repository.nameWithOwner
+                                (item.data as PullRequestContribution).pullRequest.repository.nameWithOwner
                             )
                           ).size
                         }{" "}
@@ -294,7 +317,7 @@ export default function ActivityTimeline({
                           new Set(
                             group.items.map(
                               (item) =>
-                                item.data.pullRequest.repository.nameWithOwner
+                                (item.data as PullRequestContribution).pullRequest.repository.nameWithOwner
                             )
                           ).size,
                           "repository",
@@ -308,7 +331,7 @@ export default function ActivityTimeline({
                     </div>
                     <div className="mt-2 space-y-2">
                       {group.items.map((activity, activityIndex) => {
-                        const pr = activity.data.pullRequest;
+                        const pr = (activity.data as PullRequestContribution).pullRequest;
                         return (
                           <div
                             key={`pr-${activityIndex}`}
@@ -386,14 +409,14 @@ export default function ActivityTimeline({
                         {
                           new Set(
                             group.items.map(
-                              (item) => item.data.issue.repository.nameWithOwner
+                              (item) => (item.data as IssueContribution).issue.repository.nameWithOwner
                             )
                           ).size
                         }{" "}
                         {formatPlural(
                           new Set(
                             group.items.map(
-                              (item) => item.data.issue.repository.nameWithOwner
+                              (item) => (item.data as IssueContribution).issue.repository.nameWithOwner
                             )
                           ).size,
                           "repository",
@@ -407,7 +430,7 @@ export default function ActivityTimeline({
                     </div>
                     <div className="mt-2 space-y-2">
                       {group.items.map((activity, activityIndex) => {
-                        const issue = activity.data.issue;
+                        const issue = (activity.data as IssueContribution).issue;
                         return (
                           <div
                             key={`issue-${activityIndex}`}
