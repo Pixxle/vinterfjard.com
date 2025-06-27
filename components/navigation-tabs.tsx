@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { Menu } from "lucide-react";
+import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   DropdownMenu,
@@ -30,6 +31,7 @@ export default function NavigationTabs({ contributions }: NavigationTabsProps) {
     { href: "#experience", label: "Experience", count: 7 },
     { href: "#contributions", label: "Contributions", count: contributions },
     { href: "#projects", label: "Projects", count: 2 },
+    { href: "/gists", label: "Gists" },
   ];
 
   const handleNavClick = (href: string) => {
@@ -38,13 +40,16 @@ export default function NavigationTabs({ contributions }: NavigationTabsProps) {
       dropdownRef.current.click();
     }
 
-    // Scroll to the element
-    const element = document.querySelector(href);
-    if (element) {
-      setTimeout(() => {
-        element.scrollIntoView({ behavior: "smooth" });
-      }, 200); // Small delay to allow the dropdown to close
+    // Only handle scroll for hash links (internal page sections)
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 200); // Small delay to allow the dropdown to close
+      }
     }
+    // Route links (like /gists) will be handled by Next.js Link component
   };
 
   return (
@@ -61,43 +66,85 @@ export default function NavigationTabs({ contributions }: NavigationTabsProps) {
               </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent>
-              {navItems.map((item) => (
-                <DropdownMenuItem
-                  key={item.href}
-                  className="cursor-pointer"
-                  onClick={() => handleNavClick(item.href)}
-                >
-                  {item.label}
-                  {item.count !== undefined && (
-                    <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
-                      {item.count}
-                    </span>
-                  )}
-                </DropdownMenuItem>
-              ))}
+              {navItems.map((item) => {
+                const dropdownContent = (
+                  <>
+                    {item.label}
+                    {item.count !== undefined && (
+                      <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
+                        {item.count}
+                      </span>
+                    )}
+                  </>
+                );
+
+                // Use Link component for route navigation
+                if (item.href.startsWith('/')) {
+                  return (
+                    <Link key={item.href} href={item.href}>
+                      <DropdownMenuItem className="cursor-pointer">
+                        {dropdownContent}
+                      </DropdownMenuItem>
+                    </Link>
+                  );
+                } else {
+                  return (
+                    <DropdownMenuItem
+                      key={item.href}
+                      className="cursor-pointer"
+                      onClick={() => handleNavClick(item.href)}
+                    >
+                      {dropdownContent}
+                    </DropdownMenuItem>
+                  );
+                }
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
       ) : (
         <nav className="flex overflow-x-auto">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`px-4 py-2 ${
-                item.active
-                  ? "border-b-2 border-[#f78166] font-medium"
-                  : "text-gray-400 hover:text-gray-200"
-              }`}
-            >
-              {item.label}{" "}
-              {item.count !== undefined && (
-                <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
-                  {item.count}
-                </span>
-              )}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const linkContent = (
+              <>
+                {item.label}{" "}
+                {item.count !== undefined && (
+                  <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
+                    {item.count}
+                  </span>
+                )}
+              </>
+            );
+            
+            const linkClasses = `px-4 py-2 ${
+              item.active
+                ? "border-b-2 border-[#f78166] font-medium"
+                : "text-gray-400 hover:text-gray-200"
+            }`;
+
+            // Use Link component for route navigation, anchor tag for hash links
+            if (item.href.startsWith('/')) {
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={linkClasses}
+                >
+                  {linkContent}
+                </Link>
+              );
+            } else {
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={linkClasses}
+                >
+                  {linkContent}
+                </a>
+              );
+            }
+          })}
         </nav>
       )}
     </div>
