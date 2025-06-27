@@ -11,6 +11,11 @@ interface GistPageProps {
   };
 }
 
+interface CodeProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
 export default async function GistPage({ params }: GistPageProps) {
   const gist = getGistBySlug(params.slug);
 
@@ -179,8 +184,13 @@ export default async function GistPage({ params }: GistPageProps) {
                 <hr className="my-8 border-gray-700" />
               ),
               // Custom styling for code blocks
-              code: ({ inline, className, children, ...props }) => {
-                if (inline) {
+              code: ({ className, children, ...props }: CodeProps) => {
+                // Detect if it's a code block vs inline code
+                const isCodeBlock = /language-(\w+)/.test(className || '') || 
+                                    String(children).includes('\n');
+                
+                if (!isCodeBlock) {
+                  // Inline code
                   return (
                     <code
                       className="bg-gray-800 px-2 py-1 rounded text-sm font-mono text-gray-200"
@@ -190,12 +200,14 @@ export default async function GistPage({ params }: GistPageProps) {
                     </code>
                   );
                 }
+                
+                // Block code
                 return (
-                  <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto my-4 border border-gray-700">
-                    <code className={`${className} text-gray-200 font-mono text-sm`} {...props}>
+                  <div className="bg-gray-900 p-4 rounded-lg overflow-x-auto my-4 border border-gray-700">
+                    <code className={`${className} text-gray-200 font-mono text-sm block whitespace-pre-wrap`} {...props}>
                       {children}
                     </code>
-                  </pre>
+                  </div>
                 );
               },
               // Custom styling for blockquotes

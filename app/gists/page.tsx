@@ -3,6 +3,11 @@ import ReactMarkdown from "react-markdown";
 import { getAllGists } from "@/lib/gists";
 import SharedLayout from "@/components/shared-layout";
 
+interface CodeProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
 export default async function GistsPage() {
   const gists = getAllGists();
 
@@ -66,39 +71,39 @@ export default async function GistsPage() {
                 </div>
               </header>
 
-              <div className="prose prose-invert max-w-none">
+              <div className="prose prose-invert max-w-none overflow-hidden">
                 <ReactMarkdown
                   components={{
                     // All headers rendered as bold text
                     h1: ({ children }) => (
-                      <h3 className="font-bold text-gray-200 mb-2">
+                      <p className="font-bold text-white mb-2 break-words">
                         {children}
-                      </h3>
+                      </p>
                     ),
                     h2: ({ children }) => (
-                      <h3 className="font-bold text-gray-200 mb-2">
+                      <p className="font-bold text-white mb-2 break-words">
                         {children}
-                      </h3>
+                      </p>
                     ),
                     h3: ({ children }) => (
-                      <h1 className="font-bold text-gray-200 mb-2">
+                      <p className="font-bold text-white mb-2 break-words">
                         {children}
-                      </h1>
+                      </p>
                     ),
                     h4: ({ children }) => (
-                      <h4 className="font-bold text-gray-200 mb-2">
+                      <p className="font-bold text-white mb-2 break-words">
                         {children}
-                      </h4>
+                      </p>
                     ),
                     h5: ({ children }) => (
-                      <h5 className="font-bold text-gray-200 mb-2">
+                      <p className="font-bold text-white mb-2 break-words">
                         {children}
-                      </h5>
+                      </p>
                     ),
                     h6: ({ children }) => (
-                      <h6 className="font-bold text-gray-200 mb-2">
+                      <p className="font-bold text-white mb-2 break-words">
                         {children}
-                      </h6>
+                      </p>
                     ),
                     // Text formatting
                     strong: ({ children }) => (
@@ -109,24 +114,41 @@ export default async function GistsPage() {
                     em: ({ children }) => (
                       <em className="italic text-gray-200">{children}</em>
                     ),
-                    // Code styling
-                    code: ({ children, ...props }) => {
-                      return (
-                        <pre className="bg-gray-900 p-3 rounded overflow-x-auto my-2">
+                    // Code styling - handle both inline and block
+                    code: ({ className, children, ...props }: CodeProps) => {
+                      // Detect if it's a code block vs inline code
+                      const isCodeBlock = /language-(\w+)/.test(className || '') || 
+                                          String(children).includes('\n');
+                      
+                      if (!isCodeBlock) {
+                        // Inline code
+                        return (
                           <code
-                            className="text-gray-200 font-mono text-sm"
+                            className="bg-gray-800 px-1 py-0.5 rounded text-sm font-mono text-gray-200 break-all"
                             {...props}
                           >
                             {children}
                           </code>
-                        </pre>
+                        );
+                      }
+                      
+                      // Block code
+                      return (
+                        <div className="bg-gray-900 p-3 rounded overflow-x-auto my-2 text-sm">
+                          <code
+                            className="text-gray-200 font-mono break-words whitespace-pre-wrap block"
+                            {...props}
+                          >
+                            {children}
+                          </code>
+                        </div>
                       );
                     },
                     // Links
                     a: ({ href, children }) => (
                       <a
                         href={href}
-                        className="text-blue-400 hover:text-blue-300 hover:underline"
+                        className="text-blue-400 hover:text-blue-300 hover:underline break-words"
                         target={href?.startsWith("http") ? "_blank" : undefined}
                         rel={
                           href?.startsWith("http")
@@ -137,11 +159,27 @@ export default async function GistsPage() {
                         {children}
                       </a>
                     ),
-                    // Paragraphs
+                    // Paragraphs with proper wrapping
                     p: ({ children }) => (
-                      <p className="mb-2 text-gray-300 leading-relaxed">
+                      <p className="mb-2 text-gray-300 leading-relaxed break-words">
                         {children}
                       </p>
+                    ),
+                    // Lists with proper wrapping
+                    ul: ({ children }) => (
+                      <ul className="list-disc pl-4 mb-2 space-y-1 text-gray-300">
+                        {children}
+                      </ul>
+                    ),
+                    ol: ({ children }) => (
+                      <ol className="list-decimal pl-4 mb-2 space-y-1 text-gray-300">
+                        {children}
+                      </ol>
+                    ),
+                    li: ({ children }) => (
+                      <li className="text-gray-300 leading-relaxed break-words">
+                        {children}
+                      </li>
                     ),
                   }}
                 >
