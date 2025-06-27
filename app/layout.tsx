@@ -8,7 +8,7 @@ import { Analytics } from "@/components/analytics";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Dennis Vinterfjärd Resume",
+  title: "👋",
   description: "A GitHub-inspired resume",
   icons: {
     icon: "/favicon.png",
@@ -29,9 +29,7 @@ export default async function RootLayout({
           <PostHogProviderClient>
             <Analytics />
             <div className="min-h-screen bg-[#0d1117] text-white">
-              <div className="max-w-6xl mx-auto px-4 py-6">
-                {children}
-              </div>
+              <div className="max-w-6xl mx-auto px-4 py-6">{children}</div>
             </div>
           </PostHogProviderClient>
         </ThemeProvider>
