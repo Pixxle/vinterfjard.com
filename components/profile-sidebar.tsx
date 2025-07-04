@@ -120,24 +120,6 @@ export default function ProfileSidebar({ profile }: ProfileSidebarProps) {
           </a>
         </div>
       </div>
-
-      <div className="mb-4">
-        <h2 className="text-base font-medium mb-2">Achievements</h2>
-        <div className="flex flex-wrap gap-2">
-          <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
-            <span className="text-xs">🏆</span>
-          </div>
-          <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
-            <span className="text-xs">⭐</span>
-          </div>
-          <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
-            <span className="text-xs">🚀</span>
-          </div>
-          <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center">
-            <span className="text-xs">🎯</span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
