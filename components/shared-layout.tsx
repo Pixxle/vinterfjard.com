@@ -1,10 +1,7 @@
 import ProfileSidebar from "@/components/profile-sidebar";
 import NavigationTabs from "@/components/navigation-tabs";
 import MockDataDetector from "@/components/mock-data-detector";
-import {
-  getUserProfile,
-  getUserContributions,
-} from "@/lib/github";
+import { getUserProfile, getUserContributions } from "@/lib/github";
 import { getAllGists } from "@/lib/gists";
 import { GITHUB_USERNAME } from "@/lib/env";
 
@@ -13,9 +10,9 @@ interface SharedLayoutProps {
   showNavigation?: boolean;
 }
 
-export default async function SharedLayout({ 
-  children, 
-  showNavigation = true 
+export default async function SharedLayout({
+  children,
+  showNavigation = true,
 }: SharedLayoutProps) {
   // Fetch GitHub data
   let profile;
@@ -54,7 +51,10 @@ export default async function SharedLayout({
         {/* Main content */}
         <div className="flex-1">
           {showNavigation && (
-            <NavigationTabs contributions={totalContributions} gistCount={gistCount} />
+            <NavigationTabs
+              contributions={totalContributions}
+              gistCount={gistCount}
+            />
           )}
           {children}
         </div>

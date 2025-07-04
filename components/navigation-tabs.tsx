@@ -24,14 +24,17 @@ interface NavItem {
   active?: boolean;
 }
 
-export default function NavigationTabs({ contributions, gistCount }: NavigationTabsProps) {
+export default function NavigationTabs({
+  contributions,
+  gistCount,
+}: NavigationTabsProps) {
   const isMobile = useIsMobile();
   const dropdownRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   // Determine which tab should be active based on current pathname
-  const isGistsPage = pathname.startsWith('/gists');
-  const isHomePage = pathname === '/';
+  const isGistsPage = pathname.startsWith("/gists");
+  const isHomePage = pathname === "/";
 
   // Helper function to create proper href for hash links
   const getHref = (hash: string) => {
@@ -41,7 +44,11 @@ export default function NavigationTabs({ contributions, gistCount }: NavigationT
   const navItems: NavItem[] = [
     { href: getHref("#overview"), label: "Overview", active: isHomePage },
     { href: getHref("#experience"), label: "Experience", count: 7 },
-    { href: getHref("#contributions"), label: "Contributions", count: contributions },
+    {
+      href: getHref("#contributions"),
+      label: "Contributions",
+      count: contributions,
+    },
     { href: getHref("#projects"), label: "Projects", count: 2 },
     { href: "/gists", label: "Gists", count: gistCount, active: isGistsPage },
   ];
@@ -53,7 +60,7 @@ export default function NavigationTabs({ contributions, gistCount }: NavigationT
     }
 
     // Only handle scroll for hash links (internal page sections)
-    if (href.startsWith('#')) {
+    if (href.startsWith("#")) {
       const element = document.querySelector(href);
       if (element) {
         setTimeout(() => {
@@ -91,7 +98,7 @@ export default function NavigationTabs({ contributions, gistCount }: NavigationT
                 );
 
                 // Use Link component for route navigation
-                if (item.href.startsWith('/')) {
+                if (item.href.startsWith("/")) {
                   return (
                     <Link key={item.href} href={item.href}>
                       <DropdownMenuItem className="cursor-pointer">
@@ -127,7 +134,7 @@ export default function NavigationTabs({ contributions, gistCount }: NavigationT
                 )}
               </>
             );
-            
+
             const linkClasses = `px-4 py-2 ${
               item.active
                 ? "border-b-2 border-[#f78166] font-medium"
@@ -135,23 +142,15 @@ export default function NavigationTabs({ contributions, gistCount }: NavigationT
             }`;
 
             // Use Link component for route navigation, anchor tag for hash links
-            if (item.href.startsWith('/')) {
+            if (item.href.startsWith("/")) {
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={linkClasses}
-                >
+                <Link key={item.href} href={item.href} className={linkClasses}>
                   {linkContent}
                 </Link>
               );
             } else {
               return (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={linkClasses}
-                >
+                <a key={item.href} href={item.href} className={linkClasses}>
                   {linkContent}
                 </a>
               );

@@ -51,22 +51,25 @@ export default function ContributionGraph({
     const oneYearAgo = new Date(today);
     oneYearAgo.setFullYear(today.getFullYear() - 1);
     oneYearAgo.setDate(oneYearAgo.getDate() + 1); // Start from day after 1 year ago
-    
+
     // Find the Sunday of the week containing oneYearAgo (to start the grid properly)
     const startDate = new Date(oneYearAgo);
     const dayOfWeek = startDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
     startDate.setDate(startDate.getDate() - dayOfWeek);
-    
+
     // Find the Saturday of the week containing today (to end the grid properly)
     const endDate = new Date(today);
     const endDayOfWeek = endDate.getDay();
     const daysUntilSaturday = 6 - endDayOfWeek; // Saturday = 6
     endDate.setDate(endDate.getDate() + daysUntilSaturday);
-    
+
     // Calculate total days and create a complete day map
-    const totalDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+    const totalDays =
+      Math.ceil(
+        (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+      ) + 1;
     const dayMap = new Map<string, ContributionDay>();
-    
+
     // Process GitHub contribution data
     if (contributions?.weeks) {
       contributions.weeks.forEach((week) => {
@@ -99,15 +102,15 @@ export default function ContributionGraph({
         });
       });
     }
-    
+
     // Create the complete grid data with proper alignment
     const transformedData: ContributionDay[] = [];
     const currentDate = new Date(startDate);
-    
+
     for (let i = 0; i < totalDays; i++) {
-      const dateString = currentDate.toISOString().split('T')[0];
+      const dateString = currentDate.toISOString().split("T")[0];
       const existingData = dayMap.get(dateString);
-      
+
       if (existingData) {
         transformedData.push(existingData);
       } else {
@@ -118,7 +121,7 @@ export default function ContributionGraph({
           level: 0,
         });
       }
-      
+
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
@@ -189,7 +192,7 @@ export default function ContributionGraph({
                   key={i}
                   className={`w-3 h-3 rounded-sm ${getColorForLevel(
                     day.level
-                  )} ${isFuture ? 'opacity-0' : ''}`}
+                  )} ${isFuture ? "opacity-0" : ""}`}
                   title={
                     !isFuture && day.date
                       ? `${day.count} contributions on ${formatDate(day.date)}`

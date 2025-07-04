@@ -43,4 +43,3 @@ Forget perfection. Focus on clarity.
 The game has changed. And it's only just beginning.
 
 To me, this shift feels as big as the **birth of the internet**. Maybe even bigger.
-
