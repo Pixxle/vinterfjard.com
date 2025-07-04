@@ -32,10 +32,10 @@ Rather than just patching things, we decided to use this opportunity to invest i
 
 Consolidating our code into a single repository offers multiple benefits:
 
-* **Shared models**: A service that publishes a message and a service that consumes it can rely on the exact same model. No more mismatched contracts.
-* **End-to-end traceability**: With shared telemetry and event structures, we can follow a request across services and see exactly what happens, from API call to database write.
-* **Improved developer experience**: It's rare that we work on a single isolated service. More often than not, we need to coordinate changes across multiple services. Running those locally in tandem can be painful. With a mono-repo, we can create a robust `docker-compose` setup where any developer can spin up the full system locally. Services, dependencies, databases, everything, and get a fully functioning environment within minutes.
-* **AI agent visibility**: With a monorepo, our agents can reason about the entire system in one go, rather than operating in silos. This opens up entirely new possibilities: holistic code reviews, better understanding of service interactions, and more accurate automated refactoring suggestions. Instead of acting like a plugin for a single service, AI agents can start acting like true system architects. The more context they have, the smarter and more helpful they become.
+- **Shared models**: A service that publishes a message and a service that consumes it can rely on the exact same model. No more mismatched contracts.
+- **End-to-end traceability**: With shared telemetry and event structures, we can follow a request across services and see exactly what happens, from API call to database write.
+- **Improved developer experience**: It's rare that we work on a single isolated service. More often than not, we need to coordinate changes across multiple services. Running those locally in tandem can be painful. With a mono-repo, we can create a robust `docker-compose` setup where any developer can spin up the full system locally. Services, dependencies, databases, everything, and get a fully functioning environment within minutes.
+- **AI agent visibility**: With a monorepo, our agents can reason about the entire system in one go, rather than operating in silos. This opens up entirely new possibilities: holistic code reviews, better understanding of service interactions, and more accurate automated refactoring suggestions. Instead of acting like a plugin for a single service, AI agents can start acting like true system architects. The more context they have, the smarter and more helpful they become.
 
 ## Looking Ahead
 
@@ -46,4 +46,3 @@ We're building systems that are not only easier for humans to work with, but als
 This isn’t just an upgrade. It’s the beginning of a very different way of writing and maintaining software.
 
 And I couldn’t be more excited about it.
-
