@@ -49,6 +49,9 @@ export async function executeGitHubGraphQL<T>(
         query,
         variables,
       }),
+      next: {
+        revalidate: 3600, // Cache for 1 hour
+      },
     });
 
     const duration = Date.now() - startTime;
