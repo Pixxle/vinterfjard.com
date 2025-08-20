@@ -7,10 +7,7 @@ import LanguagesCertificationsAwards from "@/components/languages-certifications
 import ReadmeSection from "@/components/readme-section";
 import WorkExperienceSection from "@/components/work-experience-section";
 import SharedLayout from "@/components/shared-layout";
-import {
-  getUserContributions,
-  getUserActivity,
-} from "@/lib/github";
+import { getUserContributions, getUserActivity } from "@/lib/github";
 import { GITHUB_USERNAME } from "@/lib/env";
 
 // Contributions section component
@@ -113,10 +110,6 @@ export default async function Home() {
       <div id="experience">
         <WorkExperienceSection />
       </div>
-      <div id="contributions">
-        <ContributionsSection contributions={safeContributions} />
-      </div>
-      <ActivitySection />
       <EducationSection />
       <div id="projects">
         <ProjectsSection />
@@ -124,6 +117,10 @@ export default async function Home() {
       <div id="skills">
         <LanguagesCertificationsAwards />
       </div>
+      <div id="contributions">
+        <ContributionsSection contributions={safeContributions} />
+      </div>
+      <ActivitySection />
     </SharedLayout>
   );
 }
