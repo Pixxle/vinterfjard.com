@@ -44,12 +44,12 @@ export default function NavigationTabs({
   const navItems: NavItem[] = [
     { href: getHref("#overview"), label: "Overview", active: isHomePage },
     { href: getHref("#experience"), label: "Experience", count: 7 },
+    { href: getHref("#projects"), label: "Projects", count: 2 },
     {
       href: getHref("#contributions"),
       label: "Contributions",
       count: contributions,
     },
-    { href: getHref("#projects"), label: "Projects", count: 2 },
     { href: "/gists", label: "Gists", count: gistCount, active: isGistsPage },
   ];
 
