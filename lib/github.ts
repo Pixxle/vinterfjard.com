@@ -1,14 +1,10 @@
-"use server";
+'use server';
 
 // Import directly from process.env as we are in a server component
 const GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN;
-import {
-  mockUserProfile,
-  mockContributionCalendar,
-  mockUserActivity,
-} from "./mock-github-data";
+import { mockUserProfile, mockContributionCalendar, mockUserActivity } from './mock-github-data';
 
-const GITHUB_API_URL = "https://api.github.com/graphql";
+const GITHUB_API_URL = 'https://api.github.com/graphql';
 
 /**
  * Execute a GraphQL query against the GitHub API
@@ -18,7 +14,7 @@ export async function executeGitHubGraphQL<T>(
   variables: Record<string, unknown> = {}
 ): Promise<T> {
   const requestId = Math.random().toString(36).substring(2, 8);
-  const operationName = query.match(/query\s+(\w+)/)?.[1] || "UnknownOperation";
+  const operationName = query.match(/query\s+(\w+)/)?.[1] || 'UnknownOperation';
 
   console.log(`[GitHub API ${requestId}] Starting ${operationName} request`, {
     variables,
@@ -38,9 +34,9 @@ export async function executeGitHubGraphQL<T>(
 
   try {
     const response = await fetch(GITHUB_API_URL, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...(GITHUB_ACCESS_TOKEN && {
           Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
         }),
@@ -55,21 +51,16 @@ export async function executeGitHubGraphQL<T>(
     });
 
     const duration = Date.now() - startTime;
-    console.log(
-      `[GitHub API ${requestId}] Request completed in ${duration}ms`,
-      {
-        status: response.status,
-        statusText: response.statusText,
-        headers: {
-          "x-ratelimit-limit": response.headers.get("x-ratelimit-limit"),
-          "x-ratelimit-remaining": response.headers.get(
-            "x-ratelimit-remaining"
-          ),
-          "x-ratelimit-reset": response.headers.get("x-ratelimit-reset"),
-          "x-ratelimit-used": response.headers.get("x-ratelimit-used"),
-        },
-      }
-    );
+    console.log(`[GitHub API ${requestId}] Request completed in ${duration}ms`, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: {
+        'x-ratelimit-limit': response.headers.get('x-ratelimit-limit'),
+        'x-ratelimit-remaining': response.headers.get('x-ratelimit-remaining'),
+        'x-ratelimit-reset': response.headers.get('x-ratelimit-reset'),
+        'x-ratelimit-used': response.headers.get('x-ratelimit-used'),
+      },
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -118,10 +109,7 @@ export async function executeGitHubGraphQL<T>(
     return data.data as T;
   } catch (error) {
     const duration = Date.now() - startTime;
-    console.error(
-      `[GitHub API ${requestId}] Request failed after ${duration}ms:`,
-      error
-    );
+    console.error(`[GitHub API ${requestId}] Request failed after ${duration}ms:`, error);
     throw error;
   }
 }
@@ -134,9 +122,7 @@ export async function getUserProfile(username: string) {
 
   // If no GitHub token is available, return mock data
   if (!GITHUB_ACCESS_TOKEN) {
-    console.log(
-      `[getUserProfile] Using mock GitHub profile data (no token available)`
-    );
+    console.log(`[getUserProfile] Using mock GitHub profile data (no token available)`);
     return mockUserProfile;
   }
 
@@ -188,15 +174,11 @@ export async function getUserProfile(username: string) {
  * Get user contribution data for the contribution graph
  */
 export async function getUserContributions(username: string) {
-  console.log(
-    `[getUserContributions] Fetching contributions for user: ${username}`
-  );
+  console.log(`[getUserContributions] Fetching contributions for user: ${username}`);
 
   // If no GitHub token is available, return mock data
   if (!GITHUB_ACCESS_TOKEN) {
-    console.log(
-      `[getUserContributions] Using mock GitHub contribution data (no token available)`
-    );
+    console.log(`[getUserContributions] Using mock GitHub contribution data (no token available)`);
     return mockContributionCalendar;
   }
 
@@ -205,9 +187,7 @@ export async function getUserContributions(username: string) {
   fromDate.setFullYear(fromDate.getFullYear() - 1);
   const fromDateString = fromDate.toISOString(); // Use the full ISO string with time component
 
-  console.log(
-    `[getUserContributions] Fetching contributions from ${fromDateString}`
-  );
+  console.log(`[getUserContributions] Fetching contributions from ${fromDateString}`);
 
   const query = `
     query GetUserContributions($username: String!, $from: DateTime!) {
@@ -245,16 +225,12 @@ export async function getUserContributions(username: string) {
     };
   }>(query, { username, from: fromDateString });
 
-  const contributionData =
-    data.user.contributionsCollection.contributionCalendar;
-  console.log(
-    `[getUserContributions] Contribution data retrieved for ${username}`,
-    {
-      totalContributions: contributionData?.totalContributions,
-      weeksCount: contributionData?.weeks?.length,
-      dateRange: `${fromDateString} to ${new Date().toISOString()}`,
-    }
-  );
+  const contributionData = data.user.contributionsCollection.contributionCalendar;
+  console.log(`[getUserContributions] Contribution data retrieved for ${username}`, {
+    totalContributions: contributionData?.totalContributions,
+    weeksCount: contributionData?.weeks?.length,
+    dateRange: `${fromDateString} to ${new Date().toISOString()}`,
+  });
 
   return contributionData;
 }
@@ -269,9 +245,7 @@ export async function getUserActivity(username: string) {
 
   // If no GitHub token is available, return mock data
   if (!GITHUB_ACCESS_TOKEN) {
-    console.log(
-      `[getUserActivity] Using mock GitHub activity data (no token available)`
-    );
+    console.log(`[getUserActivity] Using mock GitHub activity data (no token available)`);
     return mockUserActivity;
   }
 

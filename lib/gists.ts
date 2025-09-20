@@ -29,8 +29,8 @@ export function getAllGists(): Gist[] {
 
   const fileNames = fs.readdirSync(gistsDirectory);
   const allGists = fileNames
-    .filter((name) => name.endsWith('.md'))
-    .map((name) => {
+    .filter(name => name.endsWith('.md'))
+    .map(name => {
       const slug = name.replace(/\.md$/, '');
       return getGistBySlug(slug);
     })
@@ -45,7 +45,7 @@ export function getAllGists(): Gist[] {
 export function getGistBySlug(slug: string): Gist | null {
   try {
     const fullPath = path.join(gistsDirectory, `${slug}.md`);
-    
+
     if (!fs.existsSync(fullPath)) {
       return null;
     }
@@ -81,7 +81,5 @@ export function getGistSlugs(): string[] {
   }
 
   const fileNames = fs.readdirSync(gistsDirectory);
-  return fileNames
-    .filter((name) => name.endsWith('.md'))
-    .map((name) => name.replace(/\.md$/, ''));
+  return fileNames.filter(name => name.endsWith('.md')).map(name => name.replace(/\.md$/, ''));
 }

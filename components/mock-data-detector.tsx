@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { GitHubTokenWarning } from "@/components/github-token-warning";
+import { useEffect, useState } from 'react';
+import { GitHubTokenWarning } from '@/components/github-token-warning';
 
 export default function MockDataDetector({
   children,
@@ -17,7 +17,7 @@ export default function MockDataDetector({
 
   // Check if we're using mock data by examining the profile
   useEffect(() => {
-    if (profile && profile.login === "demo-user") {
+    if (profile && profile.login === 'demo-user') {
       setIsMockData(true);
     }
   }, [profile]);

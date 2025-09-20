@@ -1,7 +1,7 @@
 ---
-title: "Rust in the AI Era: The Backend Language of the Future?"
-date: "2025-07-05"
-tags: ["ai", "future"]
+title: 'Rust in the AI Era: The Backend Language of the Future?'
+date: '2025-07-05'
+tags: ['ai', 'future']
 ---
 
 I’ve been thinking about this for a while now, and after a few in-office discussions with a coworker, I’m becoming increasingly convinced: Rust might just be _the_ backend language for the AI era.

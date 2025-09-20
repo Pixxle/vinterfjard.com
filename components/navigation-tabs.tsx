@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
-import { Menu } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useRef } from 'react';
+import { Menu } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
 interface NavigationTabsProps {
   contributions: number | string;
@@ -24,17 +24,14 @@ interface NavItem {
   active?: boolean;
 }
 
-export default function NavigationTabs({
-  contributions,
-  gistCount,
-}: NavigationTabsProps) {
+export default function NavigationTabs({ contributions, gistCount }: NavigationTabsProps) {
   const isMobile = useIsMobile();
   const dropdownRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   // Determine which tab should be active based on current pathname
-  const isGistsPage = pathname.startsWith("/gists");
-  const isHomePage = pathname === "/";
+  const isGistsPage = pathname.startsWith('/gists');
+  const isHomePage = pathname === '/';
 
   // Helper function to create proper href for hash links
   const getHref = (hash: string) => {
@@ -42,15 +39,15 @@ export default function NavigationTabs({
   };
 
   const navItems: NavItem[] = [
-    { href: getHref("#overview"), label: "Overview", active: isHomePage },
-    { href: getHref("#experience"), label: "Experience", count: 7 },
-    { href: getHref("#projects"), label: "Projects", count: 2 },
+    { href: getHref('#overview'), label: 'Overview', active: isHomePage },
+    { href: getHref('#experience'), label: 'Experience', count: 7 },
+    { href: getHref('#projects'), label: 'Projects', count: 2 },
     {
-      href: getHref("#contributions"),
-      label: "Contributions",
+      href: getHref('#contributions'),
+      label: 'Contributions',
       count: contributions,
     },
-    { href: "/gists", label: "Gists", count: gistCount, active: isGistsPage },
+    { href: '/gists', label: 'Gists', count: gistCount, active: isGistsPage },
   ];
 
   const handleNavClick = (href: string) => {
@@ -60,11 +57,11 @@ export default function NavigationTabs({
     }
 
     // Only handle scroll for hash links (internal page sections)
-    if (href.startsWith("#")) {
+    if (href.startsWith('#')) {
       const element = document.querySelector(href);
       if (element) {
         setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth" });
+          element.scrollIntoView({ behavior: 'smooth' });
         }, 200); // Small delay to allow the dropdown to close
       }
     }
@@ -72,25 +69,25 @@ export default function NavigationTabs({
   };
 
   return (
-    <div className="border-b border-gray-700 mb-6">
+    <div className="mb-6 border-b border-gray-700">
       {isMobile ? (
         <div className="py-2">
           <DropdownMenu>
             <div className="flex justify-end">
               <DropdownMenuTrigger
                 ref={dropdownRef}
-                className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md hover:bg-gray-800"
+                className="flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium hover:bg-gray-800"
               >
                 <Menu className="h-5 w-5" />
               </DropdownMenuTrigger>
             </div>
             <DropdownMenuContent>
-              {navItems.map((item) => {
+              {navItems.map(item => {
                 const dropdownContent = (
                   <>
                     {item.label}
                     {item.count !== undefined && (
-                      <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
+                      <span className="ml-1 rounded-full bg-gray-700 px-2 py-0.5 text-xs">
                         {item.count}
                       </span>
                     )}
@@ -98,7 +95,7 @@ export default function NavigationTabs({
                 );
 
                 // Use Link component for route navigation
-                if (item.href.startsWith("/")) {
+                if (item.href.startsWith('/')) {
                   return (
                     <Link key={item.href} href={item.href}>
                       <DropdownMenuItem className="cursor-pointer">
@@ -123,12 +120,12 @@ export default function NavigationTabs({
         </div>
       ) : (
         <nav className="flex overflow-x-auto">
-          {navItems.map((item) => {
+          {navItems.map(item => {
             const linkContent = (
               <>
-                {item.label}{" "}
+                {item.label}{' '}
                 {item.count !== undefined && (
-                  <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-gray-700">
+                  <span className="ml-1 rounded-full bg-gray-700 px-2 py-0.5 text-xs">
                     {item.count}
                   </span>
                 )}
@@ -137,12 +134,12 @@ export default function NavigationTabs({
 
             const linkClasses = `px-4 py-2 ${
               item.active
-                ? "border-b-2 border-[#f78166] font-medium"
-                : "text-gray-400 hover:text-gray-200"
+                ? 'border-b-2 border-[#f78166] font-medium'
+                : 'text-gray-400 hover:text-gray-200'
             }`;
 
             // Use Link component for route navigation, anchor tag for hash links
-            if (item.href.startsWith("/")) {
+            if (item.href.startsWith('/')) {
               return (
                 <Link key={item.href} href={item.href} className={linkClasses}>
                   {linkContent}

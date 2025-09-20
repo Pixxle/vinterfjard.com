@@ -1,19 +1,16 @@
-import ProfileSidebar from "@/components/profile-sidebar";
-import NavigationTabs from "@/components/navigation-tabs";
-import MockDataDetector from "@/components/mock-data-detector";
-import { getUserProfile, getUserContributions } from "@/lib/github";
-import { getAllGists } from "@/lib/gists";
-import { GITHUB_USERNAME } from "@/lib/env";
+import ProfileSidebar from '@/components/profile-sidebar';
+import NavigationTabs from '@/components/navigation-tabs';
+import MockDataDetector from '@/components/mock-data-detector';
+import { getUserProfile, getUserContributions } from '@/lib/github';
+import { getAllGists } from '@/lib/gists';
+import { GITHUB_USERNAME } from '@/lib/env';
 
 interface SharedLayoutProps {
   children: React.ReactNode;
   showNavigation?: boolean;
 }
 
-export default async function SharedLayout({
-  children,
-  showNavigation = true,
-}: SharedLayoutProps) {
+export default async function SharedLayout({ children, showNavigation = true }: SharedLayoutProps) {
   // Fetch GitHub data
   let profile;
   let contributions;
@@ -25,36 +22,31 @@ export default async function SharedLayout({
       getUserContributions(GITHUB_USERNAME),
     ]);
   } catch (error) {
-    console.error("Error fetching GitHub data:", error);
+    console.error('Error fetching GitHub data:', error);
     // Continue with default data if there's an error
   }
 
   const totalContributions =
-    contributions &&
-    typeof contributions === "object" &&
-    "totalContributions" in contributions
+    contributions && typeof contributions === 'object' && 'totalContributions' in contributions
       ? contributions.totalContributions
-      : "?";
+      : '?';
 
   // Get gist count
   const gistCount = getAllGists().length;
 
   // Create a safe default profile if none is available
-  const safeProfile = profile || { login: "default-user", name: "GitHub User" };
+  const safeProfile = profile || { login: 'default-user', name: 'GitHub User' };
 
   return (
     <MockDataDetector profile={safeProfile}>
-      <div className="flex flex-col md:flex-row gap-8">
+      <div className="flex flex-col gap-8 md:flex-row">
         {/* Left sidebar with profile info */}
         <ProfileSidebar profile={profile} />
 
         {/* Main content */}
         <div className="flex-1">
           {showNavigation && (
-            <NavigationTabs
-              contributions={totalContributions}
-              gistCount={gistCount}
-            />
+            <NavigationTabs contributions={totalContributions} gistCount={gistCount} />
           )}
           {children}
         </div>

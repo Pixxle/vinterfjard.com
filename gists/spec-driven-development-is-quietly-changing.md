@@ -1,7 +1,7 @@
 ---
-title: "Spec Driven Development Is Quietly Changing How We Use AI Editors"
-date: "2025-07-18"
-tags: ["ai", "blog"]
+title: 'Spec Driven Development Is Quietly Changing How We Use AI Editors'
+date: '2025-07-18'
+tags: ['ai', 'blog']
 ---
 
 The pace of AI-powered development tools has picked up dramatically. It feels like every month brings a new editor, model, or agent promising to change the way we build software. Some push boundaries. Others stumble. All of them are shaping how developers think about code in this new AI-augmented era.

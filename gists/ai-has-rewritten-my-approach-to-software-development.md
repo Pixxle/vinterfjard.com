@@ -1,7 +1,7 @@
 ---
-title: "How AI Has Rewritten My Approach to Software Development"
-date: "2025-06-27"
-tags: ["ai", "blog"]
+title: 'How AI Has Rewritten My Approach to Software Development'
+date: '2025-06-27'
+tags: ['ai', 'blog']
 ---
 
 The last few months have completely reshaped how I think about building software.

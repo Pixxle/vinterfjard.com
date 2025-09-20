@@ -1,4 +1,4 @@
-import { FolderGit2 } from "lucide-react";
+import { FolderGit2 } from 'lucide-react';
 
 interface ProjectCardProps {
   title: string;
@@ -9,9 +9,9 @@ interface ProjectCardProps {
 
 function ProjectCard({ title, date, location, description }: ProjectCardProps) {
   return (
-    <div className="border border-gray-700 rounded-md p-4 bg-[#0d1117]">
+    <div className="rounded-md border border-gray-700 bg-[#0d1117] p-4">
       <h3 className="text-lg font-medium text-white">{title}</h3>
-      <div className="text-gray-400 text-sm mt-1">
+      <div className="mt-1 text-sm text-gray-400">
         {date} {location}
       </div>
       <p className="mt-3 text-gray-300">{description}</p>
@@ -22,12 +22,12 @@ function ProjectCard({ title, date, location, description }: ProjectCardProps) {
 export default function ProjectsSection() {
   return (
     <div className="mb-8">
-      <div className="flex items-center mb-4">
-        <FolderGit2 className="w-5 h-5 mr-2" />
+      <div className="mb-4 flex items-center">
+        <FolderGit2 className="mr-2 h-5 w-5" />
         <h2 className="text-xl font-medium">Projects</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <ProjectCard
           title="Making life less boring with Python"
           date="04/2019 - 04/2019"

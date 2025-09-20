@@ -1,7 +1,7 @@
 ---
-title: "Catching Bugs and Planning the Future: AI Tooling in Practice"
-date: "2025-06-28"
-tags: ["ai", "architecture", "future"]
+title: 'Catching Bugs and Planning the Future: AI Tooling in Practice'
+date: '2025-06-28'
+tags: ['ai', 'architecture', 'future']
 ---
 
 A couple of months ago, I started experimenting with using Gemini as a pull request reviewer in our primary frontend repository. It cannot approve pull requests on its own, but it provides suggestions and considerations for developers to act on.

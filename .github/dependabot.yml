@@ -4,52 +4,52 @@
 version: 2
 updates:
   # Enable version updates for npm (Node.js dependencies)
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "UTC"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'UTC'
     # Limit the number of open pull requests for version updates
     open-pull-requests-limit: 5
     # Add labels to PRs for easier management
     labels:
-      - "dependencies"
-      - "dependabot"
+      - 'dependencies'
+      - 'dependabot'
     # Conventional commit messages
     commit-message:
-      prefix: "deps"
-      prefix-development: "deps-dev"
-      include: "scope"
+      prefix: 'deps'
+      prefix-development: 'deps-dev'
+      include: 'scope'
     # Group minor and patch updates together to reduce PR noise
     groups:
       production-dependencies:
-        dependency-type: "production"
+        dependency-type: 'production'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
       development-dependencies:
-        dependency-type: "development"
+        dependency-type: 'development'
         update-types:
-          - "minor"
-          - "patch"
+          - 'minor'
+          - 'patch'
     # Ignore specific packages if needed (uncomment and modify as necessary)
     # ignore:
     #   - dependency-name: "next"
     #     versions: ["14.x"]
-    
+
   # Enable version updates for GitHub Actions (future-proofing)
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "UTC"
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+      timezone: 'UTC'
     labels:
-      - "github-actions"
-      - "dependabot"
+      - 'github-actions'
+      - 'dependabot'
     commit-message:
-      prefix: "ci"
-      include: "scope"
+      prefix: 'ci'
+      include: 'scope'
