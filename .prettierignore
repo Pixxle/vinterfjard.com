@@ -1,0 +1,44 @@
+# Dependencies
+node_modules
+
+# Next.js
+.next
+out
+
+# Production builds
+build
+dist
+
+# Static assets
+public/*.min.js
+public/*.min.css
+
+# Logs
+*.log
+
+# Environment files
+.env*
+
+# OS
+.DS_Store
+
+# IDE
+.vscode
+.idea
+
+# Temporary files
+*.tmp
+*.temp
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# AI
+.claude/
+.serena/
