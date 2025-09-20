@@ -1,7 +1,7 @@
-import Link from "next/link";
-import ReactMarkdown from "react-markdown";
-import { getAllGists } from "@/lib/gists";
-import SharedLayout from "@/components/shared-layout";
+import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import { getAllGists } from '@/lib/gists';
+import SharedLayout from '@/components/shared-layout';
 
 interface CodeProps {
   className?: string;
@@ -15,13 +15,12 @@ export default async function GistsPage() {
     return (
       <SharedLayout showNavigation={true}>
         <div className="mb-8">
-          <h1 className="text-2xl font-bold mb-4">Gists</h1>
+          <h1 className="mb-4 text-2xl font-bold">Gists</h1>
           <div className="rounded-md border border-gray-700 bg-[#0d1117] p-8 text-center text-gray-400">
             <p className="mb-2">No gists found.</p>
             <p className="text-sm">
-              Add markdown files to the{" "}
-              <code className="bg-gray-800 px-2 py-1 rounded">gists/</code>{" "}
-              folder to get started.
+              Add markdown files to the{' '}
+              <code className="rounded bg-gray-800 px-2 py-1">gists/</code> folder to get started.
             </p>
           </div>
         </div>
@@ -32,15 +31,15 @@ export default async function GistsPage() {
   return (
     <SharedLayout showNavigation={true}>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-6">Gists</h1>
+        <h1 className="mb-6 text-2xl font-bold">Gists</h1>
         <div className="space-y-6">
-          {gists.map((gist) => (
+          {gists.map(gist => (
             <article
               key={gist.slug}
-              className="rounded-md border border-gray-700 bg-[#0d1117] p-6 hover:border-gray-600 transition-colors"
+              className="rounded-md border border-gray-700 bg-[#0d1117] p-6 transition-colors hover:border-gray-600"
             >
               <header className="mb-4">
-                <h2 className="text-xl font-semibold mb-2">
+                <h2 className="mb-2 text-xl font-semibold">
                   <Link
                     href={`/gists/${gist.slug}`}
                     className="text-blue-400 hover:text-blue-300 hover:underline"
@@ -50,19 +49,16 @@ export default async function GistsPage() {
                 </h2>
                 <div className="flex items-center gap-4 text-sm text-gray-400">
                   <time dateTime={gist.date}>
-                    {new Date(gist.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
+                    {new Date(gist.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
                     })}
                   </time>
                   {gist.tags && gist.tags.length > 0 && (
                     <div className="flex gap-2">
-                      {gist.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 bg-gray-800 rounded-full text-xs"
-                        >
+                      {gist.tags.map(tag => (
+                        <span key={tag} className="rounded-full bg-gray-800 px-2 py-1 text-xs">
                           {tag}
                         </span>
                       ))}
@@ -76,56 +72,39 @@ export default async function GistsPage() {
                   components={{
                     // All headers rendered as bold text
                     h1: ({ children }) => (
-                      <p className="font-bold text-white mb-2 break-words">
-                        {children}
-                      </p>
+                      <p className="mb-2 font-bold break-words text-white">{children}</p>
                     ),
                     h2: ({ children }) => (
-                      <p className="font-bold text-white mb-2 break-words">
-                        {children}
-                      </p>
+                      <p className="mb-2 font-bold break-words text-white">{children}</p>
                     ),
                     h3: ({ children }) => (
-                      <p className="font-bold text-white mb-2 break-words">
-                        {children}
-                      </p>
+                      <p className="mb-2 font-bold break-words text-white">{children}</p>
                     ),
                     h4: ({ children }) => (
-                      <p className="font-bold text-white mb-2 break-words">
-                        {children}
-                      </p>
+                      <p className="mb-2 font-bold break-words text-white">{children}</p>
                     ),
                     h5: ({ children }) => (
-                      <p className="font-bold text-white mb-2 break-words">
-                        {children}
-                      </p>
+                      <p className="mb-2 font-bold break-words text-white">{children}</p>
                     ),
                     h6: ({ children }) => (
-                      <p className="font-bold text-white mb-2 break-words">
-                        {children}
-                      </p>
+                      <p className="mb-2 font-bold break-words text-white">{children}</p>
                     ),
                     // Text formatting
                     strong: ({ children }) => (
-                      <strong className="font-bold text-white">
-                        {children}
-                      </strong>
+                      <strong className="font-bold text-white">{children}</strong>
                     ),
-                    em: ({ children }) => (
-                      <em className="italic text-gray-200">{children}</em>
-                    ),
+                    em: ({ children }) => <em className="text-gray-200 italic">{children}</em>,
                     // Code styling - handle both inline and block
                     code: ({ className, children, ...props }: CodeProps) => {
                       // Detect if it's a code block vs inline code
                       const isCodeBlock =
-                        /language-(\w+)/.test(className || "") ||
-                        String(children).includes("\n");
+                        /language-(\w+)/.test(className || '') || String(children).includes('\n');
 
                       if (!isCodeBlock) {
                         // Inline code
                         return (
                           <code
-                            className="bg-gray-800 px-1 py-0.5 rounded text-sm font-mono text-gray-200 break-all"
+                            className="rounded bg-gray-800 px-1 py-0.5 font-mono text-sm break-all text-gray-200"
                             {...props}
                           >
                             {children}
@@ -135,9 +114,9 @@ export default async function GistsPage() {
 
                       // Block code
                       return (
-                        <div className="bg-gray-900 p-3 rounded overflow-x-auto my-2 text-sm">
+                        <div className="my-2 overflow-x-auto rounded bg-gray-900 p-3 text-sm">
                           <code
-                            className="text-gray-200 font-mono break-words whitespace-pre-wrap block"
+                            className="block font-mono break-words whitespace-pre-wrap text-gray-200"
                             {...props}
                           >
                             {children}
@@ -149,13 +128,9 @@ export default async function GistsPage() {
                     a: ({ href, children }) => (
                       <a
                         href={href}
-                        className="text-blue-400 hover:text-blue-300 hover:underline break-words"
-                        target={href?.startsWith("http") ? "_blank" : undefined}
-                        rel={
-                          href?.startsWith("http")
-                            ? "noopener noreferrer"
-                            : undefined
-                        }
+                        className="break-words text-blue-400 hover:text-blue-300 hover:underline"
+                        target={href?.startsWith('http') ? '_blank' : undefined}
+                        rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
                       >
                         {children}
                       </a>
@@ -166,31 +141,23 @@ export default async function GistsPage() {
                         src={src}
                         alt={alt}
                         title={title}
-                        className="max-w-full h-auto rounded-lg shadow-lg border border-gray-700 my-2"
+                        className="my-2 h-auto max-w-full rounded-lg border border-gray-700 shadow-lg"
                         loading="lazy"
                       />
                     ),
                     // Paragraphs with proper wrapping
                     p: ({ children }) => (
-                      <p className="mb-2 text-gray-300 leading-relaxed break-words">
-                        {children}
-                      </p>
+                      <p className="mb-2 leading-relaxed break-words text-gray-300">{children}</p>
                     ),
                     // Lists with proper wrapping
                     ul: ({ children }) => (
-                      <ul className="list-disc pl-4 mb-2 space-y-1 text-gray-300">
-                        {children}
-                      </ul>
+                      <ul className="mb-2 list-disc space-y-1 pl-4 text-gray-300">{children}</ul>
                     ),
                     ol: ({ children }) => (
-                      <ol className="list-decimal pl-4 mb-2 space-y-1 text-gray-300">
-                        {children}
-                      </ol>
+                      <ol className="mb-2 list-decimal space-y-1 pl-4 text-gray-300">{children}</ol>
                     ),
                     li: ({ children }) => (
-                      <li className="text-gray-300 leading-relaxed break-words">
-                        {children}
-                      </li>
+                      <li className="leading-relaxed break-words text-gray-300">{children}</li>
                     ),
                   }}
                 >
@@ -199,10 +166,10 @@ export default async function GistsPage() {
               </div>
 
               {gist.isLong && (
-                <div className="mt-4 pt-4 border-t border-gray-700">
+                <div className="mt-4 border-t border-gray-700 pt-4">
                   <Link
                     href={`/gists/${gist.slug}`}
-                    className="inline-flex items-center text-blue-400 hover:text-blue-300 text-sm font-medium"
+                    className="inline-flex items-center text-sm font-medium text-blue-400 hover:text-blue-300"
                   >
                     Read more →
                   </Link>

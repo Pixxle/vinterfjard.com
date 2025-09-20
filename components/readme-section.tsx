@@ -1,25 +1,23 @@
-import { Mail, Linkedin } from "lucide-react";
-import Image from "next/image";
+import { Mail, Linkedin } from 'lucide-react';
+import Image from 'next/image';
 
 export default function ReadmeSection() {
   return (
-    <div className="mb-8 border border-gray-700 rounded-md p-6 bg-[#0d1117]">
-      <div className="text-sm text-gray-400 mb-3">vinterfjard / README.md</div>
+    <div className="mb-8 rounded-md border border-gray-700 bg-[#0d1117] p-6">
+      <div className="mb-3 text-sm text-gray-400">vinterfjard / README.md</div>
 
-      <h1 className="text-2xl font-bold mb-2">
-        Hi there, I&apos;m Dennis Vinterfjärd{" "}
-        <span className="animate-wave inline-block">👋</span>
+      <h1 className="mb-2 text-2xl font-bold">
+        Hi there, I&apos;m Dennis Vinterfjärd <span className="animate-wave inline-block">👋</span>
       </h1>
 
       <p className="mb-6">
-        I&apos;m currently the Head of Engineering at Medhelp Care, based in
-        Stockholm. I&apos;m passionate about building great engineering
-        cultures, driving technical excellence, and sharing knowledge along the
-        way.
+        I&apos;m currently the Head of Engineering at Medhelp Care, based in Stockholm. I&apos;m
+        passionate about building great engineering cultures, driving technical excellence, and
+        sharing knowledge along the way.
       </p>
 
-      <div className="border-t border-b border-gray-700 py-4 my-6">
-        <div className="flex flex-wrap gap-2 mb-1">
+      <div className="my-6 border-t border-b border-gray-700 py-4">
+        <div className="mb-1 flex flex-wrap gap-2">
           <Image
             src="/images/badges/javascript.svg"
             alt="JavaScript"
@@ -72,24 +70,21 @@ export default function ReadmeSection() {
         </div>
       </div>
 
-      <p className="text-gray-300 mb-4">
-        If you&apos;re working on something interesting, want to collaborate, or
-        just want to talk tech—feel free to reach out!
+      <p className="mb-4 text-gray-300">
+        If you&apos;re working on something interesting, want to collaborate, or just want to talk
+        tech—feel free to reach out!
       </p>
 
       <div className="flex flex-col space-y-2">
         <div className="flex items-center">
-          <Mail className="w-4 h-4 mr-2 text-gray-400" />
+          <Mail className="mr-2 h-4 w-4 text-gray-400" />
           <strong className="mr-2">Email:</strong>
-          <a
-            href="mailto:dennis@vinterfjard.com"
-            className="text-blue-400 hover:underline"
-          >
+          <a href="mailto:dennis@vinterfjard.com" className="text-blue-400 hover:underline">
             dennis@vinterfjard.com
           </a>
         </div>
         <div className="flex items-center">
-          <Linkedin className="w-4 h-4 mr-2 text-gray-400" />
+          <Linkedin className="mr-2 h-4 w-4 text-gray-400" />
           <strong className="mr-2">LinkedIn:</strong>
           <a
             href="https://linkedin.com/in/dennis-vinterfjärd/"

@@ -1,14 +1,6 @@
-import Image from "next/image";
-import {
-  Building,
-  MapPin,
-  Link,
-  Cloud,
-  Users,
-  Linkedin,
-  Mail,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import Image from 'next/image';
+import { Building, MapPin, Link, Cloud, Users, Linkedin, Mail } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface ProfileSidebarProps {
   profile?: {
@@ -27,7 +19,7 @@ export default function ProfileSidebar({ profile }: ProfileSidebarProps) {
   return (
     <div className="w-full md:w-[296px] md:shrink-0">
       <div className="relative mb-4">
-        <div className="rounded-full overflow-hidden border-4 border-[#0d1117] w-[296px] h-[296px] mx-auto md:mx-0">
+        <div className="mx-auto h-[296px] w-[296px] overflow-hidden rounded-full border-4 border-[#0d1117] md:mx-0">
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5764762.jpg-pZeMnKK9Pb1WsTSCkx5CZlBsALOcuL.jpeg"
             alt="Dennis Vinterfjärd"
@@ -39,21 +31,15 @@ export default function ProfileSidebar({ profile }: ProfileSidebarProps) {
       </div>
 
       <div className="mb-4">
-        <h1 className="text-2xl font-bold">
-          {profile?.name || "Dennis Vinterfjärd"}
-        </h1>
-        <p className="text-gray-400">{profile?.login || "Pixxle"}</p>
+        <h1 className="text-2xl font-bold">{profile?.name || 'Dennis Vinterfjärd'}</h1>
+        <p className="text-gray-400">{profile?.login || 'Pixxle'}</p>
       </div>
 
       <div className="mb-4">
-        <a
-          href="https://github.com/pixxle"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://github.com/pixxle" target="_blank" rel="noopener noreferrer">
           <Button
             variant="outline"
-            className="w-full bg-[#21262d] border-gray-600 hover:bg-[#30363d] hover:border-gray-400"
+            className="w-full border-gray-600 bg-[#21262d] hover:border-gray-400 hover:bg-[#30363d]"
           >
             Follow
           </Button>
@@ -62,38 +48,34 @@ export default function ProfileSidebar({ profile }: ProfileSidebarProps) {
 
       <div className="mb-4 text-gray-300">
         <p className="mb-2">
-          {profile?.bio || "night owl 🦉 I do tech stuff from time to time. 👨‍💻"}
+          {profile?.bio || 'night owl 🦉 I do tech stuff from time to time. 👨‍💻'}
         </p>
       </div>
 
       <div className="mb-4 text-sm text-gray-300">
-        <div className="flex items-center gap-2 mb-1">
-          <Users className="w-4 h-4 text-gray-500" />
+        <div className="mb-1 flex items-center gap-2">
+          <Users className="h-4 w-4 text-gray-500" />
           <span>
-            <strong>{profile?.followers?.totalCount || 0}</strong> followers ·{" "}
+            <strong>{profile?.followers?.totalCount || 0}</strong> followers ·{' '}
             <strong>{profile?.following?.totalCount || 0}</strong> following
           </span>
         </div>
-        <div className="flex items-center gap-2 mb-1">
-          <Building className="w-4 h-4 text-gray-500" />
-          <span>{profile?.company || "MedHelp Care"}</span>
+        <div className="mb-1 flex items-center gap-2">
+          <Building className="h-4 w-4 text-gray-500" />
+          <span>{profile?.company || 'MedHelp Care'}</span>
         </div>
-        <div className="flex items-center gap-2 mb-1">
-          <MapPin className="w-4 h-4 text-gray-500" />
-          <span>{profile?.location || "Sweden"}</span>
+        <div className="mb-1 flex items-center gap-2">
+          <MapPin className="h-4 w-4 text-gray-500" />
+          <span>{profile?.location || 'Sweden'}</span>
         </div>
-        <div className="flex items-center gap-2 mb-1">
-          <Link className="w-4 h-4 text-gray-500" />
-          <a
-            href={"https://vinterfjard.com"}
-            className="text-blue-400 hover:underline"
-          >
-            {profile?.websiteUrl?.replace(/^https?:\/\//, "") ||
-              "vinterfjard.com"}
+        <div className="mb-1 flex items-center gap-2">
+          <Link className="h-4 w-4 text-gray-500" />
+          <a href={'https://vinterfjard.com'} className="text-blue-400 hover:underline">
+            {profile?.websiteUrl?.replace(/^https?:\/\//, '') || 'vinterfjard.com'}
           </a>
         </div>
-        <div className="flex items-center gap-2 mb-1">
-          <Cloud className="w-4 h-4 text-gray-500" />
+        <div className="mb-1 flex items-center gap-2">
+          <Cloud className="h-4 w-4 text-gray-500" />
           <a
             href="https://bsky.app/profile/dennis.vinterfjard.com"
             className="text-blue-400 hover:underline"
@@ -101,17 +83,14 @@ export default function ProfileSidebar({ profile }: ProfileSidebarProps) {
             @dennis.vinterfjard.com
           </a>
         </div>
-        <div className="flex items-center gap-2 mb-1">
-          <Mail className="w-4 h-4 text-gray-500" />
-          <a
-            href="mailto:dennis@vinterfjard.com"
-            className="text-blue-400 hover:underline"
-          >
+        <div className="mb-1 flex items-center gap-2">
+          <Mail className="h-4 w-4 text-gray-500" />
+          <a href="mailto:dennis@vinterfjard.com" className="text-blue-400 hover:underline">
             dennis@vinterfjard.com
           </a>
         </div>
-        <div className="flex items-center gap-2 mb-1">
-          <Linkedin className="w-4 h-4 text-gray-500" />
+        <div className="mb-1 flex items-center gap-2">
+          <Linkedin className="h-4 w-4 text-gray-500" />
           <a
             href="https://www.linkedin.com/in/dennis-vinterfj%C3%A4rd/"
             className="text-blue-400 hover:underline"

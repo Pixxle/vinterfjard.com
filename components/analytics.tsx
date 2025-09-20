@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Suspense } from "react";
-import { usePostHogPageView } from "@/hooks/use-posthog";
+import { Suspense } from 'react';
+import { usePostHogPageView } from '@/hooks/use-posthog';
 
 // Separate component that uses the hook
 function AnalyticsInner() {

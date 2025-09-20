@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import { posthog } from "@/lib/posthog";
+import { useEffect } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { posthog } from '@/lib/posthog';
 
 export function usePostHogPageView() {
   const pathname = usePathname();
@@ -17,17 +17,14 @@ export function usePostHogPageView() {
       }
 
       // Track pageview
-      posthog.capture("$pageview", {
+      posthog.capture('$pageview', {
         $current_url: url,
       });
     }
   }, [pathname, searchParams]);
 }
 
-export function usePostHogIdentify(
-  distinctId?: string,
-  properties?: Record<string, any>
-) {
+export function usePostHogIdentify(distinctId?: string, properties?: Record<string, any>) {
   useEffect(() => {
     // Only identify if we have a distinctId
     if (distinctId) {
@@ -37,9 +34,6 @@ export function usePostHogIdentify(
 }
 
 // Utility function to track custom events
-export function trackEvent(
-  eventName: string,
-  properties?: Record<string, any>
-) {
+export function trackEvent(eventName: string, properties?: Record<string, any>) {
   posthog.capture(eventName, properties);
 }

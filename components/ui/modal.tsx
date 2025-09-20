@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import type React from "react";
+import type React from 'react';
 
-import { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -18,9 +18,9 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
       const timer = setTimeout(() => {
         setIsVisible(false);
       }, 300);
@@ -29,7 +29,7 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
     // This ensures body overflow is reset when component unmounts
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
@@ -37,25 +37,25 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
-        isOpen ? "opacity-100" : "opacity-0"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 backdrop-blur-sm transition-opacity duration-300 sm:p-4 ${
+        isOpen ? 'opacity-100' : 'opacity-0'
       }`}
       onClick={onClose}
     >
       <div
-        className={`bg-[#0d1117] border border-gray-700 rounded-lg shadow-lg w-full mx-4 my-auto max-w-2xl max-h-[90vh] overflow-auto transition-all duration-300 ${
-          isOpen ? "scale-100" : "scale-95"
+        className={`mx-4 my-auto max-h-[90vh] w-full max-w-2xl overflow-auto rounded-lg border border-gray-700 bg-[#0d1117] shadow-lg transition-all duration-300 ${
+          isOpen ? 'scale-100' : 'scale-95'
         }`}
-        onClick={(e) => e.stopPropagation()}
+        onClick={e => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        <div className="flex items-center justify-between border-b border-gray-700 p-4">
           <h2 className="text-xl font-medium">{title}</h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-full hover:bg-gray-800 transition-colors"
+            className="rounded-full p-1 transition-colors hover:bg-gray-800"
             aria-label="Close modal"
           >
-            <X className="w-5 h-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
         <div className="p-4">{children}</div>

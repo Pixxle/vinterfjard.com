@@ -23,4 +23,4 @@ If you're working on something interesting, want to collaborate, or just want to
 
 ---
 
-*This repository contains the source code for my personal website at [vinterfjard.com](https://vinterfjard.com), built with Next.js, TypeScript, and Tailwind CSS.*
+_This repository contains the source code for my personal website at [vinterfjard.com](https://vinterfjard.com), built with Next.js, TypeScript, and Tailwind CSS._
