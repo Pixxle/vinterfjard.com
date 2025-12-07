@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 
 type ContributionLevel = 0 | 1 | 2 | 3 | 4;
 type ContributionDay = {
@@ -23,7 +23,6 @@ interface ContributionGraphProps {
 }
 
 export default function ContributionGraph({ contributions }: ContributionGraphProps) {
-  const [contributionData, setContributionData] = useState<ContributionDay[]>([]);
   const months = [
     'Jan',
     'Feb',
@@ -41,7 +40,7 @@ export default function ContributionGraph({ contributions }: ContributionGraphPr
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const displayDays = ['Mon', 'Wed', 'Fri']; // Only display these days
 
-  useEffect(() => {
+  const contributionData = useMemo(() => {
     // Calculate the exact date range: from 1 year ago to today
     const today = new Date();
     const oneYearAgo = new Date(today);
@@ -119,7 +118,7 @@ export default function ContributionGraph({ contributions }: ContributionGraphPr
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    setContributionData(transformedData);
+    return transformedData;
   }, [contributions]);
 
   const getColorForLevel = (level: ContributionLevel) => {
