@@ -2,7 +2,7 @@
 
 import type React from 'react';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { X } from 'lucide-react';
 
 interface ModalProps {
@@ -13,39 +13,27 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
-  const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
     if (isOpen) {
-      setIsVisible(true);
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
-      const timer = setTimeout(() => {
-        setIsVisible(false);
-      }, 300);
-      return () => clearTimeout(timer);
     }
 
-    // This ensures body overflow is reset when component unmounts
     return () => {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
 
-  if (!isVisible) return null;
+  if (!isOpen) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 backdrop-blur-sm transition-opacity duration-300 sm:p-4 ${
-        isOpen ? 'opacity-100' : 'opacity-0'
-      }`}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-2 backdrop-blur-sm sm:p-4"
       onClick={onClose}
     >
       <div
-        className={`mx-4 my-auto max-h-[90vh] w-full max-w-2xl overflow-auto rounded-lg border border-gray-700 bg-[#0d1117] shadow-lg transition-all duration-300 ${
-          isOpen ? 'scale-100' : 'scale-95'
-        }`}
+        className="mx-4 my-auto max-h-[90vh] w-full max-w-2xl overflow-auto rounded-lg border border-gray-700 bg-[#0d1117] shadow-lg"
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-gray-700 p-4">

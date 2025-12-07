@@ -24,7 +24,7 @@ export function usePostHogPageView() {
   }, [pathname, searchParams]);
 }
 
-export function usePostHogIdentify(distinctId?: string, properties?: Record<string, any>) {
+export function usePostHogIdentify(distinctId?: string, properties?: Record<string, unknown>) {
   useEffect(() => {
     // Only identify if we have a distinctId
     if (distinctId) {
@@ -34,6 +34,6 @@ export function usePostHogIdentify(distinctId?: string, properties?: Record<stri
 }
 
 // Utility function to track custom events
-export function trackEvent(eventName: string, properties?: Record<string, any>) {
+export function trackEvent(eventName: string, properties?: Record<string, unknown>) {
   posthog.capture(eventName, properties);
 }
