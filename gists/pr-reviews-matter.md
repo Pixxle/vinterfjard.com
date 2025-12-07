@@ -8,6 +8,7 @@ Whether AI coding assistants actually increase developer productivity is a conte
 The solution is not to abandon AI. It is to double down on the one thing AI cannot replace: a strong pull request review culture.
 
 ## The 'Does It Work' Trap
+
 When a developer prompts an AI agent to generate code, they naturally shift into a specific mindset. They focus on whether the code works, not how it works. The AI produces hundreds or even thousands of lines of code in seconds, and the developer runs it, sees it function, and moves on.
 
 This is a trap. Functional code is not the same as good code. I have seen AI generate solutions that introduce multiple full table scans in a single API request. The code worked. It returned the correct data. But in production, with real data volumes, it would have caused devastating performance issues for users. The developer who prompted the agent did not catch this. A reviewer did.
@@ -15,6 +16,7 @@ This is a trap. Functional code is not the same as good code. I have seen AI gen
 This is the core problem. The person generating the code gets tunnel vision. They are invested in the outcome, not the implementation. Fresh eyes from a reviewer can catch what the prompting developer missed.
 
 ## The Large Diff Problem
+
 AI makes it trivially easy to generate massive code changes. A 2000 line pull request used to be rare. Now it happens constantly. And this creates a compounding problem.
 
 The prompting developer is already in 'does it work' mode. Then they submit a massive diff that is exhausting for any reviewer to properly scrutinize. Reviewers skim. They approve without truly understanding what the code does. Quality control breaks down.
@@ -22,6 +24,7 @@ The prompting developer is already in 'does it work' mode. Then they submit a ma
 The responsibility for fixing this lies with the PR creator. And that responsibility can never be delegated to the AI. The human who requested the change is accountable for making that change reviewable. This means smaller increments, clear explanations in the PR description, and a genuine effort to help reviewers understand what they are looking at.
 
 ## Psychological Safety and Pushing Back
+
 A strong review culture requires reviewers who are comfortable saying no. This is harder than it sounds. Developers hesitate to push back because they fear how the PR creator will react. They do not want to cause frustration or anger. They do not want to slow someone down.
 
 Seniority dynamics make this worse. A junior developer reviewing a senior's AI-assisted PR may not feel comfortable rejecting it, even when they spot problems. The power imbalance silences legitimate concerns.
@@ -29,6 +32,7 @@ Seniority dynamics make this worse. A junior developer reviewing a senior's AI-a
 Building psychological safety is essential. Reviewers need to feel safe telling a PR creator that their pull request is not reviewable, that it needs to be split into smaller pieces, or that it lacks sufficient context. Without this safety, reviews become rubber stamps.
 
 ## Culture Over Rules
+
 My approach to building this culture is through regular 'ways of working' meetings rather than hard rules. In these sessions, the team discusses how they work with PRs, why reviews matter, and what needs to improve. Everyone gets a safe space to voice concerns.
 
 A recent example: a developer submitted a 1500 line PR with no explanation. The reviewer commented that they could not fairly review it because they did not understand what it was trying to do. The PR creator got frustrated and responded, 'Why did you not just call me so I could walk you through it?'
@@ -38,6 +42,7 @@ This sparked a ways of working session. The team aligned on a principle: PRs sho
 Culture change is the hardest thing to achieve with engineers. It takes time and consistency. But it is durable in a way that hard rules are not. Rules get worked around. Culture, once internalized, guides behavior even when no one is watching.
 
 ## PRs as Knowledge Sharing
+
 There is another subtle problem I have observed: developers selecting 'easy' reviewers. They tag people they know will not ask too many questions or push back too hard. This undermines the entire system.
 
 PRs are not just quality gates. They are one of the best mechanisms for knowledge sharing on a team. When a developer selects only friendly reviewers, they rob the rest of the team of the chance to learn what is changing in the codebase. The knowledge stays siloed.
@@ -45,6 +50,7 @@ PRs are not just quality gates. They are one of the best mechanisms for knowledg
 The fix is not to mandate reviewer rotation through hard rules. It is to keep discussing why broad reviews matter, and to create an environment where asking for a review from a 'difficult' reviewer is seen as a strength, not a burden.
 
 ## Conclusion
+
 AI is here to stay. The productivity gains are real, and developers who learn to use these tools effectively will have a significant advantage. But speed without quality is not an advantage. It is a liability.
 
 The answer is a strong pull request review culture. One where developers take responsibility for making their changes reviewable. Where reviewers feel safe pushing back. Where the team regularly aligns on how they work together. And where PRs are seen as opportunities for knowledge sharing, not just gatekeeping.
