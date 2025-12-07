@@ -6,9 +6,9 @@ import { getGistBySlug, getGistSlugs } from '@/lib/gists';
 import SharedLayout from '@/components/shared-layout';
 
 interface GistPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 interface CodeProps {
@@ -17,7 +17,8 @@ interface CodeProps {
 }
 
 export default async function GistPage({ params }: GistPageProps) {
-  const gist = getGistBySlug(params.slug);
+  const { slug } = await params;
+  const gist = getGistBySlug(slug);
 
   if (!gist) {
     notFound();
