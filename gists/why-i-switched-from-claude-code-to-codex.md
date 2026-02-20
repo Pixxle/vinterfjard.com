@@ -1,0 +1,30 @@
+---
+title: 'Why I Switched from Claude Code to Codex'
+date: '2026-02-20'
+tags: ['ai', 'blog']
+---
+
+I didn't switch because Claude Code was bad.
+I switched because my day-to-day workflow changed, and Codex fits it better right now.
+
+I've genuinely been very happy with Claude Code for a long time. If you look at how much AI agents have improved over the last six months, it's honestly wild. Once you establish good standards in a project, the first pass from newer models is almost always close to right.
+
+I recently read Peter Steinberg's post, [Shipping at Inference Speed](https://steipete.me/posts/2025/shipping-at-inference-speed), and I agreed with a lot of it. I've also noticed that I read less and less code line by line now. I still review for anti-patterns and obvious garbage, but I don't inspect every single line the way I used to.
+
+That doesn't mean no discipline. I usually work in repos with many contributors, so I don't commit directly to `main`.
+
+I also still believe strongly in review culture, maybe more than ever. Even if I spend less time inspecting every generated line upfront, I still expect solid PRs, real review feedback, and people who are comfortable pushing back when something is unclear, risky, or not ready.
+
+About a year and a half ago I held a talk at work about how I used agents with Copilot. Back then my prompts were long and explicit: what I wanted, which files to touch, how the flow should work, then plan first, then split into phases, then iterate phase by phase. The planning part alone could take hours.
+
+Now my prompts are often closer to: "We need a new endpoint in this repo that does X and requires permissions A and B." That's it. The prompt length has dropped a lot because model quality is better and I trust the first iteration more.
+
+That shift is exactly why Codex started feeling more natural for me. I can run multiple flows at the same time in different worktrees, jump between them, and add new thoughts that get queued and executed when the current flow is done. I can also see real-time code changes in the same view where I'm prompting, which makes the whole feedback loop much tighter.
+
+![Codex app showing real-time code changes, queued thoughts, and inline code comments](/gists/images/codex-comment-workflow.png)
+
+The biggest thing for me is being able to comment directly on generated code to suggest changes, instead of rewriting massive prompts to course-correct. That sounds small, but in practice it's a huge quality-of-life improvement. I stay in flow longer and spend less time translating what I mean.
+
+Because of how the Codex app works, I rarely even open an editor now. I do most of my work directly inside the app itself. For how I like to work today, that matters more than any single model benchmark.
+
+So this isn't a "Claude is bad, Codex is good" story. Claude Code has been great, and it helped prove what this new way of building software can look like. This switch is mostly about interface and workflow fit. Right now Codex lets me move faster with less friction, and that's enough reason to use it. If that changes, I might switch again.
