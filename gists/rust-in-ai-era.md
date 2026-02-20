@@ -4,30 +4,16 @@ date: '2025-07-05'
 tags: ['ai', 'future']
 ---
 
-I’ve been thinking about this for a while now, and after a few in-office discussions with a coworker, I’m becoming increasingly convinced: Rust might just be _the_ backend language for the AI era.
+I have been thinking about this for a while, and after a lot of discussions at work, I keep landing on the same conclusion: Rust might be the best backend language for the AI era.
 
-That’s a bold claim. But here’s my take.
+That is a big claim, but my reasoning is practical. Rust is strict, sometimes painfully strict, and it forces discipline in memory handling, typing, and error paths. The upside is that when the code compiles, the baseline reliability is very high.
 
-## Rust: Annoyingly Strict, Gloriously Reliable
+That matters even more now that more backend code is being written with AI assistance. AI-generated code can look convincing while still hiding edge cases or weak failure handling. Rust changes that dynamic because the compiler rejects a lot of fragile code before it ever runs.
 
-If you've ever written Rust, you know what I mean when I say it's not exactly a cuddly language. The compiler doesn’t hold your hand. It slaps it away and tells you to rewrite your function signature. And your lifetimes. And your error handling. And your soul.
+This does not mean you can trust AI blindly. You still need design judgment, code review, and tests. But Rust gives you a tougher safety net, and that safety net is exactly what I want when the pace of generated code keeps increasing.
 
-But here's the magic part: _if_ your code compiles, it's very likely to just... work.
+The biggest limitation right now is ecosystem maturity in the AI context. Rust adoption is still lower than many mainstream languages, which likely means less high-quality training data for models. But even with that limitation, the language-level guarantees are strong enough that I still prefer it.
 
-In a world where more and more code is being co-authored with AI, whether that's GitHub Copilot, Claude, or some other Large Language Model, this reliability is gold. It gives you a baseline guarantee that your code is safe from whole classes of bugs before it even runs. That’s something that other backend languages just can’t match right now.
+I am currently involved in two startup projects with AI-heavy cores, and unless something changes significantly, Rust is my default backend choice for both. I want predictable systems that do not fall over on weird edge behavior, and I want guardrails that help both junior engineers and AI agents make safer changes.
 
-## Rust + AI: A Perfect Match?
-
-AI-assisted coding is here to stay. But anyone who’s worked with AI knows that the code it spits out isn’t always production-ready. It looks convincing. It often compiles. But sometimes it hides weird edge cases or simply fails silently in the face of bad input.
-
-Rust might change that dynamic.
-
-Because Rust is so strict, the AI is forced to write code that satisfies the compiler, which means memory safety, type correctness, and solid error handling are baked in from the start. That doesn’t mean you can blindly trust the AI. You still need to review, reason, and test. But your chances of shipping an AI-generated bug drop significantly. The biggest downside right now is that since the adoption of the language is still rather low, the training data available for LLMs might not be large enough yet.
-
-## My Rusty Road Ahead
-
-I haven’t gone all-in yet. But I’m currently involved in two different startup projects, both with very AI-heavy cores, and both needing robust backends. And unless something drastically changes, Rust is my default backend language for both.
-
-I want a backend that doesn’t fall over when my AI does something slightly weird. I want predictability. I want confidence. And I want to be able to hand over projects to junior devs or AI agents and know that the compiler has their back.
-
-Rust isn’t perfect. But in the age of AI, I think it’s a decent partner.
+Rust is not perfect. But for backend work in an AI-heavy workflow, it is one of the most defensible defaults I can pick today.

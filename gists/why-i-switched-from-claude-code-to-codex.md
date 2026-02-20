@@ -13,6 +13,8 @@ I recently read Peter Steinberg's post, [Shipping at Inference Speed](https://st
 
 That doesn't mean no discipline. I usually work in repos with many contributors, so I don't commit directly to `main`.
 
+I also still believe strongly in review culture, maybe more than ever. Even if I spend less time inspecting every generated line upfront, I still expect solid PRs, real review feedback, and people who are comfortable pushing back when something is unclear, risky, or not ready.
+
 About a year and a half ago I held a talk at work about how I used agents with Copilot. Back then my prompts were long and explicit: what I wanted, which files to touch, how the flow should work, then plan first, then split into phases, then iterate phase by phase. The planning part alone could take hours.
 
 Now my prompts are often closer to: "We need a new endpoint in this repo that does X and requires permissions A and B." That's it. The prompt length has dropped a lot because model quality is better and I trust the first iteration more.
