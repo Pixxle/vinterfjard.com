@@ -2,7 +2,6 @@ import ProfileSidebar from '@/components/profile-sidebar';
 import NavigationTabs from '@/components/navigation-tabs';
 import MockDataDetector from '@/components/mock-data-detector';
 import { getUserProfile, getUserContributions } from '@/lib/github';
-import { getAllGists } from '@/lib/gists';
 import { GITHUB_USERNAME } from '@/lib/env';
 
 interface SharedLayoutProps {
@@ -31,9 +30,6 @@ export default async function SharedLayout({ children, showNavigation = true }: 
       ? contributions.totalContributions
       : '?';
 
-  // Get gist count
-  const gistCount = getAllGists().length;
-
   // Create a safe default profile if none is available
   const safeProfile = profile || { login: 'default-user', name: 'GitHub User' };
 
@@ -45,9 +41,7 @@ export default async function SharedLayout({ children, showNavigation = true }: 
 
         {/* Main content */}
         <div className="flex-1">
-          {showNavigation && (
-            <NavigationTabs contributions={totalContributions} gistCount={gistCount} />
-          )}
+          {showNavigation && <NavigationTabs contributions={totalContributions} />}
           {children}
         </div>
       </div>
