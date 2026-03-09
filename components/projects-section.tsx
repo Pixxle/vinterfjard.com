@@ -1,23 +1,5 @@
 import { FolderGit2 } from 'lucide-react';
-
-interface ProjectCardProps {
-  title: string;
-  date: string;
-  location: string;
-  description: string;
-}
-
-function ProjectCard({ title, date, location, description }: ProjectCardProps) {
-  return (
-    <div className="rounded-md border border-gray-700 bg-[#0d1117] p-4">
-      <h3 className="text-lg font-medium text-white">{title}</h3>
-      <div className="mt-1 text-sm text-gray-400">
-        {date} {location}
-      </div>
-      <p className="mt-3 text-gray-300">{description}</p>
-    </div>
-  );
-}
+import ProjectCard from '@/components/project-card';
 
 export default function ProjectsSection() {
   return (
@@ -29,17 +11,39 @@ export default function ProjectsSection() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <ProjectCard
-          title="Making life less boring with Python"
-          date="04/2019 - 04/2019"
-          location="Stockholm, Sweden"
-          description="The second edition to my Python automation workshop for members of SDCN as well as external parties."
+          title="CodeHephaestus"
+          description="State machine for refining and automatically building features using Claude Code."
+          href="https://github.com/Pixxle/CodeHephaestus"
         />
-
         <ProjectCard
-          title="Making life less boring with Python - Python workshop"
-          date="12/2018 - 12/2018"
-          location="Stockholm, Sweden"
-          description="I held a two-day introductory workshop in automation techniques with Python for Stockholm dual career network."
+          title="vinterfjard.com"
+          description="A little meta - you are here."
+          href="https://github.com/Pixxle/vinterfjard.com"
+        />
+        <ProjectCard
+          title="yuid.me"
+          description="Sometimes you just need a quick uuid, curlable without SSL for easy terminal access."
+          href="https://github.com/Pixxle/yuid.me"
+        />
+        <ProjectCard
+          title="CodeAtlas"
+          description="Technical due diligence for code repositories."
+          href="https://github.com/Pixxle/CodeAtlas"
+        />
+        <ProjectCard
+          title="CodeSoteria"
+          description="Automated security audits for codebases."
+          href="https://github.com/Pixxle/CodeSoteria"
+        />
+        <ProjectCard
+          title="CodeMnemosyne"
+          description="Auto-generate a complete MkDocs developer wiki for any codebase."
+          href="https://github.com/Pixxle/CodeMnemosyne"
+        />
+        <ProjectCard
+          title="ShadowLog"
+          description="Firefox extension for selective browsing history cleanup."
+          href="https://github.com/Pixxle/shadowlog"
         />
       </div>
     </div>

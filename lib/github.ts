@@ -182,10 +182,12 @@ export async function getUserContributions(username: string) {
     return mockContributionCalendar;
   }
 
-  // Get the date from 1 year ago
+  // Get the date from 1 year ago, normalized to midnight UTC so the fetch
+  // cache key stays stable throughout the day (avoids cache-busting on every call)
   const fromDate = new Date();
   fromDate.setFullYear(fromDate.getFullYear() - 1);
-  const fromDateString = fromDate.toISOString(); // Use the full ISO string with time component
+  fromDate.setUTCHours(0, 0, 0, 0);
+  const fromDateString = fromDate.toISOString();
 
   console.log(`[getUserContributions] Fetching contributions from ${fromDateString}`);
 

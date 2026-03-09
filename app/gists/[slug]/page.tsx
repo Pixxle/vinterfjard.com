@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
-import { ArrowLeft } from 'lucide-react';
 import { getGistBySlug, getGistSlugs } from '@/lib/gists';
+import BackButton from '@/components/back-button';
 import SharedLayout from '@/components/shared-layout';
 
 interface GistPageProps {
@@ -29,13 +29,7 @@ export default async function GistPage({ params }: GistPageProps) {
       <div className="mb-8">
         {/* Back button */}
         <div className="mb-6">
-          <Link
-            href="/gists"
-            className="inline-flex items-center gap-2 text-sm font-medium text-blue-400 hover:text-blue-300"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Gists
-          </Link>
+          <BackButton />
         </div>
 
         {/* Gist header */}
@@ -188,13 +182,7 @@ export default async function GistPage({ params }: GistPageProps) {
 
         {/* Footer with back link */}
         <footer className="mt-12 border-t border-gray-700 pt-6">
-          <Link
-            href="/gists"
-            className="inline-flex items-center gap-2 text-sm font-medium text-blue-400 hover:text-blue-300"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to all gists
-          </Link>
+          <BackButton />
         </footer>
       </div>
     </SharedLayout>
