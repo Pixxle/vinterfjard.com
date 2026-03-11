@@ -11,9 +11,9 @@ export default function ProjectsSection() {
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <ProjectCard
-          title="CodeHephaestus"
+          title="Solomon"
           description="State machine for refining and automatically building features using Claude Code."
-          href="https://github.com/Pixxle/CodeHephaestus"
+          href="https://github.com/Pixxle/Solomon"
         />
         <ProjectCard
           title="vinterfjard.com"
