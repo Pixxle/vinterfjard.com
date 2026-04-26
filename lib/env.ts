@@ -1,5 +1,5 @@
-// Note: For server-side env variables like GITHUB_ACCESS_TOKEN,
-// access them directly in server components using process.env.GITHUB_ACCESS_TOKEN
+// Note: For server-side env variables like NEXT_PRIVATE_GITHUB_ACCESS_TOKEN,
+// access them directly in server components using process.env.NEXT_PRIVATE_GITHUB_ACCESS_TOKEN
 // This file only exports client-safe environment variables
 
 export const GITHUB_USERNAME = 'pixxle'; // Replace with your actual GitHub username or make it configurable

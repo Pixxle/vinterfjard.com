@@ -10,7 +10,7 @@ interface ProjectCardProps {
 export default function ProjectCard({ title, description, href }: ProjectCardProps) {
   const content = (
     <div
-      className={`h-full rounded-md border border-gray-700 bg-[#0d1117] p-4${href ? 'transition-colors hover:border-gray-500' : ''}`}
+      className={`h-full rounded-md border border-gray-700 bg-[#0d1117] p-6 ${href ? 'transition-colors hover:border-gray-600' : ''}`}
     >
       <div className="flex items-start justify-between">
         <h3 className="text-lg font-medium text-white">{title}</h3>
