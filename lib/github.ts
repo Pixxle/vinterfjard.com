@@ -1,7 +1,7 @@
 'use server';
 
 // Import directly from process.env as we are in a server component
-const GITHUB_ACCESS_TOKEN = process.env.GITHUB_ACCESS_TOKEN;
+const NEXT_PRIVATE_GITHUB_ACCESS_TOKEN = process.env.NEXT_PRIVATE_GITHUB_ACCESS_TOKEN;
 import { mockUserProfile, mockContributionCalendar, mockUserActivity } from './mock-github-data';
 
 const GITHUB_API_URL = 'https://api.github.com/graphql';
@@ -18,11 +18,11 @@ export async function executeGitHubGraphQL<T>(
 
   console.log(`[GitHub API ${requestId}] Starting ${operationName} request`, {
     variables,
-    hasToken: !!GITHUB_ACCESS_TOKEN,
+    hasToken: !!NEXT_PRIVATE_GITHUB_ACCESS_TOKEN,
     url: GITHUB_API_URL,
   });
 
-  if (!GITHUB_ACCESS_TOKEN) {
+  if (!NEXT_PRIVATE_GITHUB_ACCESS_TOKEN) {
     console.warn(
       `[GitHub API ${requestId}] GitHub access token is not configured. Using mock data or limited API access.`
     );
@@ -37,8 +37,8 @@ export async function executeGitHubGraphQL<T>(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(GITHUB_ACCESS_TOKEN && {
-          Authorization: `Bearer ${GITHUB_ACCESS_TOKEN}`,
+        ...(NEXT_PRIVATE_GITHUB_ACCESS_TOKEN && {
+          Authorization: `Bearer ${NEXT_PRIVATE_GITHUB_ACCESS_TOKEN}`,
         }),
       },
       body: JSON.stringify({
@@ -75,7 +75,7 @@ export async function executeGitHubGraphQL<T>(
       // If we get a 401 Unauthorized or 403 Forbidden, likely due to missing or invalid token
       if (response.status === 401 || response.status === 403) {
         console.warn(
-          `[GitHub API ${requestId}] GitHub API authorization failed. Please check your GITHUB_ACCESS_TOKEN in .env.local`
+          `[GitHub API ${requestId}] GitHub API authorization failed. Please check your NEXT_PRIVATE_GITHUB_ACCESS_TOKEN in .env.local`
         );
         // Return a minimal mock object instead of throwing
         return {} as T;
@@ -121,7 +121,7 @@ export async function getUserProfile(username: string) {
   console.log(`[getUserProfile] Fetching profile for user: ${username}`);
 
   // If no GitHub token is available, return mock data
-  if (!GITHUB_ACCESS_TOKEN) {
+  if (!NEXT_PRIVATE_GITHUB_ACCESS_TOKEN) {
     console.log(`[getUserProfile] Using mock GitHub profile data (no token available)`);
     return mockUserProfile;
   }
@@ -177,7 +177,7 @@ export async function getUserContributions(username: string) {
   console.log(`[getUserContributions] Fetching contributions for user: ${username}`);
 
   // If no GitHub token is available, return mock data
-  if (!GITHUB_ACCESS_TOKEN) {
+  if (!NEXT_PRIVATE_GITHUB_ACCESS_TOKEN) {
     console.log(`[getUserContributions] Using mock GitHub contribution data (no token available)`);
     return mockContributionCalendar;
   }
@@ -246,7 +246,7 @@ export async function getUserActivity(username: string) {
   console.log(`[getUserActivity] Fetching activity for user: ${username}`);
 
   // If no GitHub token is available, return mock data
-  if (!GITHUB_ACCESS_TOKEN) {
+  if (!NEXT_PRIVATE_GITHUB_ACCESS_TOKEN) {
     console.log(`[getUserActivity] Using mock GitHub activity data (no token available)`);
     return mockUserActivity;
   }
