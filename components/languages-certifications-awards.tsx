@@ -107,8 +107,8 @@ export default function LanguagesCertificationsAwards() {
             performs at a high level. He combines structure and direction with curiosity and
             engagement, even during periods of high tempo. As leader of the company&apos;s largest
             team and a driving force in the Terveystalo project, he delivers strong results without
-            compromising on quality or team spirit, while also being an important culture bearer
-            who contributes to community and positive energy throughout the organization.&rdquo;
+            compromising on quality or team spirit, while also being an important culture bearer who
+            contributes to community and positive energy throughout the organization.&rdquo;
           </p>
         </div>
       </Modal>
