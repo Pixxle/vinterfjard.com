@@ -1,5 +1,5 @@
 ---
-title: 'Don''t Let AI Make You Lazy'
+title: "Don't Let AI Make You Lazy"
 date: '2025-12-07'
 tags: ['ai', 'culture']
 ---
