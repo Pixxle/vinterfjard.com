@@ -31,7 +31,7 @@ export default async function GistPage({ params }: GistPageProps) {
   }
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 pb-20 pt-14">
+    <main className="mx-auto w-full max-w-3xl px-4 pt-14 pb-20">
       <nav className="mb-10 flex items-center gap-5 text-sm text-zinc-500">
         <Link href="/" className="hover:text-zinc-300">
           Writings Home
@@ -39,7 +39,9 @@ export default async function GistPage({ params }: GistPageProps) {
       </nav>
 
       <header className="mb-10 border-b border-white/10 pb-8">
-        <h1 className="text-3xl font-semibold leading-tight tracking-tight text-zinc-100">{gist.title}</h1>
+        <h1 className="text-3xl leading-tight font-semibold tracking-tight text-zinc-100">
+          {gist.title}
+        </h1>
         <p className="mt-3 text-sm text-zinc-500">{formatDate(gist.date)}</p>
       </header>
 
@@ -47,20 +49,30 @@ export default async function GistPage({ params }: GistPageProps) {
         <ReactMarkdown
           components={{
             h1: ({ children }) => (
-              <h2 className="mt-10 mb-4 text-3xl font-semibold leading-snug text-zinc-100">{children}</h2>
+              <h2 className="mt-10 mb-4 text-3xl leading-snug font-semibold text-zinc-100">
+                {children}
+              </h2>
             ),
             h2: ({ children }) => (
-              <h2 className="mt-10 mb-4 text-2xl font-semibold leading-snug text-zinc-100">{children}</h2>
+              <h2 className="mt-10 mb-4 text-2xl leading-snug font-semibold text-zinc-100">
+                {children}
+              </h2>
             ),
             h3: ({ children }) => (
-              <h3 className="mt-8 mb-3 text-xl font-semibold leading-snug text-zinc-100">{children}</h3>
+              <h3 className="mt-8 mb-3 text-xl leading-snug font-semibold text-zinc-100">
+                {children}
+              </h3>
             ),
             h4: ({ children }) => (
-              <h4 className="mt-6 mb-3 text-lg font-semibold leading-snug text-zinc-100">{children}</h4>
+              <h4 className="mt-6 mb-3 text-lg leading-snug font-semibold text-zinc-100">
+                {children}
+              </h4>
             ),
             p: ({ children }) => <p className="mb-5 leading-relaxed text-zinc-300">{children}</p>,
-            strong: ({ children }) => <strong className="font-semibold text-zinc-100">{children}</strong>,
-            em: ({ children }) => <em className="italic text-zinc-300">{children}</em>,
+            strong: ({ children }) => (
+              <strong className="font-semibold text-zinc-100">{children}</strong>
+            ),
+            em: ({ children }) => <em className="text-zinc-300 italic">{children}</em>,
             a: ({ href, children }) => (
               <a
                 href={href}
@@ -83,7 +95,7 @@ export default async function GistPage({ params }: GistPageProps) {
             ),
             li: ({ children }) => <li className="leading-relaxed">{children}</li>,
             blockquote: ({ children }) => (
-              <blockquote className="my-6 border-l-2 border-white/20 pl-4 italic text-zinc-300">
+              <blockquote className="my-6 border-l-2 border-white/20 pl-4 text-zinc-300 italic">
                 {children}
               </blockquote>
             ),
@@ -94,7 +106,10 @@ export default async function GistPage({ params }: GistPageProps) {
 
               if (!isCodeBlock) {
                 return (
-                  <code className="rounded bg-white/10 px-1.5 py-0.5 text-sm text-zinc-100" {...props}>
+                  <code
+                    className="rounded bg-white/10 px-1.5 py-0.5 text-sm text-zinc-100"
+                    {...props}
+                  >
                     {children}
                   </code>
                 );

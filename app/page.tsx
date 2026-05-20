@@ -27,7 +27,7 @@ export default function Home() {
   const gists = getAllGists();
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 pb-20 pt-14">
+    <main className="mx-auto w-full max-w-3xl px-4 pt-14 pb-20">
       <section className="mb-14">
         <div className="mb-6 flex items-center gap-4">
           <div className="h-14 w-14 overflow-hidden rounded-full border border-white/10">
@@ -40,7 +40,9 @@ export default function Home() {
             />
           </div>
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-zinc-100">Dennis Vinterfjärd</h1>
+            <h1 className="text-2xl font-semibold tracking-tight text-zinc-100">
+              Dennis Vinterfjärd
+            </h1>
             <p className="text-sm text-zinc-400">Stockholm</p>
           </div>
         </div>
@@ -64,7 +66,7 @@ export default function Home() {
 
               return (
                 <article key={gist.slug} className="py-5">
-                  <h3 className="text-xl font-medium leading-snug text-zinc-100">
+                  <h3 className="text-xl leading-snug font-medium text-zinc-100">
                     <Link href={`/gists/${gist.slug}`} className="hover:text-zinc-300">
                       {gist.title}
                     </Link>

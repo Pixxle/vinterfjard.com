@@ -27,9 +27,7 @@ export default async function SharedLayout({ children }: SharedLayoutProps) {
         <ProfileSidebar profile={profile} />
 
         {/* Main content */}
-        <div className="flex-1">
-          {children}
-        </div>
+        <div className="flex-1">{children}</div>
       </div>
     </MockDataDetector>
   );

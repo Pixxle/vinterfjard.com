@@ -23,7 +23,10 @@ interface ContributionGraphProps {
   minimal?: boolean;
 }
 
-export default function ContributionGraph({ contributions, minimal = false }: ContributionGraphProps) {
+export default function ContributionGraph({
+  contributions,
+  minimal = false,
+}: ContributionGraphProps) {
   const months = [
     'Jan',
     'Feb',
