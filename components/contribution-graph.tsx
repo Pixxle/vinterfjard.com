@@ -20,9 +20,10 @@ interface ContributionGraphProps {
       }>;
     }>;
   };
+  minimal?: boolean;
 }
 
-export default function ContributionGraph({ contributions }: ContributionGraphProps) {
+export default function ContributionGraph({ contributions, minimal = false }: ContributionGraphProps) {
   const months = [
     'Jan',
     'Feb',
@@ -145,6 +146,47 @@ export default function ContributionGraph({ contributions }: ContributionGraphPr
       year: 'numeric',
     });
   };
+
+  if (minimal) {
+    return (
+      <div>
+        <div className="overflow-x-auto">
+          <div className="inline-grid grid-flow-col grid-rows-7 gap-1">
+            {contributionData.map((day, i) => {
+              const dayDate = new Date(day.date);
+              const today = new Date();
+              today.setHours(23, 59, 59, 999);
+              const isFuture = dayDate > today;
+
+              return (
+                <div
+                  key={i}
+                  className={`h-3 w-3 rounded-sm ${getColorForLevel(day.level)} ${
+                    isFuture ? 'opacity-0' : ''
+                  }`}
+                  title={
+                    !isFuture && day.date
+                      ? `${day.count} contributions on ${formatDate(day.date)}`
+                      : 'No contributions'
+                  }
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-center justify-end text-xs text-zinc-500">
+          <span className="mr-2">Less</span>
+          <div className="h-3 w-3 rounded-sm bg-[#161b22]"></div>
+          <div className="ml-1 h-3 w-3 rounded-sm bg-[#0e4429]"></div>
+          <div className="ml-1 h-3 w-3 rounded-sm bg-[#006d32]"></div>
+          <div className="ml-1 h-3 w-3 rounded-sm bg-[#26a641]"></div>
+          <div className="ml-1 h-3 w-3 rounded-sm bg-[#39d353]"></div>
+          <span className="ml-2">More</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-md border border-gray-700 bg-[#0d1117] p-4">

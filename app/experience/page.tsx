@@ -1,32 +1,67 @@
-import { Presentation } from 'lucide-react';
-import SharedLayout from '@/components/shared-layout';
+import Link from 'next/link';
 import WorkExperienceSection from '@/components/work-experience-section';
-import EducationSection from '@/components/education-section';
-import LanguagesCertificationsAwards from '@/components/languages-certifications-awards';
-import ProjectCard from '@/components/project-card';
+import ContributionGraph from '@/components/contribution-graph';
+import { getUserContributions } from '@/lib/github';
+import { GITHUB_USERNAME } from '@/lib/env';
 
-export default function ExperiencePage() {
+// Temporary toggle: set to `true` to show contributions again.
+const SHOW_CONTRIBUTIONS = false;
+
+interface ContributionsData {
+  totalContributions: number;
+  weeks: Array<{
+    contributionDays: Array<{
+      date: string;
+      contributionCount: number;
+      contributionLevel: string;
+    }>;
+  }>;
+}
+
+const defaultContributions: ContributionsData = {
+  totalContributions: 0,
+  weeks: [],
+};
+
+export default async function ExperiencePage() {
+  const contributions = SHOW_CONTRIBUTIONS
+    ? await getUserContributions(GITHUB_USERNAME).catch(error => {
+        console.error('Error fetching GitHub contributions data:', error);
+        return null;
+      })
+    : null;
+
+  const safeContributions = contributions || defaultContributions;
+
   return (
-    <SharedLayout>
+    <main className="mx-auto w-full max-w-3xl px-4 pb-20 pt-14">
+      <section className="mb-14">
+        <h1 className="mb-3 text-2xl font-semibold tracking-tight text-zinc-100">Background</h1>
+      </section>
+
       <WorkExperienceSection />
-      <div className="mb-8">
-        <div className="mb-4 flex items-center">
-          <Presentation className="mr-2 h-5 w-5" />
-          <h2 className="text-xl font-medium">Workshops</h2>
+
+      {SHOW_CONTRIBUTIONS && (
+        <section className="mb-14">
+          <h2 className="mb-4 text-xs font-semibold tracking-[0.2em] text-zinc-500 uppercase">
+            Contributions
+          </h2>
+          <div className="mb-3 text-sm text-zinc-400">
+            {safeContributions.totalContributions} contributions in the last 12 months
+          </div>
+          <div className="border-y border-white/10 py-4">
+            <ContributionGraph contributions={safeContributions} minimal />
+          </div>
+        </section>
+      )}
+
+      <footer className="mt-14 pt-6 text-sm text-zinc-400">
+        <div className="flex items-center gap-5 text-zinc-500">
+          <Link href="/" className="hover:text-zinc-300">
+            Writings
+          </Link>
         </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <ProjectCard
-            title="Making life less boring with Python"
-            description="The second edition to my Python automation workshop for members of SDCN as well as external parties. April 2019, Stockholm."
-          />
-          <ProjectCard
-            title="Making life less boring with Python - Python workshop"
-            description="I held a two-day introductory workshop in automation techniques with Python for Stockholm dual career network. December 2018, Stockholm."
-          />
-        </div>
-      </div>
-      <EducationSection />
-      <LanguagesCertificationsAwards />
-    </SharedLayout>
+      </footer>
+    </main>
   );
 }

@@ -1,34 +1,21 @@
 import ProfileSidebar from '@/components/profile-sidebar';
-import NavigationTabs from '@/components/navigation-tabs';
 import MockDataDetector from '@/components/mock-data-detector';
-import { getUserProfile, getUserContributions } from '@/lib/github';
+import { getUserProfile } from '@/lib/github';
 import { GITHUB_USERNAME } from '@/lib/env';
 
 interface SharedLayoutProps {
   children: React.ReactNode;
-  showNavigation?: boolean;
 }
 
-export default async function SharedLayout({ children, showNavigation = true }: SharedLayoutProps) {
-  // Fetch GitHub data
+export default async function SharedLayout({ children }: SharedLayoutProps) {
   let profile;
-  let contributions;
 
   try {
-    // Fetch user profile and contributions in parallel
-    [profile, contributions] = await Promise.all([
-      getUserProfile(GITHUB_USERNAME),
-      getUserContributions(GITHUB_USERNAME),
-    ]);
+    profile = await getUserProfile(GITHUB_USERNAME);
   } catch (error) {
-    console.error('Error fetching GitHub data:', error);
+    console.error('Error fetching GitHub profile:', error);
     // Continue with default data if there's an error
   }
-
-  const totalContributions =
-    contributions && typeof contributions === 'object' && 'totalContributions' in contributions
-      ? contributions.totalContributions
-      : '?';
 
   // Create a safe default profile if none is available
   const safeProfile = profile || { login: 'default-user', name: 'GitHub User' };
@@ -41,7 +28,6 @@ export default async function SharedLayout({ children, showNavigation = true }: 
 
         {/* Main content */}
         <div className="flex-1">
-          {showNavigation && <NavigationTabs contributions={totalContributions} />}
           {children}
         </div>
       </div>
