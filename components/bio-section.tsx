@@ -1,4 +1,4 @@
-const workExperienceSummary = `
+const bio = `
 I've spent the last decade in software development in Stockholm, dealing with the messy realities that come with it.
 
 A lot of teams talk about great culture, but they still rely on 'heroics' to stay afloat. That's not a badge of honor; it's a management failure.
@@ -8,8 +8,8 @@ I like building stuff that doesn't scare people. Deployments should be boring. D
 We waste too much time dancing around bad decisions made five years ago by people who don't even work here anymore. I prefer to step in, face the mess, and actually fix it.
 `.trim();
 
-export default function WorkExperienceSection() {
-  const paragraphs = workExperienceSummary.split('\n\n');
+export default function BioSection() {
+  const paragraphs = bio.split('\n\n');
 
   return (
     <section className="mb-10">

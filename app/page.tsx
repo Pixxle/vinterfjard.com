@@ -99,7 +99,7 @@ export default function Home() {
         </p>
         <div className="mt-5 flex items-center gap-5 text-zinc-500">
           <Link href="/experience" className="hover:text-zinc-300">
-            Background
+            About
           </Link>
         </div>
       </footer>

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import WorkExperienceSection from '@/components/work-experience-section';
+import BioSection from '@/components/bio-section';
 import ContributionGraph from '@/components/contribution-graph';
 import { getUserContributions } from '@/lib/github';
 import { GITHUB_USERNAME } from '@/lib/env';
@@ -35,7 +35,7 @@ export default async function ExperiencePage() {
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 pt-14 pb-20">
-      <WorkExperienceSection />
+      <BioSection />
 
       {SHOW_CONTRIBUTIONS && (
         <section className="mb-14">
