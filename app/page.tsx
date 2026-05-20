@@ -32,7 +32,7 @@ export default function Home() {
         <div className="mb-6 flex items-center gap-4">
           <div className="h-14 w-14 overflow-hidden rounded-full border border-white/10">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/5764762.jpg-pZeMnKK9Pb1WsTSCkx5CZlBsALOcuL.jpeg"
+              src="/avatar.jpg"
               alt="Dennis Vinterfjärd"
               width={56}
               height={56}
