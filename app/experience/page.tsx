@@ -35,10 +35,6 @@ export default async function ExperiencePage() {
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 pt-14 pb-20">
-      <section className="mb-14">
-        <h1 className="mb-3 text-2xl font-semibold tracking-tight text-zinc-100">Background</h1>
-      </section>
-
       <WorkExperienceSection />
 
       {SHOW_CONTRIBUTIONS && (

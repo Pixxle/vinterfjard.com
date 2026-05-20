@@ -1,9 +1,11 @@
 const workExperienceSummary = `
-I have spent the last decade building software in environments where reliability, speed, and clarity all matter at the same time.
+I've spent the last decade in software development in Stockholm, dealing with the messy realities that come with it.
 
-Most of my work has lived at the intersection of engineering leadership and hands-on building. I enjoy helping teams ship useful things quickly without letting systems turn into a mess over time.
+A lot of teams talk about great culture, but they still rely on 'heroics' to stay afloat. That's not a badge of honor; it's a management failure.
 
-I care a lot about simple architecture, practical automation, and creating engineering cultures where people can do their best work.
+I like building stuff that doesn't scare people. Deployments should be boring. Debugging shouldn't feel like an archaeological dig. And changing one line of code shouldn't break three unrelated things.
+
+We waste too much time dancing around bad decisions made five years ago by people who don't even work here anymore. I prefer to step in, face the mess, and actually fix it.
 `.trim();
 
 export default function WorkExperienceSection() {
