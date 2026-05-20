@@ -1,5 +1,5 @@
 const bio = `
-As a VP of Engineering in Stockholm, leadership, code, and product all blur together in my work — I've never really wanted them separate.
+As a VP of Engineering in Stockholm, I don't think leadership, code, and product are separate jobs. The decisions that shape one always end up shaping the others.
 
 A lot of teams talk about great culture, but they still rely on 'heroics' to stay afloat. That's not a badge of honor; it's a leadership failure.
 
