@@ -46,7 +46,7 @@ export default function Home() {
         </div>
 
         <p className="max-w-2xl text-lg leading-relaxed text-zinc-100">
-          I build useful things fast, keep systems understandable, and write down what I learn.
+          I build engineering cultures, push for technical excellence, and think out loud.
         </p>
       </section>
 
