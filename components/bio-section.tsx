@@ -1,7 +1,7 @@
 const bio = `
-I've spent the last decade in software development in Stockholm, dealing with the messy realities that come with it.
+As a VP of Engineering in Stockholm, leadership, code, and product all blur together in my work — I've never really wanted them separate.
 
-A lot of teams talk about great culture, but they still rely on 'heroics' to stay afloat. That's not a badge of honor; it's a management failure.
+A lot of teams talk about great culture, but they still rely on 'heroics' to stay afloat. That's not a badge of honor; it's a leadership failure.
 
 I like building stuff that doesn't scare people. Deployments should be boring. Debugging shouldn't feel like an archaeological dig. And changing one line of code shouldn't break three unrelated things.
 
