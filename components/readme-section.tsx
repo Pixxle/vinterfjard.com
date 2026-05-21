@@ -11,9 +11,8 @@ export default function ReadmeSection() {
       </h1>
 
       <p className="mb-6">
-        I&apos;m currently the Head of Engineering at Medhelp Care, based in Stockholm. I&apos;m
-        passionate about building great engineering cultures, driving technical excellence, and
-        sharing knowledge along the way.
+        I&apos;m an engineering leader based in Stockholm, passionate about building great
+        engineering cultures, driving technical excellence, and sharing knowledge along the way.
       </p>
 
       <div className="my-6 border-t border-b border-gray-700 py-4">
@@ -72,7 +71,7 @@ export default function ReadmeSection() {
 
       <p className="mb-4 text-gray-300">
         If you&apos;re working on something interesting, want to collaborate, or just want to talk
-        tech—feel free to reach out!
+        tech, feel free to reach out!
       </p>
 
       <div className="flex flex-col space-y-2">
