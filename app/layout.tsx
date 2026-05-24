@@ -11,9 +11,9 @@ export const metadata = {
   title: '👋',
   description: 'A GitHub-inspired resume',
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
-    apple: '/favicon.png',
+    icon: '/avatar.jpg',
+    shortcut: '/avatar.jpg',
+    apple: '/avatar.jpg',
   },
 };
 
