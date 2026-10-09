@@ -76,7 +76,7 @@ export default async function GistPage({ params }: GistPageProps) {
             a: ({ href, children }) => (
               <a
                 href={href}
-                className="text-zinc-100 underline decoration-zinc-500 underline-offset-4 hover:decoration-zinc-200"
+                className="text-sky-300 underline decoration-sky-300/50 underline-offset-4 hover:text-sky-200 hover:decoration-sky-200"
                 target={href?.startsWith('http') ? '_blank' : undefined}
                 rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
               >
