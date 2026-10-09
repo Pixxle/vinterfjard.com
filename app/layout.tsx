@@ -14,8 +14,8 @@ const waveEmojiIcon =
   );
 
 export const metadata = {
-  title: '👋',
-  description: 'A GitHub-inspired resume',
+  title: 'Dennis Vinterfjärd',
+  description: 'My thoughts',
   icons: {
     icon: waveEmojiIcon,
     shortcut: waveEmojiIcon,
