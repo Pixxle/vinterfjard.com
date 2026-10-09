@@ -1,4 +1,5 @@
-import { Mail, Linkedin } from 'lucide-react';
+import { Mail } from 'lucide-react';
+import { Linkedin } from '@/components/icons/linkedin';
 import Image from 'next/image';
 
 export default function ReadmeSection() {
