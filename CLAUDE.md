@@ -59,7 +59,7 @@ The application uses a hybrid approach for GitHub data:
 
 ### Environment Configuration
 
-- `GITHUB_ACCESS_TOKEN` - Server-side GitHub API token (optional)
+- `NEXT_PRIVATE_GITHUB_ACCESS_TOKEN` - Server-side GitHub API token (optional)
 - `NEXT_PUBLIC_POSTHOG_KEY` - PostHog analytics key (optional)
 - `GITHUB_USERNAME` - Hardcoded in `lib/env.ts` as "pixxle"
 

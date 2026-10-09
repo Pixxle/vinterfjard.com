@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { Building, MapPin, Link, Cloud, Users, Linkedin, Mail } from 'lucide-react';
+import { Building, MapPin, Link, Cloud, Users, Mail } from 'lucide-react';
+import { Linkedin } from '@/components/icons/linkedin';
 import { Button } from '@/components/ui/button';
 
 interface ProfileSidebarProps {

@@ -1,0 +1,25 @@
+const bio = `
+As a VP of Engineering in Stockholm, I don't think leadership, code, and product are separate jobs. The decisions that shape one always end up shaping the others.
+
+A lot of teams talk about great culture, but they still rely on 'heroics' to stay afloat. That's not a badge of honor; it's a leadership failure.
+
+Boring engineering is underrated. Deployments should be uneventful. I want debugging that takes minutes, not weekends. And the worst systems I've worked in are the ones where a five-line change quietly broke things five directories away.
+
+We waste too much time dancing around bad decisions made five years ago by people who don't even work here anymore. I prefer to step in, face the mess, and actually fix it.
+`.trim();
+
+export default function BioSection() {
+  const paragraphs = bio.split('\n\n');
+
+  return (
+    <section className="mb-10">
+      <div className="space-y-4 text-zinc-300">
+        {paragraphs.map(paragraph => (
+          <p key={paragraph} className="max-w-2xl leading-relaxed">
+            {paragraph}
+          </p>
+        ))}
+      </div>
+    </section>
+  );
+}

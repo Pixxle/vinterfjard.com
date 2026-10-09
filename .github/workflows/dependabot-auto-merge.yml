@@ -1,0 +1,122 @@
+name: Auto-merge Dependabot updates
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
+
+permissions: {}
+
+jobs:
+  auto-merge:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+    steps:
+      # workflow_run supplies a write token without running pull request code.
+      - name: Merge the tested Dependabot commit
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const completedRun = context.payload.workflow_run;
+            const getTestedRun = async () => {
+              const { data: run } = await github.rest.actions.getWorkflowRun({
+                owner,
+                repo,
+                run_id: completedRun.id,
+              });
+
+              // A newer rerun must pass before its commit can be merged.
+              if (
+                run.status !== 'completed' ||
+                run.conclusion !== 'success' ||
+                run.run_attempt !== completedRun.run_attempt ||
+                run.head_sha !== completedRun.head_sha
+              ) {
+                core.info('Skipping a superseded or unsuccessful CI run.');
+                return null;
+              }
+
+              return run;
+            };
+
+            const run = await getTestedRun();
+            if (!run) return;
+
+            // The webhook's pull_requests list can be empty; find PRs by branch.
+            const pullRequests = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: 'open',
+              base: 'main',
+              head: `${owner}:${run.head_branch}`,
+            });
+
+            for (const candidate of pullRequests) {
+              // Required checks and deployments can finish after CI does.
+              // Allow ten minutes, checking the run and PR before every attempt.
+              for (let attempt = 0; attempt <= 30; attempt++) {
+                const currentRun = await getTestedRun();
+                if (!currentRun) return;
+
+                const { data: pr } = await github.rest.pulls.get({
+                  owner,
+                  repo,
+                  pull_number: candidate.number,
+                });
+
+                if (
+                  pr.user.login !== 'dependabot[bot]' ||
+                  pr.state !== 'open' ||
+                  pr.draft ||
+                  pr.base.ref !== 'main' ||
+                  pr.base.repo.full_name !== context.payload.repository.full_name ||
+                  pr.head.repo?.full_name !== context.payload.repository.full_name ||
+                  pr.head.sha !== currentRun.head_sha
+                ) {
+                  core.info(`Skipping PR #${pr.number}: it is not the tested Dependabot update.`);
+                  break;
+                }
+
+                try {
+                  // GitHub rejects a racing commit update and enforces branch rules.
+                  const { data: result } = await github.rest.pulls.merge({
+                    owner,
+                    repo,
+                    pull_number: pr.number,
+                    sha: currentRun.head_sha,
+                    merge_method: 'merge',
+                  });
+
+                  if (!result.merged) {
+                    core.setFailed(`PR #${pr.number} was not merged: ${result.message}`);
+                    break;
+                  }
+
+                  core.info(`Merged Dependabot PR #${pr.number} after successful CI.`);
+                  break;
+                } catch (error) {
+                  if (error.status === 409) {
+                    core.info(`Skipping PR #${pr.number}: GitHub rejected its current head (${error.message}).`);
+                    break;
+                  }
+                  if (error.status !== 405) throw error;
+
+                  if (attempt === 30) {
+                    core.setFailed(`PR #${pr.number} was not merged after waiting ten minutes: ${error.message}`);
+                    break;
+                  }
+
+                  core.info(`Waiting for PR #${pr.number} to become mergeable: ${error.message}`);
+                  await new Promise(resolve => setTimeout(resolve, 20000));
+                }
+              }
+            }

@@ -26,6 +26,7 @@ function LanguageItem({ language, level, isNative }: LanguageItemProps) {
 }
 
 export default function LanguagesCertificationsAwards() {
+  const [isManagerModalOpen, setIsManagerModalOpen] = useState(false);
   const [isAwardModalOpen, setIsAwardModalOpen] = useState(false);
   const [isNominationModalOpen, setIsNominationModalOpen] = useState(false);
 
@@ -66,6 +67,14 @@ export default function LanguagesCertificationsAwards() {
         <div className="border-t border-gray-700 pt-3">
           <div className="mb-3">
             <button
+              onClick={() => setIsManagerModalOpen(true)}
+              className="cursor-pointer border-none bg-transparent p-0 text-left font-normal text-blue-400 hover:underline"
+            >
+              2026 Manager of the Year
+            </button>
+          </div>
+          <div className="mb-3">
+            <button
               onClick={() => setIsAwardModalOpen(true)}
               className="cursor-pointer border-none bg-transparent p-0 text-left font-normal text-blue-400 hover:underline"
             >
@@ -82,6 +91,27 @@ export default function LanguagesCertificationsAwards() {
           </div>
         </div>
       </div>
+
+      {/* Manager of the Year Modal */}
+      <Modal
+        isOpen={isManagerModalOpen}
+        onClose={() => setIsManagerModalOpen(false)}
+        title="2026 Manager of the Year - MedHelp Care"
+      >
+        <div className="text-gray-300">
+          <h3 className="mb-3 text-lg font-medium text-blue-300">Award Motivation</h3>
+          <p className="mb-4 border-l-4 border-blue-800 bg-gray-800/30 py-2 pl-4 italic">
+            &ldquo;With a clear drive to develop both people and ways of working, he has carried out
+            important changes in the development team that strengthen quality and security. He is a
+            steady and sharp leader who sees his colleagues and builds a team that both thrives and
+            performs at a high level. He combines structure and direction with curiosity and
+            engagement, even during periods of high tempo. As leader of the company&apos;s largest
+            team and a driving force in the Terveystalo project, he delivers strong results without
+            compromising on quality or team spirit, while also being an important culture bearer who
+            contributes to community and positive energy throughout the organization.&rdquo;
+          </p>
+        </div>
+      </Modal>
 
       {/* Award Modal */}
       <Modal
