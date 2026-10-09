@@ -1,0 +1,90 @@
+name: Auto-merge Dependabot updates
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types: [completed]
+
+permissions: {}
+
+jobs:
+  auto-merge:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+    steps:
+      # workflow_run supplies a write token without running pull request code.
+      - name: Merge the tested Dependabot commit
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const completedRun = context.payload.workflow_run;
+            const { data: run } = await github.rest.actions.getWorkflowRun({
+              owner,
+              repo,
+              run_id: completedRun.id,
+            });
+
+            // A newer rerun must pass before its commit can be merged.
+            if (
+              run.status !== 'completed' ||
+              run.conclusion !== 'success' ||
+              run.run_attempt !== completedRun.run_attempt ||
+              run.head_sha !== completedRun.head_sha
+            ) {
+              core.info('Skipping a superseded or unsuccessful CI run.');
+              return;
+            }
+
+            // The webhook's pull_requests list can be empty; find PRs by branch.
+            const pullRequests = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: 'open',
+              base: 'main',
+              head: `${owner}:${run.head_branch}`,
+            });
+
+            for (const candidate of pullRequests) {
+              const { data: pr } = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: candidate.number,
+              });
+
+              if (
+                pr.user.login !== 'dependabot[bot]' ||
+                pr.state !== 'open' ||
+                pr.draft ||
+                pr.base.ref !== 'main' ||
+                pr.base.repo.full_name !== context.payload.repository.full_name ||
+                pr.head.repo?.full_name !== context.payload.repository.full_name ||
+                pr.head.sha !== run.head_sha
+              ) {
+                core.info(`Skipping PR #${pr.number}: it is not the tested Dependabot update.`);
+                continue;
+              }
+
+              // GitHub rejects a racing commit update and enforces branch rules.
+              const { data: result } = await github.rest.pulls.merge({
+                owner,
+                repo,
+                pull_number: pr.number,
+                sha: run.head_sha,
+                merge_method: 'merge',
+              });
+
+              if (!result.merged) {
+                core.setFailed(`PR #${pr.number} was not merged: ${result.message}`);
+                continue;
+              }
+
+              core.info(`Merged Dependabot PR #${pr.number} after successful CI.`);
+            }
