@@ -48,7 +48,7 @@ export default function Home() {
         </div>
 
         <p className="max-w-2xl text-lg leading-relaxed text-zinc-100">
-          I build engineering cultures, push for technical excellence, and think out loud.
+          I love building products people actually want to use
         </p>
       </section>
 

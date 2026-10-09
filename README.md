@@ -1,6 +1,6 @@
 # Hi there, I'm Dennis Vinterfjärd 👋
 
-I'm currently the Head of Engineering at Medhelp Care, based in Stockholm. I'm passionate about building great engineering cultures, driving technical excellence, and sharing knowledge along the way.
+I'm currently the VP of Engineering at Fishbrain, based in Stockholm. I'm passionate about building great engineering cultures, driving technical excellence, and sharing knowledge along the way.
 
 ## 🛠️ Technologies I Work With
 
